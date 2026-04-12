@@ -6,10 +6,9 @@ import { vstack } from 'styled-system/patterns';
 
 let { children } = $props();
 
-function isStoreActive() {
-	const path = page.url.pathname;
-	return path === '/steam-modern' || path.startsWith('/steam-modern/store');
-}
+const isStoreActive = $derived(
+	page.url.pathname === '/steam-modern' || page.url.pathname.startsWith('/steam-modern/store')
+);
 
 const shell = css({
 	fontFamily: 'ui',
@@ -193,7 +192,7 @@ const contentArea = css({
 			</div>
 
 			<div class={navLinksArea}>
-				<a href={resolve('/steam-modern')} class={cx(navLink, isStoreActive() ? navLinkActive : '')}>Store</a>
+				<a href={resolve('/steam-modern')} class={cx(navLink, isStoreActive ? navLinkActive : '')}>Store</a>
 				<a href={resolve('/steam-modern/community')} class={cx(navLink, page.url.pathname.startsWith('/steam-modern/community') ? navLinkActive : '')}>Community</a>
 				<a href={resolve('/steam-modern/admin')} class={cx(navLink, page.url.pathname.startsWith('/steam-modern/admin') ? navLinkActive : '')}>Admin</a>
 			</div>

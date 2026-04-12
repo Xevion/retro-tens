@@ -3,7 +3,6 @@
  * Import these instead of duplicating css() calls across pages.
  */
 import { css, cva, sva } from 'styled-system/css';
-import { grid } from 'styled-system/patterns';
 
 export const btn = cva({
 	base: {
@@ -95,7 +94,98 @@ export const badge = cva({
 				border: '1px solid rgba(85, 107, 125, 0.3)'
 			}
 		}
+	},
+	defaultVariants: { color: 'gray' }
+});
+
+export const actionLink = cva({
+	base: {
+		color: 'accent',
+		fontSize: '11px',
+		cursor: 'pointer',
+		marginRight: '8px',
+		_hover: {
+			textDecoration: 'underline'
+		}
+	},
+	variants: {
+		color: {
+			red: { color: 'accent.redText' },
+			green: { color: 'accent.green' }
+		}
 	}
+});
+
+export const userAvatar = cva({
+	base: {
+		width: '24px',
+		height: '24px',
+		borderRadius: 'DEFAULT',
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		fontSize: '9px',
+		fontWeight: '700',
+		color: '#fff',
+		verticalAlign: 'middle',
+		marginRight: '6px'
+	},
+	variants: {
+		visual: {
+			user: {
+				background:
+					'linear-gradient(135deg, token(colors.surface.avatarStart), token(colors.surface.avatarEnd))'
+			},
+			app: {
+				background:
+					'linear-gradient(135deg, token(colors.surface.appAvatarStart), token(colors.surface.appAvatarEnd))',
+				border: '1px solid token(colors.border)',
+				fontSize: '12px',
+				fontWeight: '400'
+			}
+		}
+	},
+	defaultVariants: { visual: 'user' }
+});
+
+export const cellText = cva({
+	base: {},
+	variants: {
+		tone: {
+			secondary: { color: 'text.secondary' },
+			muted: { color: 'text.muted', fontSize: '11px' },
+			disabled: { color: 'text.disabled', fontSize: '11px' }
+		}
+	}
+});
+
+export const delta = cva({
+	base: {
+		marginTop: '4px',
+		fontSize: '11px'
+	},
+	variants: {
+		direction: {
+			up: { color: 'accent.green' },
+			down: { color: 'accent.red' }
+		}
+	}
+});
+
+export const metricsGrid = cva({
+	base: {
+		display: 'grid',
+		gap: '1px',
+		background: 'divider',
+		borderBottom: '1px solid token(colors.divider)'
+	},
+	variants: {
+		columns: {
+			4: { gridTemplateColumns: 'repeat(4, 1fr)' },
+			5: { gridTemplateColumns: 'repeat(5, 1fr)' }
+		}
+	},
+	defaultVariants: { columns: 4 }
 });
 
 export const panel = sva({
@@ -123,42 +213,6 @@ export const panel = sva({
 		body: {
 			padding: '14px'
 		}
-	}
-});
-
-export const dataTable = css({
-	width: '100%',
-	borderCollapse: 'collapse',
-	/* sourced: body.v6 font-size: 12px */
-	fontSize: '12px',
-	fontFamily: 'ui',
-	'& th': {
-		textAlign: 'left',
-		padding: '8px 12px',
-		fontSize: '10px',
-		fontWeight: '700',
-		letterSpacing: '0.1em',
-		textTransform: 'uppercase',
-		/* sourced: --gpSystemLightGrey */
-		color: '#8B929A',
-		borderBottom: '1px solid token(colors.border)',
-		/* sourced: .tab_item background */
-		background: 'rgba(0, 0, 0, 0.2)',
-		whiteSpace: 'nowrap'
-	},
-	'& td': {
-		padding: '7px 12px',
-		/* sourced: .search_suggest .match border-top */
-		borderBottom: '1px solid #13242e',
-		/* sourced: body.v6 color */
-		color: '#c6d4df'
-	},
-	'& tr:last-child td': {
-		borderBottom: 'none'
-	},
-	'& tbody tr:hover': {
-		/* sourced: .search_suggest .match:hover background */
-		background: '#212d3d'
 	}
 });
 
@@ -214,63 +268,6 @@ export const searchBar = sva({
 	}
 });
 
-export const actionLink = cva({
-	base: {
-		color: 'accent',
-		fontSize: '11px',
-		cursor: 'pointer',
-		marginRight: '8px',
-		_hover: {
-			textDecoration: 'underline'
-		}
-	},
-	variants: {
-		color: {
-			red: { color: 'accent.redText' },
-			green: { color: 'accent.green' }
-		}
-	}
-});
-
-export const userAvatar = cva({
-	base: {
-		width: '24px',
-		height: '24px',
-		borderRadius: 'DEFAULT',
-		display: 'inline-flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		fontSize: '9px',
-		fontWeight: '700',
-		color: '#fff',
-		verticalAlign: 'middle',
-		marginRight: '6px'
-	},
-	variants: {
-		visual: {
-			user: {
-				background:
-					'linear-gradient(135deg, token(colors.surface.avatarStart), token(colors.surface.avatarEnd))'
-			},
-			app: {
-				background:
-					'linear-gradient(135deg, token(colors.surface.appAvatarStart), token(colors.surface.appAvatarEnd))',
-				border: '1px solid token(colors.border)',
-				fontSize: '12px',
-				fontWeight: '400'
-			}
-		}
-	},
-	defaultVariants: { visual: 'user' }
-});
-
-export const filterLabel = css({
-	color: 'text.muted',
-	fontSize: '11px',
-	textTransform: 'uppercase',
-	letterSpacing: '0.08em'
-});
-
 export const progressBar = sva({
 	slots: ['track', 'fill'],
 	base: {
@@ -311,13 +308,6 @@ export const progressBar = sva({
 	}
 });
 
-export const twoCol = css({
-	display: 'grid',
-	gridTemplateColumns: '1fr 1fr',
-	gap: '16px',
-	margin: '16px 20px'
-});
-
 export const pageHeader = sva({
 	slots: ['root', 'title', 'subtitle', 'actions'],
 	base: {
@@ -346,39 +336,6 @@ export const pageHeader = sva({
 		actions: {
 			display: 'flex',
 			gap: '8px'
-		}
-	}
-});
-
-export const cellText = cva({
-	base: {},
-	variants: {
-		tone: {
-			secondary: { color: 'text.secondary' },
-			muted: { color: 'text.muted', fontSize: '11px' },
-			disabled: { color: 'text.disabled', fontSize: '11px' }
-		}
-	}
-});
-
-export const dataRow = css({
-	display: 'flex',
-	alignItems: 'center',
-	gap: '10px',
-	padding: '7px 0',
-	borderBottom: '1px solid token(colors.divider)',
-	'&:last-child': { borderBottom: 'none' }
-});
-
-export const delta = cva({
-	base: {
-		marginTop: '4px',
-		fontSize: '11px'
-	},
-	variants: {
-		direction: {
-			up: { color: 'accent.green' },
-			down: { color: 'accent.red' }
 		}
 	}
 });
@@ -426,13 +383,66 @@ export const metricCard = sva({
 	defaultVariants: { size: 'sm' }
 });
 
+/* Static classes — no variants, shared across admin pages */
+
+export const dataTable = css({
+	width: '100%',
+	borderCollapse: 'collapse',
+	/* sourced: body.v6 font-size: 12px */
+	fontSize: '12px',
+	fontFamily: 'ui',
+	'& th': {
+		textAlign: 'left',
+		padding: '8px 12px',
+		fontSize: '10px',
+		fontWeight: '700',
+		letterSpacing: '0.1em',
+		textTransform: 'uppercase',
+		/* sourced: --gpSystemLightGrey */
+		color: '#8B929A',
+		borderBottom: '1px solid token(colors.border)',
+		/* sourced: .tab_item background */
+		background: 'rgba(0, 0, 0, 0.2)',
+		whiteSpace: 'nowrap'
+	},
+	'& td': {
+		padding: '7px 12px',
+		/* sourced: .search_suggest .match border-top */
+		borderBottom: '1px solid #13242e',
+		/* sourced: body.v6 color */
+		color: '#c6d4df'
+	},
+	'& tr:last-child td': {
+		borderBottom: 'none'
+	},
+	'& tbody tr:hover': {
+		/* sourced: .search_suggest .match:hover background */
+		background: '#212d3d'
+	}
+});
+
+export const twoCol = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr 1fr',
+	gap: '16px',
+	margin: '16px 20px'
+});
+
+export const dataRow = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '10px',
+	padding: '7px 0',
+	borderBottom: '1px solid token(colors.divider)',
+	'&:last-child': { borderBottom: 'none' }
+});
+
+export const filterLabel = css({
+	color: 'text.muted',
+	fontSize: '11px',
+	textTransform: 'uppercase',
+	letterSpacing: '0.08em'
+});
+
 export const entityName = css({ fontSize: '12.5px', fontWeight: '600' });
 export const entityId = css({ color: 'text.muted', fontSize: '10px', paddingLeft: '32px' });
-
-export const metricsGrid = (columns: number) =>
-	grid({
-		columns,
-		gap: '1px',
-		background: 'divider',
-		borderBottom: '1px solid token(colors.divider)'
-	});

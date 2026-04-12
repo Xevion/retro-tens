@@ -13,13 +13,13 @@ let {
 	cardFooter
 }: {
 	metrics: MetricData[];
-	columns: number;
+	columns: 4 | 5;
 	size?: Size;
 	renderValue?: Snippet<[MetricData]>;
 	cardFooter?: Snippet<[MetricData]>;
 } = $props();
 
-const gridClass = $derived(metricsGrid(columns));
+const gridClass = $derived(metricsGrid({ columns }));
 const mc = $derived(metricCard({ size }));
 </script>
 
