@@ -241,18 +241,6 @@ export const userAvatar = cva({
 	defaultVariants: { visual: 'user' }
 });
 
-export const filterSelect = css({
-	background: 'surface.input',
-	border: '1px solid token(colors.border)',
-	color: 'text.secondary',
-	padding: '5px 8px',
-	fontSize: 'sm',
-	borderRadius: 'DEFAULT',
-	fontFamily: 'ui',
-	cursor: 'pointer',
-	outline: 'none'
-});
-
 export const filterLabel = css({
 	color: 'text.muted',
 	fontSize: '11px',

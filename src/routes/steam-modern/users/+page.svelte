@@ -1,14 +1,13 @@
 <script lang="ts">
-import { Download, Plus, Search } from 'lucide-svelte';
+import { Download, Plus } from 'lucide-svelte';
 import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+import SearchFilterBar from '$lib/components/steam-modern/SearchFilterBar.svelte';
+import FilterSelect from '$lib/components/steam-modern/FilterSelect.svelte';
 import StatusBadge from '$lib/components/steam-modern/StatusBadge.svelte';
 import { css, cx } from 'styled-system/css';
 import {
 	btn,
 	panel,
-	searchBar as searchBarSva,
-	filterSelect,
-	filterLabel,
 	dataTable,
 	userAvatar,
 	actionLink,
@@ -32,7 +31,6 @@ const filtered = $derived(
 );
 
 const panelStyles = panel();
-const sb = searchBarSva();
 </script>
 
 <PageHeader title="User Management" subtitle="147,382,019 total accounts · 8.4M concurrent">
@@ -40,21 +38,21 @@ const sb = searchBarSva();
 	<button type="button" class={btn({ visual: 'primary' })}><Plus size={13} /> Invite Admin</button>
 </PageHeader>
 
-<div class={sb.root}>
-	<div class={sb.wrapper}>
-		<span class={sb.icon}><Search size={12} /></span>
-		<input class={sb.input} placeholder="Search by name or ID…" bind:value={search} />
-	</div>
-	<label for="status-filter" class={filterLabel}>Status:</label>
-	<select id="status-filter" class={filterSelect} bind:value={statusFilter}>
-		<option value="all">All</option>
-		<option value="online">Online</option>
-		<option value="away">Away</option>
-		<option value="offline">Offline</option>
-		<option value="banned">Banned</option>
-	</select>
-	<span class={filterLabel}>Showing {filtered.length} of {data.users.length}</span>
-</div>
+<SearchFilterBar placeholder="Search by name or ID…" bind:value={search} resultCount={filtered.length} totalCount={data.users.length}>
+	{#snippet filters()}
+		<FilterSelect
+			label="Status"
+			items={[
+				{ value: 'all', label: 'All' },
+				{ value: 'online', label: 'Online' },
+				{ value: 'away', label: 'Away' },
+				{ value: 'offline', label: 'Offline' },
+				{ value: 'banned', label: 'Banned' }
+			]}
+			bind:value={statusFilter}
+		/>
+	{/snippet}
+</SearchFilterBar>
 
 <div class={cx(panelStyles.root, css({ margin: '16px 20px' }))}>
 	<table class={dataTable}>

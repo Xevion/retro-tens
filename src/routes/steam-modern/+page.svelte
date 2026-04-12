@@ -14,12 +14,11 @@ import {
 	actionLink,
 	twoCol,
 	cellText,
-	delta as deltaCva,
-	metricCard,
-	metricsGrid,
 	entityName,
 	dataRow
 } from '$lib/recipes/steam-modern';
+import MetricStrip from '$lib/components/steam-modern/MetricStrip.svelte';
+import ProgressBar from '$lib/components/steam-modern/ProgressBar.svelte';
 import RevenueChart from '$lib/components/steam-modern/RevenueChart.svelte';
 import type { DashboardStat } from '$lib/data/steam-modern/dashboard';
 
@@ -28,7 +27,6 @@ const { data } = $props();
 // Page-specific styles inlined to work around fallow's .svelte import-graph bug
 // (fallow-rs/fallow#TBD: dead-code analysis fails to credit .svelte → .ts imports
 // even though --trace correctly resolves them). Shared recipes stay in $lib/recipes/.
-const statsGrid = metricsGrid(4);
 
 const statBar = css({
 	position: 'absolute',
@@ -87,7 +85,6 @@ const healthVal = css({
 });
 
 const panelStyles = panel();
-const mc = metricCard({ size: 'lg' });
 
 const progressFills: Record<DashboardStat['fillColor'], string> = {
 	default: progressBarSva().fill as string,
@@ -95,7 +92,6 @@ const progressFills: Record<DashboardStat['fillColor'], string> = {
 	red: progressBarSva({ color: 'red' }).fill as string,
 	gold: progressBarSva({ color: 'gold' }).fill as string
 };
-const progressTrack = progressBarSva().track as string;
 
 function getProgressFillClass(color: DashboardStat['fillColor']): string {
 	return progressFills[color] ?? progressFills.default;
@@ -108,18 +104,18 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 </PageHeader>
 
 <!-- Stats row -->
-<div class={statsGrid}>
-	{#each data.stats as stat (stat.label)}
-		<div class={mc.root}>
-			<div class={mc.label}>{stat.label}</div>
-			<div class={mc.value}>{stat.value}<span>{stat.unit}</span></div>
-			<div class={deltaCva({ direction: stat.direction })}>{stat.delta}</div>
-			<div class={statBar}>
-				<div class={getProgressFillClass(stat.fillColor)} style="width:{stat.fill}%"></div>
-			</div>
+<MetricStrip metrics={data.stats} columns={4} size="lg">
+	{#snippet renderValue(metric)}
+		{@const stat = metric as DashboardStat}
+		{stat.value}<span>{stat.unit}</span>
+	{/snippet}
+	{#snippet cardFooter(metric)}
+		{@const stat = metric as DashboardStat}
+		<div class={statBar}>
+			<div class={getProgressFillClass(stat.fillColor)} style="width:{stat.fill}%"></div>
 		</div>
-	{/each}
-</div>
+	{/snippet}
+</MetricStrip>
 
 <!-- Two column panels -->
 <div class={twoCol}>
@@ -150,9 +146,7 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 				<div class={dataRow}>
 					<span class={healthName}>{srv.name}</span>
 					<div class={healthBarWrap}>
-						<div class={progressTrack}>
-							<div class={getProgressFillClass(srv.color)} style="width:{srv.val}%"></div>
-						</div>
+						<ProgressBar value={srv.val} color={srv.color === 'default' ? undefined : srv.color} label="{srv.name} health" />
 					</div>
 					<span class={healthVal}>{srv.val}%</span>
 				</div>

@@ -1,14 +1,13 @@
 <script lang="ts">
-import { Download, Plus, Search } from 'lucide-svelte';
+import { Download, Plus } from 'lucide-svelte';
 import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+import SearchFilterBar from '$lib/components/steam-modern/SearchFilterBar.svelte';
+import FilterSelect from '$lib/components/steam-modern/FilterSelect.svelte';
 import { css, cx } from 'styled-system/css';
 import {
 	btn,
 	badge,
 	panel,
-	searchBar as searchBarSva,
-	filterSelect,
-	filterLabel,
 	dataTable,
 	actionLink,
 	userAvatar,
@@ -47,7 +46,6 @@ function scoreColor(reviews: number): string {
 }
 
 const pnl = panel();
-const sb = searchBarSva();
 const appIconClass = userAvatar({ visual: 'app' });
 
 const scoreBar = css({
@@ -69,19 +67,11 @@ const scoreFill = css({ height: '100%', borderRadius: '1px' });
 	<button type="button" class={btn({ visual: 'primary' })}><Plus size={13} /> Submit App</button>
 </PageHeader>
 
-<div class={sb.root}>
-	<div class={sb.wrapper}>
-		<span class={sb.icon}><Search size={12} /></span>
-		<input class={sb.input} placeholder="Search by name or App ID…" bind:value={search} />
-	</div>
-	<label for="category-filter" class={filterLabel}>Category:</label>
-	<select id="category-filter" class={filterSelect} bind:value={categoryFilter}>
-		{#each data.filterCategories as cat (cat.value)}
-			<option value={cat.value}>{cat.label}</option>
-		{/each}
-	</select>
-	<span class={filterLabel}>Showing {filtered.length} results</span>
-</div>
+<SearchFilterBar placeholder="Search by name or App ID…" bind:value={search} resultCount={filtered.length}>
+	{#snippet filters()}
+		<FilterSelect label="Category" items={data.filterCategories} bind:value={categoryFilter} />
+	{/snippet}
+</SearchFilterBar>
 
 <div class={cx(pnl.root, css({ margin: '16px 20px' }))}>
 	<table class={dataTable}>
