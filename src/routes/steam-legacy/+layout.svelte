@@ -1,6 +1,7 @@
 <script lang="ts">
-import '$lib/themes/steam-legacy/tokens.css';
 import { page } from '$app/state';
+import { css, cx } from 'styled-system/css';
+import { flex, hstack, vstack } from 'styled-system/patterns';
 
 let { children } = $props();
 
@@ -16,35 +17,35 @@ const friends = [
 		name: 'krazykat99',
 		game: 'Borderlands 2',
 		bg: '#2a5a10',
-		dotColor: 'var(--status-ingame)'
+		dotColor: 'var(--colors-status-ingame)'
 	},
 	{
 		initials: 'NX',
 		name: 'n3xus_zero',
 		status: 'Online',
 		bg: '#1a2a5a',
-		dotColor: 'var(--status-online)'
+		dotColor: 'var(--colors-status-online)'
 	},
 	{
 		initials: 'FX',
 		name: 'foxbyte',
 		game: 'Team Fortress 2',
 		bg: '#4a2a10',
-		dotColor: 'var(--status-ingame)'
+		dotColor: 'var(--colors-status-ingame)'
 	},
 	{
 		initials: 'ZP',
 		name: 'zipcode',
 		status: 'Away',
 		bg: '#3a3a10',
-		dotColor: 'var(--status-away)'
+		dotColor: 'var(--colors-status-away)'
 	},
 	{
 		initials: 'MV',
 		name: 'maverick_x',
 		status: 'Last on 2 days ago',
 		bg: '#2a2a2a',
-		dotColor: 'var(--status-offline)',
+		dotColor: 'var(--colors-status-offline)',
 		statusColor: '#555'
 	}
 ];
@@ -59,527 +60,543 @@ function isActive(href: string) {
 	if (href === '/steam-legacy') return page.url.pathname === '/steam-legacy';
 	return page.url.pathname.startsWith(href);
 }
+
+const shell = css({
+	fontFamily: 'ui',
+	fontSize: 'base',
+	color: 'text.primary',
+	background: 'transparent',
+	minHeight: '100vh'
+});
+
+const steamClient = vstack({
+	gap: '0',
+	background: 'surface.root',
+	border: '1px solid #444',
+	borderRadius: 'DEFAULT',
+	overflow: 'hidden',
+	userSelect: 'none',
+	minWidth: '760px',
+	minHeight: '100vh',
+	alignItems: 'stretch'
+});
+
+const titleBar = css({
+	background: 'linear-gradient(to bottom, #2d2d2d, token(colors.surface.root))',
+	padding: '5px 8px',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	borderBottom: '1px solid token(colors.border)'
+});
+
+const titleBarLeft = hstack({ gap: '6px' });
+
+const steamLogoDot = css({
+	width: '20px',
+	height: '20px',
+	background: '#1b9fe4',
+	borderRadius: 'full',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	fontSize: '9px',
+	fontWeight: 'bold',
+	color: '#fff'
+});
+
+const titleText = css({
+	color: '#888',
+	fontSize: 'sm',
+	letterSpacing: '0.5px'
+});
+
+const winBtns = hstack({ gap: '3px' });
+
+const winBtn = css({
+	width: '14px',
+	height: '14px',
+	borderRadius: 'sm',
+	border: 'none',
+	cursor: 'pointer',
+	fontSize: '9px',
+	color: '#aaa',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	background: '#3a3a3a'
+});
+
+const winBtnCls = css({ background: '#6b2020' });
+
+const topBar = css({
+	background: 'linear-gradient(to bottom, #3c3c3c 0%, #252525 60%, #1e1e1e 100%)',
+	display: 'flex',
+	alignItems: 'stretch',
+	borderBottom: '2px solid token(colors.border)',
+	position: 'relative',
+	_after: {
+		content: '""',
+		position: 'absolute',
+		bottom: '-1px',
+		left: '0',
+		right: '0',
+		height: '1px',
+		background: 'linear-gradient(to right, transparent, token(colors.accent.dim), transparent)',
+		opacity: '0.5'
+	}
+});
+
+const topLeft = css({
+	padding: '8px 14px',
+	display: 'flex',
+	alignItems: 'center',
+	borderRight: '1px solid token(colors.border.subtle)'
+});
+
+const steamBrand = css({
+	fontSize: '20px',
+	fontWeight: 'bold',
+	color: 'text.primary',
+	letterSpacing: '1px',
+	textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'
+});
+
+const brandAccent = css({
+	color: 'accent',
+	fontSize: '12px',
+	verticalAlign: 'super'
+});
+
+const navTabsContainer = css({
+	display: 'flex',
+	alignItems: 'flex-end',
+	flex: '1',
+	padding: '0 6px'
+});
+
+const navTabStyle = css({
+	padding: '8px 16px 6px',
+	color: 'text.secondary',
+	fontSize: 'nav',
+	fontWeight: 'bold',
+	letterSpacing: '0.5px',
+	textTransform: 'uppercase',
+	cursor: 'pointer',
+	borderBottom: '2px solid transparent',
+	borderTop: '1px solid transparent',
+	borderLeft: '1px solid transparent',
+	borderRight: '1px solid transparent',
+	borderRadius: 'token(radii) token(radii) 0 0',
+	position: 'relative',
+	top: '1px',
+	transition: 'all 0.1s',
+	_hover: {
+		color: 'text.primary',
+		background: 'rgba(255, 255, 255, 0.05)'
+	}
+});
+
+const navTabActiveStyle = css({
+	color: '#fff',
+	background: 'linear-gradient(to bottom, token(colors.accent.deep), #1a3a08)',
+	borderColor: 'token(colors.accent.dim) token(colors.accent.dim) #1e1e1e',
+	textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
+});
+
+const userArea = css({
+	padding: '6px 14px',
+	display: 'flex',
+	alignItems: 'center',
+	gap: '10px',
+	borderLeft: '1px solid token(colors.border.subtle)'
+});
+
+const avatar = css({
+	width: '28px',
+	height: '28px',
+	borderRadius: 'sm',
+	background: 'linear-gradient(135deg, #4a7010, #2d4a0a)',
+	border: '1px solid token(colors.accent)',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	fontSize: 'sm',
+	color: 'text.primary'
+});
+
+const userInfo = vstack({ gap: '0', alignItems: 'flex-start' });
+
+const username = css({
+	color: 'text.primary',
+	fontSize: 'sm',
+	fontWeight: 'bold'
+});
+
+const userStatus = css({
+	color: 'accent.link',
+	fontSize: 'xs'
+});
+
+const friendsBtn = css({
+	background: 'rgba(100, 160, 50, 0.2)',
+	border: '1px solid token(colors.border.accent)',
+	borderRadius: 'sm',
+	padding: '3px 8px',
+	color: 'accent',
+	fontSize: 'xs',
+	fontWeight: 'bold',
+	cursor: 'pointer'
+});
+
+const friendsCount = css({
+	color: 'accent.link',
+	fontWeight: 'bold'
+});
+
+const mainLayout = flex({ flex: '1' });
+
+const contentAreaStyle = css({
+	flex: '1',
+	background: 'surface.base',
+	overflow: 'hidden',
+	minWidth: '0'
+});
+
+const sidebarStyle = css({
+	width: '200px',
+	background: 'surface.sidebar',
+	borderLeft: '1px solid token(colors.border)',
+	display: 'flex',
+	flexDirection: 'column',
+	flexShrink: '0'
+});
+
+const sidebarSectionStyle = css({
+	borderBottom: '1px solid token(colors.border)'
+});
+
+const sidebarHead = css({
+	background: '#222',
+	padding: '6px 10px',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	borderBottom: '1px solid token(colors.border.subtle)'
+});
+
+const sidebarHeadTitle = css({
+	color: 'accent',
+	fontSize: 'xs',
+	fontWeight: 'bold',
+	textTransform: 'uppercase',
+	letterSpacing: '0.5px'
+});
+
+const sidebarHeadCount = css({
+	color: 'accent.link',
+	fontSize: 'xs',
+	fontWeight: 'bold'
+});
+
+const friendItem = css({
+	padding: '6px 10px',
+	display: 'flex',
+	alignItems: 'center',
+	gap: '7px',
+	cursor: 'pointer',
+	borderBottom: '1px solid token(colors.border.subtle)',
+	transition: 'color 0.1s, background 0.1s',
+	_hover: {
+		background: '#242424'
+	}
+});
+
+const friendAvatar = css({
+	width: '24px',
+	height: '24px',
+	borderRadius: 'sm',
+	flexShrink: '0',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	fontSize: 'xs',
+	fontWeight: 'bold',
+	color: '#fff'
+});
+
+const friendInfoStyle = css({
+	flex: '1',
+	minWidth: '0'
+});
+
+const friendName = css({
+	fontSize: 'sm',
+	color: 'text.primary',
+	fontWeight: 'bold',
+	whiteSpace: 'nowrap',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis'
+});
+
+const friendGame = css({
+	fontSize: 'xs',
+	color: 'accent.link',
+	whiteSpace: 'nowrap',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis'
+});
+
+const friendStatusStyle = css({
+	fontSize: 'xs',
+	color: 'text.muted'
+});
+
+const statusDot = css({
+	width: '7px',
+	height: '7px',
+	borderRadius: 'full',
+	flexShrink: '0'
+});
+
+const sidebarBtnRow = css({ padding: '6px 10px' });
+
+const viewAllBtn = css({
+	background: '#2a4a10',
+	border: '1px solid token(colors.border.accent)',
+	borderRadius: 'sm',
+	padding: '5px 8px',
+	width: '100%',
+	textAlign: 'center',
+	cursor: 'pointer',
+	color: 'accent',
+	fontSize: 'xs',
+	fontWeight: 'bold',
+	fontFamily: 'ui',
+	transition: 'color 0.1s, background 0.1s',
+	_hover: {
+		background: '#3a6a18'
+	}
+});
+
+const newsItem = css({
+	padding: '8px 10px',
+	borderBottom: '1px solid token(colors.border.subtle)',
+	cursor: 'pointer',
+	transition: 'color 0.1s, background 0.1s',
+	_hover: {
+		background: '#242424'
+	}
+});
+
+const newsDate = css({
+	color: 'text.dim',
+	fontSize: 'xs',
+	marginBottom: '2px'
+});
+
+const newsTitle = css({
+	fontSize: 'sm',
+	color: 'text.primary',
+	lineHeight: '1.3'
+});
+
+const accountWidget = css({
+	padding: '8px 10px',
+	background: 'surface.root',
+	flex: '1'
+});
+
+const accountCard = css({
+	background: 'surface.card',
+	border: '1px solid #2a4a30',
+	borderRadius: 'sm',
+	padding: '8px'
+});
+
+const accountLabel = css({
+	color: 'accent',
+	fontSize: 'xs',
+	fontWeight: 'bold',
+	textTransform: 'uppercase',
+	marginBottom: '5px'
+});
+
+const accountMeta = css({
+	fontSize: 'xs',
+	color: 'text.secondary',
+	marginBottom: '4px'
+});
+
+const accountBalance = css({
+	fontSize: '16px',
+	fontWeight: 'bold',
+	color: 'text.primary',
+	marginBottom: '6px'
+});
+
+const addFundsBtn = css({
+	background: 'accent.dim',
+	border: 'none',
+	borderRadius: 'sm',
+	padding: '4px 8px',
+	width: '100%',
+	textAlign: 'center',
+	cursor: 'pointer',
+	color: 'text.primary',
+	fontSize: 'xs',
+	fontWeight: 'bold',
+	fontFamily: 'ui',
+	transition: 'color 0.1s, background 0.1s',
+	_hover: {
+		background: '#5a8a18'
+	}
+});
+
+const storeFooter = css({
+	background: 'surface.footer',
+	borderTop: '2px solid token(colors.border)',
+	padding: '6px 14px',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between'
+});
+
+const statusBarStyle = hstack({ gap: '4px' });
+
+const statusIcon = css({
+	width: '6px',
+	height: '6px',
+	borderRadius: 'full',
+	background: 'accent'
+});
+
+const footerText = css({
+	color: 'text.dim',
+	fontSize: 'xs'
+});
+
+const footerLinks = hstack({ gap: '12px' });
+
+const footerLink = css({
+	color: '#4a7a8a',
+	fontSize: 'xs',
+	cursor: 'pointer',
+	transition: 'color 0.1s, background 0.1s',
+	_hover: {
+		color: 'text.primary'
+	}
+});
 </script>
 
-<div class="theme-steam-legacy">
-	<div class="steam-client">
+<div data-panda-theme="steamLegacy" class={shell}>
+	<div class={steamClient}>
 		<!-- Window title bar -->
-		<div class="title-bar">
-			<div class="title-bar-left">
-				<div class="steam-logo-dot">S</div>
-				<span class="title-text">STEAM</span>
+		<div class={titleBar}>
+			<div class={titleBarLeft}>
+				<div class={steamLogoDot}>S</div>
+				<span class={titleText}>STEAM</span>
 			</div>
 			<!-- a11y-exemption: decorative window chrome buttons — 14px matches the 2010 Steam client -->
-			<div class="win-btns">
-				<button type="button" class="win-btn min" aria-hidden="true" tabindex="-1">—</button>
-				<button type="button" class="win-btn max" aria-hidden="true" tabindex="-1">□</button>
-				<button type="button" class="win-btn cls" aria-hidden="true" tabindex="-1">✕</button>
+			<div class={winBtns}>
+				<button type="button" class={winBtn} aria-hidden="true" tabindex="-1">—</button>
+				<button type="button" class={winBtn} aria-hidden="true" tabindex="-1">□</button>
+				<button type="button" class={cx(winBtn, winBtnCls)} aria-hidden="true" tabindex="-1">✕</button>
 			</div>
 		</div>
 
 		<!-- Top navigation bar -->
-		<div class="top-bar">
-			<div class="top-left">
-				<span class="steam-brand">STEAM<span class="brand-accent">™</span></span>
+		<div class={topBar}>
+			<div class={topLeft}>
+				<span class={steamBrand}>STEAM<span class={brandAccent}>™</span></span>
 			</div>
-			<nav class="nav-tabs">
+			<nav class={navTabsContainer}>
 				{#each navLinks as link (link.href)}
-					<a href={link.href} class="nav-tab" class:active={isActive(link.href)}>
+					<a href={link.href} class="{navTabStyle} {isActive(link.href) ? navTabActiveStyle : ''}">
 						{link.label}
 					</a>
 				{/each}
 			</nav>
-			<div class="user-area">
-				<div class="avatar">XV</div>
-				<div class="user-info">
-					<div class="username">Xevion</div>
-					<div class="user-status">Online</div>
+			<div class={userArea}>
+				<div class={avatar}>XV</div>
+				<div class={userInfo}>
+					<div class={username}>Xevion</div>
+					<div class={userStatus}>Online</div>
 				</div>
-				<div class="friends-btn">Friends <span class="friends-count">4</span></div>
+				<div class={friendsBtn}>Friends <span class={friendsCount}>4</span></div>
 			</div>
 		</div>
 
 		<!-- Main layout: content + sidebar -->
-		<div class="main-layout">
-			<main class="content-area">
+		<div class={mainLayout}>
+			<main class={contentAreaStyle}>
 				{@render children()}
 			</main>
 
 			<!-- Persistent sidebar -->
-			<aside class="sidebar">
-				<div class="sidebar-section">
-					<div class="sidebar-head">
-						<span class="sidebar-head-title">Friends</span>
-						<span class="sidebar-head-count">4 online</span>
+			<aside class={sidebarStyle}>
+				<div class={sidebarSectionStyle}>
+					<div class={sidebarHead}>
+						<span class={sidebarHeadTitle}>Friends</span>
+						<span class={sidebarHeadCount}>4 online</span>
 					</div>
 					{#each friends as friend (friend.name)}
-						<div class="friend-item">
-							<div class="status-dot" style="background: {friend.dotColor}"></div>
-							<div class="friend-avatar" style="background: {friend.bg}">{friend.initials}</div>
-							<div class="friend-info">
-								<div class="friend-name">{friend.name}</div>
+						<div class={friendItem}>
+							<div class={statusDot} style="background: {friend.dotColor}"></div>
+							<div class={friendAvatar} style="background: {friend.bg}">{friend.initials}</div>
+							<div class={friendInfoStyle}>
+								<div class={friendName}>{friend.name}</div>
 								{#if friend.game}
-									<div class="friend-game">{friend.game}</div>
+									<div class={friendGame}>{friend.game}</div>
 								{:else}
-									<div class="friend-status" style:color={friend.statusColor ?? 'var(--text-muted)'}>
+									<div class={friendStatusStyle} style:color={friend.statusColor ?? 'var(--colors-text-muted)'}>
 										{friend.status}
 									</div>
 								{/if}
 							</div>
 						</div>
 					{/each}
-					<div class="sidebar-btn-row">
-						<button type="button" class="view-all-btn">View All Friends</button>
+					<div class={sidebarBtnRow}>
+						<button type="button" class={viewAllBtn}>View All Friends</button>
 					</div>
 				</div>
 
-				<div class="sidebar-section">
-					<div class="sidebar-head">
-						<span class="sidebar-head-title">Steam News</span>
+				<div class={sidebarSectionStyle}>
+					<div class={sidebarHead}>
+						<span class={sidebarHeadTitle}>Steam News</span>
 					</div>
 					{#each news as item (item.title)}
-						<div class="news-item">
-							<div class="news-date">{item.date}</div>
-							<div class="news-title">{item.title}</div>
+						<div class={newsItem}>
+							<div class={newsDate}>{item.date}</div>
+							<div class={newsTitle}>{item.title}</div>
 						</div>
 					{/each}
 				</div>
 
-				<div class="account-widget">
-					<div class="account-card">
-						<div class="account-label">Your Account</div>
-						<div class="account-meta">Wallet Balance</div>
-						<div class="account-balance">$23.47</div>
-						<button type="button" class="add-funds-btn">Add Funds</button>
+				<div class={accountWidget}>
+					<div class={accountCard}>
+						<div class={accountLabel}>Your Account</div>
+						<div class={accountMeta}>Wallet Balance</div>
+						<div class={accountBalance}>$23.47</div>
+						<button type="button" class={addFundsBtn}>Add Funds</button>
 					</div>
 				</div>
 			</aside>
 		</div>
 
 		<!-- Footer -->
-		<footer class="store-footer">
-			<div class="status-bar">
-				<div class="status-icon"></div>
-				<span class="footer-text">Steam connected · VAC Active</span>
+		<footer class={storeFooter}>
+			<div class={statusBarStyle}>
+				<div class={statusIcon}></div>
+				<span class={footerText}>Steam connected · VAC Active</span>
 			</div>
-			<div class="footer-links">
-				<span class="footer-link">About Valve</span>
-				<span class="footer-link">Jobs</span>
-				<span class="footer-link">Privacy Policy</span>
-				<span class="footer-link">Legal</span>
-				<span class="footer-link">Steam Subscriber Agreement</span>
+			<div class={footerLinks}>
+				<span class={footerLink}>About Valve</span>
+				<span class={footerLink}>Jobs</span>
+				<span class={footerLink}>Privacy Policy</span>
+				<span class={footerLink}>Legal</span>
+				<span class={footerLink}>Steam Subscriber Agreement</span>
 			</div>
 		</footer>
 	</div>
 </div>
-
-<style>
-	.theme-steam-legacy {
-		font-family: var(--font-ui);
-		font-size: var(--font-size-base);
-		color: var(--text-primary);
-		background: transparent;
-		min-height: 100vh;
-	}
-
-	.steam-client {
-		background: var(--surface-root);
-		border: 1px solid #444;
-		border-radius: var(--radius);
-		overflow: hidden;
-		user-select: none;
-		min-width: 760px;
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-	}
-
-	/* Title bar */
-	.title-bar {
-		background: linear-gradient(to bottom, #2d2d2d, var(--surface-root));
-		padding: 5px 8px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		border-bottom: 1px solid var(--border);
-	}
-	.title-bar-left {
-		display: flex;
-		align-items: center;
-		gap: 6px;
-	}
-	.steam-logo-dot {
-		width: 20px;
-		height: 20px;
-		background: #1b9fe4;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 9px;
-		font-weight: bold;
-		color: #fff;
-	}
-	.title-text {
-		color: #888;
-		font-size: var(--font-size-sm);
-		letter-spacing: 0.5px;
-	}
-	.win-btns {
-		display: flex;
-		gap: 3px;
-	}
-	.win-btn {
-		width: 14px;
-		height: 14px;
-		border-radius: var(--radius-sm);
-		border: none;
-		cursor: pointer;
-		font-size: 9px;
-		color: #aaa;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: #3a3a3a;
-	}
-	.win-btn.cls {
-		background: #6b2020;
-	}
-
-	/* Top bar */
-	.top-bar {
-		background: linear-gradient(to bottom, #3c3c3c 0%, #252525 60%, #1e1e1e 100%);
-		display: flex;
-		align-items: stretch;
-		border-bottom: 2px solid var(--border);
-		position: relative;
-	}
-	.top-bar::after {
-		content: '';
-		position: absolute;
-		bottom: -1px;
-		left: 0;
-		right: 0;
-		height: 1px;
-		background: linear-gradient(to right, transparent, var(--accent-dim), transparent);
-		opacity: 0.5;
-	}
-	.top-left {
-		padding: 8px 14px;
-		display: flex;
-		align-items: center;
-		border-right: 1px solid var(--border-subtle);
-	}
-	.steam-brand {
-		font-size: 20px;
-		font-weight: bold;
-		color: var(--text-primary);
-		letter-spacing: 1px;
-		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-	}
-	.brand-accent {
-		color: var(--accent);
-		font-size: 12px;
-		vertical-align: super;
-	}
-	.nav-tabs {
-		display: flex;
-		align-items: flex-end;
-		flex: 1;
-		padding: 0 6px;
-	}
-	.nav-tab {
-		padding: 8px 16px 6px;
-		color: var(--text-secondary);
-		font-size: var(--font-size-nav);
-		font-weight: bold;
-		letter-spacing: 0.5px;
-		text-transform: uppercase;
-		cursor: pointer;
-		border-bottom: 2px solid transparent;
-		border-top: 1px solid transparent;
-		border-left: 1px solid transparent;
-		border-right: 1px solid transparent;
-		border-radius: var(--radius) var(--radius) 0 0;
-		position: relative;
-		top: 1px;
-		transition: var(--transition);
-	}
-	.nav-tab:hover {
-		color: var(--text-primary);
-		background: rgba(255, 255, 255, 0.05);
-	}
-	.nav-tab.active {
-		color: #fff;
-		background: linear-gradient(to bottom, var(--accent-deep), #1a3a08);
-		border-color: var(--accent-dim) var(--accent-dim) #1e1e1e;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-	}
-	.user-area {
-		padding: 6px 14px;
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		border-left: 1px solid var(--border-subtle);
-	}
-	.avatar {
-		width: 28px;
-		height: 28px;
-		border-radius: var(--radius-sm);
-		background: linear-gradient(135deg, #4a7010, #2d4a0a);
-		border: 1px solid var(--accent);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: var(--font-size-sm);
-		color: var(--text-primary);
-	}
-	.user-info {
-		display: flex;
-		flex-direction: column;
-	}
-	.username {
-		color: var(--text-primary);
-		font-size: var(--font-size-sm);
-		font-weight: bold;
-	}
-	.user-status {
-		color: var(--accent-link);
-		font-size: var(--font-size-xs);
-	}
-	.friends-btn {
-		background: rgba(100, 160, 50, 0.2);
-		border: 1px solid var(--border-accent);
-		border-radius: var(--radius-sm);
-		padding: 3px 8px;
-		color: var(--accent);
-		font-size: var(--font-size-xs);
-		font-weight: bold;
-		cursor: pointer;
-	}
-	.friends-count {
-		color: var(--accent-link);
-		font-weight: bold;
-	}
-
-	/* Main layout */
-	.main-layout {
-		display: flex;
-		flex: 1;
-	}
-	.content-area {
-		flex: 1;
-		background: var(--surface-base);
-		overflow: hidden;
-		min-width: 0;
-	}
-
-	/* Sidebar */
-	.sidebar {
-		width: 200px;
-		background: var(--surface-sidebar);
-		border-left: 1px solid var(--border);
-		display: flex;
-		flex-direction: column;
-		flex-shrink: 0;
-	}
-	.sidebar-section {
-		border-bottom: 1px solid var(--border);
-	}
-	.sidebar-head {
-		background: #222;
-		padding: 6px 10px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		border-bottom: 1px solid var(--border-subtle);
-	}
-	.sidebar-head-title {
-		color: var(--accent);
-		font-size: var(--font-size-xs);
-		font-weight: bold;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-	}
-	.sidebar-head-count {
-		color: var(--accent-link);
-		font-size: var(--font-size-xs);
-		font-weight: bold;
-	}
-	.friend-item {
-		padding: 6px 10px;
-		display: flex;
-		align-items: center;
-		gap: 7px;
-		cursor: pointer;
-		border-bottom: 1px solid var(--border-subtle);
-		transition: var(--transition-color);
-	}
-	.friend-item:hover {
-		background: #242424;
-	}
-	.friend-avatar {
-		width: 24px;
-		height: 24px;
-		border-radius: var(--radius-sm);
-		flex-shrink: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: var(--font-size-xs);
-		font-weight: bold;
-		color: #fff;
-	}
-	.friend-info {
-		flex: 1;
-		min-width: 0;
-	}
-	.friend-name {
-		font-size: var(--font-size-sm);
-		color: var(--text-primary);
-		font-weight: bold;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.friend-game {
-		font-size: var(--font-size-xs);
-		color: var(--accent-link);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.friend-status {
-		font-size: var(--font-size-xs);
-		color: var(--text-muted);
-	}
-	.status-dot {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		flex-shrink: 0;
-	}
-	.sidebar-btn-row {
-		padding: 6px 10px;
-	}
-	.view-all-btn {
-		background: #2a4a10;
-		border: 1px solid var(--border-accent);
-		border-radius: var(--radius-sm);
-		padding: 5px 8px;
-		width: 100%;
-		text-align: center;
-		cursor: pointer;
-		color: var(--accent);
-		font-size: var(--font-size-xs);
-		font-weight: bold;
-		font-family: var(--font-ui);
-		transition: var(--transition-color);
-	}
-	.view-all-btn:hover {
-		background: #3a6a18;
-	}
-	.news-item {
-		padding: 8px 10px;
-		border-bottom: 1px solid var(--border-subtle);
-		cursor: pointer;
-		transition: var(--transition-color);
-	}
-	.news-item:hover {
-		background: #242424;
-	}
-	.news-date {
-		color: var(--text-dim);
-		font-size: var(--font-size-xs);
-		margin-bottom: 2px;
-	}
-	.news-title {
-		font-size: var(--font-size-sm);
-		color: var(--text-primary);
-		line-height: 1.3;
-	}
-	.account-widget {
-		padding: 8px 10px;
-		background: var(--surface-root);
-		flex: 1;
-	}
-	.account-card {
-		background: var(--surface-card);
-		border: 1px solid #2a4a30;
-		border-radius: var(--radius-sm);
-		padding: 8px;
-	}
-	.account-label {
-		color: var(--accent);
-		font-size: var(--font-size-xs);
-		font-weight: bold;
-		text-transform: uppercase;
-		margin-bottom: 5px;
-	}
-	.account-meta {
-		font-size: var(--font-size-xs);
-		color: var(--text-secondary);
-		margin-bottom: 4px;
-	}
-	.account-balance {
-		font-size: 16px;
-		font-weight: bold;
-		color: var(--text-primary);
-		margin-bottom: 6px;
-	}
-	.add-funds-btn {
-		background: var(--accent-dim);
-		border: none;
-		border-radius: var(--radius-sm);
-		padding: 4px 8px;
-		width: 100%;
-		text-align: center;
-		cursor: pointer;
-		color: var(--text-primary);
-		font-size: var(--font-size-xs);
-		font-weight: bold;
-		font-family: var(--font-ui);
-		transition: var(--transition-color);
-	}
-	.add-funds-btn:hover {
-		background: #5a8a18;
-	}
-
-	/* Footer */
-	.store-footer {
-		background: var(--surface-footer);
-		border-top: 2px solid var(--border);
-		padding: 6px 14px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.status-bar {
-		display: flex;
-		align-items: center;
-		gap: 4px;
-	}
-	.status-icon {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		background: var(--accent);
-	}
-	.footer-text {
-		color: var(--text-dim);
-		font-size: var(--font-size-xs);
-	}
-	.footer-links {
-		display: flex;
-		gap: 12px;
-	}
-	.footer-link {
-		color: #4a7a8a;
-		font-size: var(--font-size-xs);
-		cursor: pointer;
-		transition: var(--transition-color);
-	}
-	.footer-link:hover {
-		color: var(--text-primary);
-	}
-</style>

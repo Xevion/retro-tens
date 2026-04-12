@@ -3,6 +3,8 @@ import { Chart, Svg, Axis, Area, Highlight, Tooltip } from 'layerchart';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { curveMonotoneX } from 'd3-shape';
 import { RefreshCw, Download } from 'lucide-svelte';
+import { css, cx } from 'styled-system/css';
+import { grid } from 'styled-system/patterns';
 import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
 import StatusBadge from '$lib/components/steam-modern/StatusBadge.svelte';
 
@@ -72,41 +74,49 @@ function fmtRevTooltipDate(d: Date) {
 
 const activityFeed = [
 	{
-		dot: 'act-danger',
+		dot: 'danger' as const,
 		time: '14:32',
 		text: '<strong>VAC System</strong> issued 48 bans across 3 games'
 	},
 	{
-		dot: 'act-info',
+		dot: 'info' as const,
 		time: '14:28',
 		text: '<strong>Steamworks</strong> build #4892 deployed to CDN'
 	},
 	{
-		dot: 'act-warn',
+		dot: 'warn' as const,
 		time: '14:15',
 		text: 'Store traffic spike detected — <strong>+340%</strong> on flash sale page'
 	},
-	{ dot: 'act-success', time: '13:55', text: '<strong>Greenlight</strong> approved 6 new titles' },
 	{
-		dot: 'act-danger',
+		dot: 'success' as const,
+		time: '13:55',
+		text: '<strong>Greenlight</strong> approved 6 new titles'
+	},
+	{
+		dot: 'danger' as const,
 		time: '13:40',
 		text: 'Admin <strong>ValveAdmin_03</strong> suspended user #44821930'
 	},
-	{ dot: 'act-info', time: '13:22', text: 'Scheduled maintenance complete — all nodes healthy' },
 	{
-		dot: 'act-warn',
+		dot: 'info' as const,
+		time: '13:22',
+		text: 'Scheduled maintenance complete — all nodes healthy'
+	},
+	{
+		dot: 'warn' as const,
 		time: '13:10',
 		text: 'Report queue threshold reached — <strong>9 pending</strong>'
 	}
 ];
 
 const serverHealth = [
-	{ name: 'US East', val: 94, color: 'green' },
-	{ name: 'US West', val: 88, color: '' },
-	{ name: 'EU Frankfurt', val: 97, color: 'green' },
-	{ name: 'EU Stockholm', val: 91, color: '' },
-	{ name: 'Asia Pacific', val: 79, color: 'gold' },
-	{ name: 'South America', val: 62, color: 'red' }
+	{ name: 'US East', val: 94, color: 'green' as const },
+	{ name: 'US West', val: 88, color: '' as const },
+	{ name: 'EU Frankfurt', val: 97, color: 'green' as const },
+	{ name: 'EU Stockholm', val: 91, color: '' as const },
+	{ name: 'Asia Pacific', val: 79, color: 'gold' as const },
+	{ name: 'South America', val: 62, color: 'red' as const }
 ];
 
 const recentUsers = [
@@ -143,40 +153,414 @@ const recentUsers = [
 		joined: 'Nov 11, 2012'
 	}
 ];
+
+const statsGrid = grid({
+	columns: 4,
+	gap: '1px',
+	background: 'divider',
+	borderBottom: '1px solid token(colors.divider)'
+});
+
+const statCard = css({
+	background: 'surface.panel',
+	padding: '16px 20px',
+	position: 'relative'
+});
+
+const statLabel = css({
+	fontSize: '10px',
+	textTransform: 'uppercase',
+	letterSpacing: '0.1em',
+	color: 'text.muted',
+	fontWeight: '700',
+	marginBottom: '6px'
+});
+
+const statValue = css({
+	fontSize: '26px',
+	fontWeight: '300',
+	color: 'text.bright',
+	lineHeight: '1',
+	letterSpacing: '-0.02em',
+	'& span': {
+		fontSize: '14px',
+		fontWeight: '400',
+		color: 'text.secondary'
+	}
+});
+
+const statDelta = css({ marginTop: '4px', fontSize: '11px' });
+const statDeltaUp = css({ color: 'accent.green' });
+const statDeltaDown = css({ color: 'accent.red' });
+
+const statBar = css({
+	position: 'absolute',
+	bottom: '0',
+	left: '0',
+	right: '0',
+	height: '2px',
+	background: 'divider'
+});
+
+const statBarFill = css({
+	height: '100%',
+	background: 'linear-gradient(90deg, token(colors.accent.dim), token(colors.accent))',
+	transition: 'width 1s ease'
+});
+
+const twoCol = grid({
+	columns: 2,
+	gap: '16px',
+	margin: '16px 20px'
+});
+
+const panel = css({
+	background: 'surface.panel',
+	border: '1px solid token(colors.border)',
+	borderRadius: 'DEFAULT'
+});
+
+const panelHeader = css({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	padding: '10px 14px',
+	background: 'rgba(0, 0, 0, 0.15)',
+	borderBottom: '1px solid token(colors.border)',
+	fontSize: 'sm',
+	fontWeight: '700',
+	textTransform: 'uppercase',
+	letterSpacing: '0.08em',
+	color: 'text.secondary'
+});
+
+const panelBody = css({ padding: '14px' });
+
+const chartPanel = cx(panel, css({ display: 'flex', flexDirection: 'column' }));
+
+const chartContainer = css({
+	padding: '8px 14px 14px',
+	flex: '1',
+	minHeight: '160px'
+});
+
+const badgeBase = css({
+	display: 'inline-block',
+	padding: '2px 7px',
+	fontSize: '10px',
+	fontWeight: '700',
+	borderRadius: 'DEFAULT',
+	textTransform: 'uppercase',
+	letterSpacing: '0.04em',
+	whiteSpace: 'nowrap'
+});
+
+const badgeBlue = cx(
+	badgeBase,
+	css({
+		background: 'rgba(102, 192, 244, 0.15)',
+		color: 'accent',
+		border: '1px solid rgba(102, 192, 244, 0.3)'
+	})
+);
+
+const badgeYellow = cx(
+	badgeBase,
+	css({
+		background: 'rgba(213, 165, 27, 0.2)',
+		color: '#e8c44e',
+		border: '1px solid rgba(213, 165, 27, 0.3)'
+	})
+);
+
+const badgeGreen = cx(
+	badgeBase,
+	css({
+		background: 'rgba(79, 168, 50, 0.2)',
+		color: '#6dcf4a',
+		border: '1px solid rgba(79, 168, 50, 0.3)'
+	})
+);
+
+const btn = css({
+	display: 'inline-flex',
+	alignItems: 'center',
+	gap: '6px',
+	padding: '6px 14px',
+	fontSize: 'sm',
+	fontWeight: '600',
+	borderRadius: 'DEFAULT',
+	cursor: 'pointer',
+	border: 'none',
+	transition: 'all token(durations)',
+	textTransform: 'uppercase',
+	letterSpacing: '0.05em',
+	fontFamily: 'ui'
+});
+
+const btnPrimary = cx(
+	btn,
+	css({
+		background: 'linear-gradient(180deg, #76b4d6 0%, #4a88aa 50%, #3c7493 100%)',
+		color: '#fff',
+		border: '1px solid #2a5f7e',
+		textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)',
+		_hover: {
+			background: 'linear-gradient(180deg, #8ac4e4 0%, #5a98ba 50%, #4c84a3 100%)'
+		}
+	})
+);
+
+const btnSecondary = cx(
+	btn,
+	css({
+		background: 'linear-gradient(180deg, #5c7a8e 0%, #3d5a6e 100%)',
+		color: 'text.primary',
+		border: '1px solid token(colors.border)',
+		textShadow: '0 1px 1px rgba(0, 0, 0, 0.3)',
+		_hover: {
+			background: 'linear-gradient(180deg, #6c8a9e 0%, #4d6a7e 100%)'
+		}
+	})
+);
+
+const revTooltipInner = css({
+	background: 'surface.elevated',
+	border: '1px solid token(colors.border.light)',
+	borderRadius: 'DEFAULT',
+	padding: '8px 10px',
+	fontSize: '11px',
+	minWidth: '130px',
+	boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+});
+
+const revTooltipDate = css({
+	color: 'text.muted',
+	fontSize: '10px',
+	fontWeight: '700',
+	textTransform: 'uppercase',
+	letterSpacing: '0.06em',
+	marginBottom: '6px'
+});
+
+const revTooltipRow = css({
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	gap: '12px',
+	padding: '2px 0',
+	color: 'text.secondary',
+	'& span:last-child': {
+		color: 'text.primary',
+		fontWeight: '600'
+	}
+});
+
+const revTooltipTotal = css({
+	display: 'flex',
+	justifyContent: 'space-between',
+	gap: '12px',
+	marginTop: '5px',
+	paddingTop: '5px',
+	borderTop: '1px solid token(colors.divider)',
+	color: 'text.bright',
+	fontWeight: '700'
+});
+
+const revDot = css({
+	display: 'inline-block',
+	width: '6px',
+	height: '6px',
+	borderRadius: 'full',
+	marginRight: '5px',
+	verticalAlign: 'middle'
+});
+
+const revDotBlue = cx(revDot, css({ background: '#66c0f4' }));
+const revDotGold = cx(revDot, css({ background: '#d5a51b' }));
+const revDotGreen = cx(revDot, css({ background: '#4fa832' }));
+
+const activityItem = css({
+	display: 'flex',
+	gap: '10px',
+	padding: '8px 0',
+	borderBottom: '1px solid token(colors.divider)',
+	fontSize: 'sm',
+	'&:last-child': { borderBottom: 'none' },
+	'& strong': {
+		color: 'accent',
+		fontWeight: '600'
+	}
+});
+
+const activityTime = css({
+	color: 'text.muted',
+	whiteSpace: 'nowrap',
+	minWidth: '40px'
+});
+
+const activityDotBase = css({
+	width: '6px',
+	height: '6px',
+	borderRadius: 'full',
+	flexShrink: '0',
+	marginTop: '4px'
+});
+
+const activityDotStyles = {
+	warn: cx(activityDotBase, css({ background: 'accent.gold' })),
+	info: cx(activityDotBase, css({ background: 'accent' })),
+	danger: cx(activityDotBase, css({ background: 'accent.red' })),
+	success: cx(activityDotBase, css({ background: 'accent.green' }))
+};
+
+const activityText = css({
+	color: 'text.secondary',
+	lineHeight: '1.4',
+	flex: '1'
+});
+
+const healthRow = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '10px',
+	padding: '7px 0',
+	borderBottom: '1px solid token(colors.divider)',
+	'&:last-child': { borderBottom: 'none' }
+});
+
+const healthName = css({
+	width: '110px',
+	color: 'text.secondary',
+	fontSize: 'sm'
+});
+
+const healthBarWrap = css({ flex: '1' });
+
+const healthVal = css({
+	width: '40px',
+	textAlign: 'right',
+	color: 'text.primary',
+	fontSize: 'sm',
+	fontWeight: '600'
+});
+
+const progressBar = css({
+	height: '6px',
+	background: 'rgba(0, 0, 0, 0.3)',
+	borderRadius: '1px',
+	overflow: 'hidden'
+});
+
+const progressFill = css({
+	height: '100%',
+	background: 'linear-gradient(90deg, token(colors.accent.dim), token(colors.accent))',
+	borderRadius: '1px',
+	transition: 'width 1s ease'
+});
+
+const progressFillGreen = cx(
+	progressFill,
+	css({ background: 'linear-gradient(90deg, #3c7022, token(colors.accent.green))' })
+);
+
+const progressFillRed = cx(
+	progressFill,
+	css({ background: 'linear-gradient(90deg, #843030, token(colors.accent.red))' })
+);
+
+const progressFillGold = cx(
+	progressFill,
+	css({ background: 'linear-gradient(90deg, #8a6810, token(colors.accent.gold))' })
+);
+
+function getProgressFillClass(color: string) {
+	if (color === 'green') return progressFillGreen;
+	if (color === 'red') return progressFillRed;
+	if (color === 'gold') return progressFillGold;
+	return progressFill;
+}
+
+const dataTable = css({
+	width: '100%',
+	borderCollapse: 'collapse',
+	fontSize: '12.5px',
+	'& th': {
+		textAlign: 'left',
+		padding: '8px 12px',
+		fontSize: '10px',
+		fontWeight: '700',
+		letterSpacing: '0.1em',
+		textTransform: 'uppercase',
+		color: 'text.muted',
+		borderBottom: '1px solid token(colors.border)',
+		background: 'rgba(0, 0, 0, 0.2)',
+		whiteSpace: 'nowrap'
+	},
+	'& td': {
+		padding: '7px 12px',
+		borderBottom: '1px solid rgba(0, 0, 0, 0.2)',
+		color: 'text.primary'
+	},
+	'& tr:last-child td': { borderBottom: 'none' },
+	'& tbody tr:hover': { background: 'surface.rowHover' }
+});
+
+const userAvatar = css({
+	width: '24px',
+	height: '24px',
+	borderRadius: 'DEFAULT',
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	fontSize: '9px',
+	fontWeight: '700',
+	color: '#fff',
+	verticalAlign: 'middle',
+	marginRight: '6px'
+});
+
+const actionLink = css({
+	color: 'accent',
+	fontSize: '11px',
+	cursor: 'pointer',
+	marginRight: '8px',
+	_hover: { textDecoration: 'underline' }
+});
 </script>
 
 <PageHeader title="Administrator Dashboard" subtitle="Steam Platform Control · Last refreshed 2 minutes ago">
-	<button type="button" class="btn btn-secondary"><RefreshCw size={13} /> Refresh</button>
-	<button type="button" class="btn btn-primary"><Download size={13} /> Export Report</button>
+	<button type="button" class={btnSecondary}><RefreshCw size={13} /> Refresh</button>
+	<button type="button" class={btnPrimary}><Download size={13} /> Export Report</button>
 </PageHeader>
 
 <!-- Stats row -->
-<div class="stats-grid">
+<div class={statsGrid}>
 	{#each stats as stat (stat.label)}
-		<div class="stat-card">
-			<div class="stat-label">{stat.label}</div>
-			<div class="stat-value">{stat.value}<span>{stat.unit}</span></div>
-			<div class="stat-delta" class:up={stat.up} class:down={!stat.up}>{stat.delta}</div>
-			<div class="stat-bar">
-				<div class="stat-bar-fill" style="width:{stat.fill}%;{stat.fillStyle}"></div>
+		<div class={statCard}>
+			<div class={statLabel}>{stat.label}</div>
+			<div class={statValue}>{stat.value}<span>{stat.unit}</span></div>
+			<div class={cx(statDelta, stat.up ? statDeltaUp : statDeltaDown)}>{stat.delta}</div>
+			<div class={statBar}>
+				<div class={statBarFill} style="width:{stat.fill}%;{stat.fillStyle}"></div>
 			</div>
 		</div>
 	{/each}
 </div>
 
 <!-- Two column panels -->
-<div class="two-col">
+<div class={twoCol}>
 	<!-- Revenue chart -->
-	<div class="panel chart-panel">
-		<div class="panel-header">
+	<div class={chartPanel}>
+		<div class={panelHeader}>
 			Revenue — Last 14 Days
 			<div style="display:flex;gap:6px">
-				<span class="badge badge-blue">Store</span>
-				<span class="badge badge-yellow">Market</span>
-				<span class="badge badge-green">DLC</span>
+				<span class={badgeBlue}>Store</span>
+				<span class={badgeYellow}>Market</span>
+				<span class={badgeGreen}>DLC</span>
 			</div>
 		</div>
-		<div class="chart-container">
+		<div class={chartContainer}>
 			<Chart
 				data={revenueData}
 				x="date"
@@ -230,21 +614,21 @@ const recentUsers = [
 				</Svg>
 				<Tooltip.Root let:data classes={{ root: 'rev-tooltip' }} variant="none">
 					{@const d = data as (typeof revenueData)[number]}
-					<div class="rev-tooltip-inner">
-						<p class="rev-tooltip-date">{fmtRevTooltipDate(d.date)}</p>
-						<div class="rev-tooltip-row">
-							<span><span class="rev-dot rev-dot-blue"></span>Store</span>
+					<div class={revTooltipInner}>
+						<p class={revTooltipDate}>{fmtRevTooltipDate(d.date)}</p>
+						<div class={revTooltipRow}>
+							<span><span class={revDotBlue}></span>Store</span>
 							<span>${d.store.toLocaleString()}</span>
 						</div>
-						<div class="rev-tooltip-row">
-							<span><span class="rev-dot rev-dot-gold"></span>Market</span>
+						<div class={revTooltipRow}>
+							<span><span class={revDotGold}></span>Market</span>
 							<span>${d.market.toLocaleString()}</span>
 						</div>
-						<div class="rev-tooltip-row">
-							<span><span class="rev-dot rev-dot-green"></span>DLC</span>
+						<div class={revTooltipRow}>
+							<span><span class={revDotGreen}></span>DLC</span>
 							<span>${d.dlc.toLocaleString()}</span>
 						</div>
-						<div class="rev-tooltip-total">
+						<div class={revTooltipTotal}>
 							<span>Total</span>
 							<span>${(d.store + d.market + d.dlc).toLocaleString()}</span>
 						</div>
@@ -255,15 +639,15 @@ const recentUsers = [
 	</div>
 
 	<!-- Activity feed -->
-	<div class="panel">
-		<div class="panel-header">Activity Log <span class="badge badge-blue">Live</span></div>
-		<div class="panel-body">
+	<div class={panel}>
+		<div class={panelHeader}>Activity Log <span class={badgeBlue}>Live</span></div>
+		<div class={panelBody}>
 			{#each activityFeed as item, i (i)}
-				<div class="activity-item">
-					<span class="activity-time">{item.time}</span>
-					<div class="activity-type {item.dot}"></div>
+				<div class={activityItem}>
+					<span class={activityTime}>{item.time}</span>
+					<div class={activityDotStyles[item.dot]}></div>
 					<!-- eslint-disable-next-line svelte/no-at-html-tags -- reason: hardcoded demo content, no user input -->
-					<div class="activity-text">{@html item.text}</div>
+					<div class={activityText}>{@html item.text}</div>
 				</div>
 			{/each}
 		</div>
@@ -271,30 +655,30 @@ const recentUsers = [
 </div>
 
 <!-- Server health + recent users -->
-<div class="two-col">
-	<div class="panel">
-		<div class="panel-header">Server Health</div>
-		<div class="panel-body">
+<div class={twoCol}>
+	<div class={panel}>
+		<div class={panelHeader}>Server Health</div>
+		<div class={panelBody}>
 			{#each serverHealth as srv (srv.name)}
-				<div class="health-row">
-					<span class="health-name">{srv.name}</span>
-					<div class="health-bar-wrap">
-						<div class="progress-bar">
-							<div class="progress-fill {srv.color}" style="width:{srv.val}%"></div>
+				<div class={healthRow}>
+					<span class={healthName}>{srv.name}</span>
+					<div class={healthBarWrap}>
+						<div class={progressBar}>
+							<div class={getProgressFillClass(srv.color)} style="width:{srv.val}%"></div>
 						</div>
 					</div>
-					<span class="health-val">{srv.val}%</span>
+					<span class={healthVal}>{srv.val}%</span>
 				</div>
 			{/each}
 		</div>
 	</div>
 
-	<div class="panel">
-		<div class="panel-header">
+	<div class={panel}>
+		<div class={panelHeader}>
 			Recent Registrations
-			<a href="/steam-modern/users" class="action-link" style="font-size:11px">View all →</a>
+			<a href="/steam-modern/users" class={actionLink} style="font-size:11px">View all &#8594;</a>
 		</div>
-		<table class="data-table">
+		<table class={dataTable}>
 			<thead>
 				<tr>
 					<th>User</th>
@@ -307,13 +691,13 @@ const recentUsers = [
 				{#each recentUsers as u (u.id)}
 					<tr>
 						<td>
-							<div class="user-avatar" style="background:linear-gradient(135deg,#2a6591,#1b4a6b)">{u.name.slice(0,2).toUpperCase()}</div>
+							<div class={userAvatar} style="background:linear-gradient(135deg,#2a6591,#1b4a6b)">{u.name.slice(0, 2).toUpperCase()}</div>
 							<span style="font-size:12px">{u.name}</span>
-							<span style="color:var(--text-muted);font-size:10px;margin-left:4px">{u.id}</span>
+							<span style="color:var(--colors-text-muted);font-size:10px;margin-left:4px">{u.id}</span>
 						</td>
 						<td><StatusBadge status={u.status as 'online' | 'offline' | 'away' | 'banned'} /></td>
-						<td style="color:var(--text-secondary)">{u.games}</td>
-						<td style="color:var(--text-muted);font-size:11px">{u.joined}</td>
+						<td style="color:var(--colors-text-secondary)">{u.games}</td>
+						<td style="color:var(--colors-text-muted);font-size:11px">{u.joined}</td>
 					</tr>
 				{/each}
 			</tbody>
@@ -321,96 +705,15 @@ const recentUsers = [
 	</div>
 </div>
 
+<!-- LayerChart tick labels require :global() — Panda cannot target third-party component internals -->
 <style>
-	.stats-grid {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: 1px;
-		background: var(--divider);
-		border-bottom: 1px solid var(--divider);
-	}
-	.stat-card { background: var(--surface-panel); padding: 16px 20px; position: relative; }
-	.stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 6px; }
-	.stat-value { font-size: 26px; font-weight: 300; color: var(--text-bright); line-height: 1; letter-spacing: -0.02em; }
-	.stat-value :global(span) { font-size: 14px; font-weight: 400; color: var(--text-secondary); }
-	.stat-delta { margin-top: 4px; font-size: 11px; }
-	.stat-delta.up { color: var(--accent-green); }
-	.stat-delta.down { color: var(--accent-red); }
-	.stat-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--divider); }
-	.stat-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); transition: width 1s ease; }
-
-	.chart-panel { display: flex; flex-direction: column; }
-	.chart-container { padding: 8px 14px 14px; flex: 1; min-height: 160px; }
-
 	:global(.rev-tick-label) {
-		fill: var(--text-muted) !important;
+		fill: var(--colors-text-muted) !important;
 		font-size: 10px !important;
-		font-family: var(--font-ui) !important;
+		font-family: var(--fonts-ui) !important;
 	}
 
-	:global(.rev-tooltip) { pointer-events: none; }
-	.rev-tooltip-inner {
-		background: var(--surface-elevated);
-		border: 1px solid var(--border-light);
-		border-radius: var(--radius);
-		padding: 8px 10px;
-		font-size: 11px;
-		min-width: 130px;
-		box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+	:global(.rev-tooltip) {
+		pointer-events: none;
 	}
-	.rev-tooltip-date {
-		color: var(--text-muted);
-		font-size: 10px;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		margin-bottom: 6px;
-	}
-	.rev-tooltip-row {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 12px;
-		padding: 2px 0;
-		color: var(--text-secondary);
-	}
-	.rev-tooltip-row span:last-child { color: var(--text-primary); font-weight: 600; }
-	.rev-tooltip-total {
-		display: flex;
-		justify-content: space-between;
-		gap: 12px;
-		margin-top: 5px;
-		padding-top: 5px;
-		border-top: 1px solid var(--divider);
-		color: var(--text-bright);
-		font-weight: 700;
-	}
-	.rev-dot {
-		display: inline-block;
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		margin-right: 5px;
-		vertical-align: middle;
-	}
-	.rev-dot-blue { background: #66c0f4; }
-	.rev-dot-gold { background: #d5a51b; }
-	.rev-dot-green { background: #4fa832; }
-
-	.activity-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--divider); font-size: var(--font-size-sm); }
-	.activity-item:last-child { border-bottom: none; }
-	.activity-time { color: var(--text-muted); white-space: nowrap; min-width: 40px; }
-	.activity-type { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
-	.activity-text { color: var(--text-secondary); line-height: 1.4; flex: 1; }
-	:global(.activity-text strong) { color: var(--accent); font-weight: 600; }
-	.act-warn { background: var(--accent-gold); }
-	.act-info { background: var(--accent); }
-	.act-danger { background: var(--accent-red); }
-	.act-success { background: var(--accent-green); }
-
-	.health-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--divider); }
-	.health-row:last-child { border-bottom: none; }
-	.health-name { width: 110px; color: var(--text-secondary); font-size: var(--font-size-sm); }
-	.health-bar-wrap { flex: 1; }
-	.health-val { width: 40px; text-align: right; color: var(--text-primary); font-size: var(--font-size-sm); font-weight: 600; }
 </style>

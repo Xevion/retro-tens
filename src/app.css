@@ -1,20 +1,4 @@
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-
-html,
-body {
-	height: 100%;
-}
-
-a {
-	color: inherit;
-	text-decoration: none;
-}
+@layer reset, base, tokens, recipes, utilities;
 
 /* Minimal Tailwind utility shim for layerchart.
    layerchart emits Tailwind class names but ships no CSS of its own.

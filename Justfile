@@ -6,7 +6,7 @@ check:
     #!/usr/bin/env bash
     set -u
     failed=()
-    for step in typecheck lint:js lint:css lint:biome lint:actions format spell audit just:check analyze links; do
+    for step in typecheck lint:js lint:biome lint:actions format spell audit just:check analyze links; do
         printf '\n\033[1;34m::: %s\033[0m\n' "$step"
         bun run "$step" || failed+=("$step")
     done

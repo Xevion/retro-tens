@@ -1,10 +1,10 @@
 <script lang="ts">
 import '@fontsource-variable/source-sans-3';
 import '@fontsource-variable/source-sans-3/wght-italic.css';
-import '$lib/themes/steam-modern/tokens.css';
-import '$lib/themes/steam-modern/shared.css';
 import { page } from '$app/state';
 import type { ComponentType } from 'svelte';
+import { css } from 'styled-system/css';
+import { flex, hstack, vstack } from 'styled-system/patterns';
 import {
 	LayoutDashboard,
 	AlertTriangle,
@@ -112,23 +112,302 @@ function isActive(href: string) {
 	if (href === '/steam-modern') return page.url.pathname === '/steam-modern';
 	return page.url.pathname.startsWith(href);
 }
+
+const shell = css({
+	fontFamily: 'ui',
+	fontSize: 'base',
+	color: 'text.primary',
+	background: 'surface.root',
+	minHeight: '100vh'
+});
+
+const appShell = vstack({
+	gap: '0',
+	minHeight: '100vh',
+	background: 'surface.root',
+	overflow: 'hidden',
+	alignItems: 'stretch'
+});
+
+const chromeBar = css({
+	height: '26px',
+	background: 'surface.chrome',
+	display: 'flex',
+	alignItems: 'center',
+	padding: '0 8px',
+	gap: '6px',
+	borderBottom: '1px solid #0a0f16',
+	flexShrink: '0'
+});
+
+const ctrlArea = hstack({ gap: '4px' });
+
+const chromeBtn = css({
+	width: '12px',
+	height: '12px',
+	borderRadius: 'full',
+	display: 'inline-block'
+});
+
+const chromeBtnClose = css({ background: 'accent.red' });
+const chromeBtnMin = css({ background: 'accent.gold' });
+const chromeBtnMax = css({ background: 'accent.green' });
+
+const chromeTitle = css({
+	flex: '1',
+	textAlign: 'center',
+	color: 'text.muted',
+	fontSize: '11px',
+	letterSpacing: '0.03em'
+});
+
+const menubar = css({
+	height: '32px',
+	background: 'linear-gradient(180deg, #2a3f54 0%, #1b2838 100%)',
+	display: 'flex',
+	alignItems: 'stretch',
+	borderBottom: '1px solid token(colors.divider)',
+	flexShrink: '0',
+	userSelect: 'none'
+});
+
+const steamLogo = css({
+	display: 'flex',
+	alignItems: 'center',
+	padding: '0 14px',
+	borderRight: '1px solid rgba(0, 0, 0, 0.3)',
+	gap: '7px'
+});
+
+const steamLogoText = css({
+	fontSize: '14px',
+	fontWeight: '700',
+	color: 'text.bright',
+	letterSpacing: '0.06em',
+	textTransform: 'uppercase'
+});
+
+const menuItem = css({
+	display: 'flex',
+	alignItems: 'center',
+	padding: '0 14px',
+	color: 'text.secondary',
+	fontSize: 'sm',
+	cursor: 'pointer',
+	position: 'relative',
+	whiteSpace: 'nowrap',
+	transition: 'background token(durations.fast) ease, color token(durations.fast) ease',
+	_hover: {
+		background: 'accent.glow',
+		color: 'text.primary'
+	}
+});
+
+const menuBadge = css({
+	marginLeft: '5px',
+	background: 'accent.red',
+	color: '#fff',
+	fontSize: '10px',
+	padding: '1px 5px',
+	borderRadius: 'sm',
+	fontWeight: '700'
+});
+
+const menubarRight = css({
+	marginLeft: 'auto',
+	display: 'flex',
+	alignItems: 'center',
+	paddingRight: '12px',
+	gap: '14px'
+});
+
+const statusDotGreen = css({
+	width: '7px',
+	height: '7px',
+	borderRadius: 'full',
+	background: 'accent.green',
+	boxShadow: '0 0 4px token(colors.accent.green)'
+});
+
+const adminInfo = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '8px',
+	cursor: 'pointer'
+});
+
+const adminAvatar = css({
+	width: '20px',
+	height: '20px',
+	borderRadius: 'sm',
+	background: 'linear-gradient(135deg, #2a6591, #1b4a6b)',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	fontSize: '9px',
+	fontWeight: '700',
+	color: '#fff',
+	border: '1px solid token(colors.border.light)'
+});
+
+const adminName = css({
+	color: 'text.primary',
+	fontSize: 'sm',
+	fontWeight: '600'
+});
+
+const adminRole = css({
+	color: 'accent',
+	fontSize: '10px'
+});
+
+const navTabsBar = css({
+	background: 'linear-gradient(180deg, #1d2d3e 0%, #162030 100%)',
+	display: 'flex',
+	alignItems: 'stretch',
+	borderBottom: '2px solid token(colors.surface.root)',
+	flexShrink: '0',
+	height: '38px'
+});
+
+const navTab = css({
+	display: 'flex',
+	alignItems: 'center',
+	padding: '0 18px',
+	color: 'text.secondary',
+	fontSize: 'sm',
+	fontWeight: '600',
+	textTransform: 'uppercase',
+	letterSpacing: '0.08em',
+	cursor: 'pointer',
+	borderBottom: '2px solid transparent',
+	marginBottom: '-2px',
+	transition: 'all token(durations)',
+	whiteSpace: 'nowrap',
+	position: 'relative',
+	_hover: {
+		color: 'text.primary',
+		background: 'rgba(255, 255, 255, 0.04)'
+	}
+});
+
+const navTabActive = css({
+	color: 'accent',
+	borderBottomColor: 'token(colors.accent)',
+	background: 'accent.glow'
+});
+
+const tabIcon = css({
+	display: 'inline-flex',
+	alignItems: 'center',
+	marginRight: '7px'
+});
+
+const tabBadge = css({
+	position: 'absolute',
+	top: '6px',
+	right: '10px',
+	width: '8px',
+	height: '8px',
+	borderRadius: 'full',
+	background: 'accent.red'
+});
+
+const contentArea = flex({
+	flex: '1',
+	overflow: 'hidden'
+});
+
+const sidebar = css({
+	width: 'sidebarW',
+	background: 'surface.sidebar',
+	borderRight: '1px solid token(colors.divider)',
+	overflowY: 'auto',
+	flexShrink: '0',
+	paddingBottom: '20px'
+});
+
+const sidebarSection = css({ marginTop: '2px' });
+
+const sidebarSectionHeader = css({
+	padding: '10px 14px 5px',
+	fontSize: '10px',
+	fontWeight: '700',
+	letterSpacing: '0.12em',
+	textTransform: 'uppercase',
+	color: 'text.disabled',
+	borderTop: '1px solid token(colors.divider)',
+	'&:first-child': {
+		borderTop: 'none'
+	}
+});
+
+const sidebarLink = css({
+	display: 'flex',
+	alignItems: 'center',
+	padding: '6px 14px 6px 18px',
+	color: 'text.secondary',
+	cursor: 'pointer',
+	transition: 'all token(durations.fast) ease',
+	fontSize: '12.5px',
+	gap: '8px',
+	borderLeft: '2px solid transparent',
+	_hover: {
+		color: 'text.primary',
+		background: 'accent.glow'
+	}
+});
+
+const sidebarLinkActive = css({
+	color: 'accent',
+	background: 'rgba(102, 192, 244, 0.1)',
+	borderLeftColor: 'token(colors.accent)'
+});
+
+const iconWrap = css({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	width: '14px',
+	flexShrink: '0'
+});
+
+const countBadge = css({
+	marginLeft: 'auto',
+	background: 'surface.elevated',
+	color: 'text.muted',
+	fontSize: '10px',
+	padding: '1px 6px',
+	borderRadius: 'sm'
+});
+
+const countAlert = css({
+	background: 'accent.red',
+	color: '#fff'
+});
+
+const mainPane = css({
+	flex: '1',
+	overflow: 'hidden auto',
+	background: 'surface.base'
+});
 </script>
 
-<div class="theme-steam-modern">
-	<div class="app-shell">
+<div data-panda-theme="steamModern" class={shell}>
+	<div class={appShell}>
 		<!-- macOS-style chrome bar -->
-		<div class="chrome-bar">
-			<div class="ctrl-area">
-				<span class="chrome-btn chrome-close"></span>
-				<span class="chrome-btn chrome-min"></span>
-				<span class="chrome-btn chrome-max"></span>
+		<div class={chromeBar}>
+			<div class={ctrlArea}>
+				<span class="{chromeBtn} {chromeBtnClose}"></span>
+				<span class="{chromeBtn} {chromeBtnMin}"></span>
+				<span class="{chromeBtn} {chromeBtnMax}"></span>
 			</div>
-			<div class="chrome-title">Steam — Administrator Console [Build 20170823-b]</div>
+			<div class={chromeTitle}>Steam — Administrator Console [Build 20170823-b]</div>
 		</div>
 
 		<!-- Menu bar -->
-		<div class="menubar">
-			<div class="steam-logo">
+		<div class={menubar}>
+			<div class={steamLogo}>
 				<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
 					<circle cx="20" cy="20" r="18" fill="#1b2838" stroke="#66c0f4" stroke-width="1.5" />
 					<path
@@ -137,52 +416,52 @@ function isActive(href: string) {
 					/>
 					<circle cx="24.5" cy="15.5" r="3.5" fill="#4fa3d4" />
 				</svg>
-				<span>STEAM</span>
+				<span class={steamLogoText}>STEAM</span>
 			</div>
-			<div class="menu-item">Steam</div>
-			<div class="menu-item">View</div>
-			<div class="menu-item">Friends</div>
-			<div class="menu-item">Games</div>
-			<div class="menu-item">Admin Tools <span class="menu-badge">3</span></div>
-			<div class="menu-item">Help</div>
-			<div class="menubar-right">
-				<span class="status-dot-green"></span>
-				<div class="admin-info">
-					<div class="admin-avatar">VA</div>
+			<div class={menuItem}>Steam</div>
+			<div class={menuItem}>View</div>
+			<div class={menuItem}>Friends</div>
+			<div class={menuItem}>Games</div>
+			<div class={menuItem}>Admin Tools <span class={menuBadge}>3</span></div>
+			<div class={menuItem}>Help</div>
+			<div class={menubarRight}>
+				<span class={statusDotGreen}></span>
+				<div class={adminInfo}>
+					<div class={adminAvatar}>VA</div>
 					<div>
-						<div class="admin-name">ValveAdmin_07</div>
-						<div class="admin-role">▶ SUPER ADMIN</div>
+						<div class={adminName}>ValveAdmin_07</div>
+						<div class={adminRole}>▶ SUPER ADMIN</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Nav tabs -->
-		<nav class="nav-tabs">
+		<nav class={navTabsBar}>
 			{#each navTabs as tab (tab.href)}
 				{@const Icon = tab.icon}
-				<a href={tab.href} class="nav-tab" class:active={isActive(tab.href)}>
-					<span class="tab-icon"><Icon size={14} /></span>
+				<a href={tab.href} class="{navTab} {isActive(tab.href) ? navTabActive : ''}">
+					<span class={tabIcon}><Icon size={14} /></span>
 					{tab.label}
-					{#if tab.badge}<span class="tab-badge"></span>{/if}
+					{#if tab.badge}<span class={tabBadge}></span>{/if}
 				</a>
 			{/each}
 		</nav>
 
 		<!-- Content area -->
-		<div class="content-area">
+		<div class={contentArea}>
 			<!-- Sidebar -->
-			<aside class="sidebar">
+			<aside class={sidebar}>
 				{#each sidebarSections as section (section.title)}
-					<div class="sidebar-section">
-						<div class="sidebar-section-header">{section.title}</div>
+					<div class={sidebarSection}>
+						<div class={sidebarSectionHeader}>{section.title}</div>
 						{#each section.links as link (link.href)}
 							{@const Icon = link.icon}
-							<a href={link.href} class="sidebar-link" class:active={isActive(link.href)}>
-								<span class="icon"><Icon size={12} /></span>
+							<a href={link.href} class="{sidebarLink} {isActive(link.href) ? sidebarLinkActive : ''}">
+								<span class={iconWrap}><Icon size={12} /></span>
 								{link.label}
 								{#if link.count}
-									<span class="count" class:alert={link.alert}>{link.count}</span>
+									<span class="{countBadge} {link.alert ? countAlert : ''}">{link.count}</span>
 								{/if}
 							</a>
 						{/each}
@@ -191,267 +470,9 @@ function isActive(href: string) {
 			</aside>
 
 			<!-- Page content -->
-			<main class="main-pane">
+			<main class={mainPane}>
 				{@render children()}
 			</main>
 		</div>
 	</div>
 </div>
-
-<style>
-	.theme-steam-modern {
-		font-family: var(--font-ui);
-		font-size: var(--font-size-base);
-		color: var(--text-primary);
-		background: var(--surface-root);
-		min-height: 100vh;
-	}
-
-	.app-shell {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-		background: var(--surface-root);
-		overflow: hidden;
-	}
-
-	/* Chrome bar */
-	.chrome-bar {
-		height: 26px;
-		background: var(--surface-chrome);
-		display: flex;
-		align-items: center;
-		padding: 0 8px;
-		gap: 6px;
-		border-bottom: 1px solid #0a0f16;
-		flex-shrink: 0;
-	}
-	.ctrl-area { display: flex; gap: 4px; }
-	.chrome-btn {
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		display: inline-block;
-	}
-	.chrome-close { background: var(--accent-red); }
-	.chrome-min { background: var(--accent-gold); }
-	.chrome-max { background: var(--accent-green); }
-	.chrome-title {
-		flex: 1;
-		text-align: center;
-		color: var(--text-muted);
-		font-size: 11px;
-		letter-spacing: 0.03em;
-	}
-
-	/* Menu bar */
-	.menubar {
-		height: 32px;
-		background: linear-gradient(180deg, #2a3f54 0%, #1b2838 100%);
-		display: flex;
-		align-items: stretch;
-		border-bottom: 1px solid var(--divider);
-		flex-shrink: 0;
-		user-select: none;
-	}
-	.steam-logo {
-		display: flex;
-		align-items: center;
-		padding: 0 14px;
-		border-right: 1px solid rgba(0, 0, 0, 0.3);
-		gap: 7px;
-	}
-	.steam-logo span {
-		font-size: 14px;
-		font-weight: 700;
-		color: var(--text-bright);
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-	}
-	.menu-item {
-		display: flex;
-		align-items: center;
-		padding: 0 14px;
-		color: var(--text-secondary);
-		font-size: var(--font-size-sm);
-		cursor: pointer;
-		position: relative;
-		white-space: nowrap;
-		transition: background var(--transition-fast), color var(--transition-fast);
-	}
-	.menu-item:hover {
-		background: var(--accent-glow);
-		color: var(--text-primary);
-	}
-	.menu-badge {
-		margin-left: 5px;
-		background: var(--accent-red);
-		color: #fff;
-		font-size: 10px;
-		padding: 1px 5px;
-		border-radius: var(--radius-sm);
-		font-weight: 700;
-	}
-	.menubar-right {
-		margin-left: auto;
-		display: flex;
-		align-items: center;
-		padding-right: 12px;
-		gap: 14px;
-	}
-	.status-dot-green {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--accent-green);
-		box-shadow: 0 0 4px var(--accent-green);
-	}
-	.admin-info {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		cursor: pointer;
-	}
-	.admin-avatar {
-		width: 20px;
-		height: 20px;
-		border-radius: var(--radius-sm);
-		background: linear-gradient(135deg, #2a6591, #1b4a6b);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 9px;
-		font-weight: 700;
-		color: #fff;
-		border: 1px solid var(--border-light);
-	}
-	.admin-name {
-		color: var(--text-primary);
-		font-size: var(--font-size-sm);
-		font-weight: 600;
-	}
-	.admin-role {
-		color: var(--accent);
-		font-size: 10px;
-	}
-
-	/* Nav tabs */
-	.nav-tabs {
-		background: linear-gradient(180deg, #1d2d3e 0%, #162030 100%);
-		display: flex;
-		align-items: stretch;
-		border-bottom: 2px solid var(--surface-root);
-		flex-shrink: 0;
-		height: 38px;
-	}
-	.nav-tab {
-		display: flex;
-		align-items: center;
-		padding: 0 18px;
-		color: var(--text-secondary);
-		font-size: var(--font-size-sm);
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		cursor: pointer;
-		border-bottom: 2px solid transparent;
-		margin-bottom: -2px;
-		transition: all var(--transition);
-		white-space: nowrap;
-		position: relative;
-	}
-	.nav-tab:hover {
-		color: var(--text-primary);
-		background: rgba(255, 255, 255, 0.04);
-	}
-	.nav-tab.active {
-		color: var(--accent);
-		border-bottom-color: var(--accent);
-		background: var(--accent-glow);
-	}
-	.tab-icon {
-		display: inline-flex;
-		align-items: center;
-		margin-right: 7px;
-	}
-	.tab-badge {
-		position: absolute;
-		top: 6px;
-		right: 10px;
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: var(--accent-red);
-	}
-
-	/* Layout body */
-	.content-area {
-		display: flex;
-		flex: 1;
-		overflow: hidden;
-	}
-
-	/* Sidebar */
-	.sidebar {
-		width: var(--sidebar-w);
-		background: var(--surface-sidebar);
-		border-right: 1px solid var(--divider);
-		overflow-y: auto;
-		flex-shrink: 0;
-		padding-bottom: 20px;
-	}
-	.sidebar-section { margin-top: 2px; }
-	.sidebar-section-header {
-		padding: 10px 14px 5px;
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--text-disabled);
-		border-top: 1px solid var(--divider);
-	}
-	.sidebar-section:first-child .sidebar-section-header { border-top: none; }
-	.sidebar-link {
-		display: flex;
-		align-items: center;
-		padding: 6px 14px 6px 18px;
-		color: var(--text-secondary);
-		cursor: pointer;
-		transition: all var(--transition-fast);
-		font-size: 12.5px;
-		gap: 8px;
-		border-left: 2px solid transparent;
-	}
-	.sidebar-link:hover {
-		color: var(--text-primary);
-		background: var(--accent-glow);
-	}
-	.sidebar-link.active {
-		color: var(--accent);
-		background: rgba(102, 192, 244, 0.1);
-		border-left-color: var(--accent);
-	}
-	.icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 14px;
-		flex-shrink: 0;
-	}
-	.count {
-		margin-left: auto;
-		background: var(--surface-elevated);
-		color: var(--text-muted);
-		font-size: 10px;
-		padding: 1px 6px;
-		border-radius: var(--radius-sm);
-	}
-	.count.alert { background: var(--accent-red); color: #fff; }
-
-	/* Main pane */
-	.main-pane {
-		flex: 1;
-		overflow: hidden auto;
-		background: var(--surface-base);
-	}
-</style>

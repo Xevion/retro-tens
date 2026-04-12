@@ -26,3 +26,7 @@ vite.config.ts.timestamp-*
 .fallow/churn.bin
 .fallow/*.tmp
 .unlighthouse
+
+## Panda
+styled-system
+styled-system-studio

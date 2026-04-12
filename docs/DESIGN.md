@@ -22,14 +22,14 @@ Non-goals:
 
 ## Eras
 
-Each era is a named, versioned slice of a specific application's design history. Adding a new era requires: token file, layout, at least two sub-pages, archive.org sources documented below, and an entry in the index.
+Each era is a named, versioned slice of a specific application's design history. Adding a new era requires: a theme entry in `panda.config.ts`, a layout with `data-panda-theme`, at least two sub-pages, archive.org sources documented below, and an entry in the index.
 
 ### Steam Legacy — 2010–2013
 
 | Property | Value |
 |---|---|
-| Theme class | `.theme-steam-legacy` |
-| Token file | `src/lib/themes/steam-legacy/tokens.css` |
+| Theme attr | `data-panda-theme="steamLegacy"` |
+| Token config | `panda.config.ts` → `themes.steamLegacy` |
 | Primary font | Arial (system) |
 | Accent | `#75b022` |
 | Background | `#1b2426` |
@@ -49,8 +49,8 @@ Each era is a named, versioned slice of a specific application's design history.
 
 | Property | Value |
 |---|---|
-| Theme class | `.theme-steam-modern` |
-| Token file | `src/lib/themes/steam-modern/tokens.css` |
+| Theme attr | `data-panda-theme="steamModern"` |
+| Token config | `panda.config.ts` → `themes.steamModern` |
 | Primary font | Source Sans 3 (Google Fonts) |
 | Accent | `#66c0f4` |
 | Background | `#171a21` |
@@ -72,8 +72,8 @@ Each era is a named, versioned slice of a specific application's design history.
 
 | Property | Value |
 |---|---|
-| Theme class | `.theme-windows10` |
-| Token file | `src/lib/themes/windows10/tokens.css` |
+| Theme attr | `data-panda-theme="windows10"` |
+| Token config | `panda.config.ts` → `themes.windows10` |
 | Primary font | Segoe UI (system on Windows; fallback: system-ui) |
 | Accent | `#0078d7` |
 | Background | `#f2f2f2` |
@@ -134,7 +134,7 @@ These deviations require a comment in the source:
 
 - Inventing design patterns that didn't exist in the era
 - Modernizing UI (smooth animations, card shadows, rounded corners) unless the era had them
-- Using Tailwind utility classes or any modern CSS framework in era-specific styles
+- Bypassing PandaCSS tokens with raw CSS custom properties in new code (use `css()` with token references)
 
 ---
 
@@ -316,41 +316,9 @@ Config: `eslint.config.js`. Base: `js.recommended + ts.recommended + svelte.reco
 - `@typescript-eslint/strict-boolean-expressions` — catch truthiness bugs with nullable strings/numbers
 - `svelte/no-reactive-reassign` — if legacy `$:` ever leaks back in
 
-### Stylelint
+### Stylelint — removed
 
-Config: `.stylelintrc.json`. Base: `stylelint-config-standard`. Stylelint owns all CSS linting (both `.css` files and `<style>` blocks in `.svelte`). Biome does not lint CSS properties/selectors — only JS/TS — so there's no overlap.
-
-**Intentionally disabled rules:**
-
-| Rule | Reason |
-|---|---|
-| `selector-class-pattern` | Era class names use short non-BEM prefixes (`psl-*`, `psm-*`, `pw10-*`) for compact token-driven markup |
-| `color-function-notation` | Legacy `rgba(0, 0, 0, 0.5)` syntax matches source-era stylesheets being recreated |
-| `color-function-alias-notation` | Same — don't modernize syntax in era styles |
-| `alpha-value-notation` | Keep decimal alpha format (`0.5`) rather than percentage — matches source captures |
-| `color-hex-length` | Both `#fff` and `#ffffff` acceptable — historical CSS used both inconsistently |
-| `rule-empty-line-before` | Formatting concern — deferred to Biome |
-| `comment-empty-line-before` | Same |
-| `custom-property-empty-line-before` | Same |
-| `declaration-block-single-line-max-declarations` | Mini-preview styles in `+page.svelte` are intentionally dense (one-line rules for ~80 rules) |
-
-**Tuned rules (not disabled, but customized):**
-
-| Rule | Customization |
-|---|---|
-| `selector-pseudo-class-no-unknown` | Allow `:global` (Svelte's scoped-CSS escape hatch) |
-| `value-keyword-case` | Allow `font-family`, `--font*` custom props, and SVG-origin camelCase values (`geometricPrecision`, `optimizeSpeed`, `optimizeLegibility`, `crispEdges`) on `shape-rendering` |
-
-**Rules currently failing (real code debt to fix, not tooling issues):**
-
-- `no-descending-specificity` — 3 hits in legacy layouts: `.a:hover .b` declared before `.b:hover`. Fixable by reordering selectors.
-- `declaration-block-no-redundant-longhand-properties` — 1 hit in `steam-modern/+layout.svelte`: use `overflow` shorthand instead of `overflow-x` + `overflow-y`.
-
-These surface via `just check` and are intended to be fixed in a follow-up pass.
-
-**Rules to consider adding later:**
-- `stylelint-plugin-a11y` — CSS-level a11y checks (e.g., `no-outline-none`). Not critical given the era-authentic exemptions, but useful for catching accidental `outline: 0` without a visible alternative focus style.
-- `@double-great/stylelint-a11y` — broader alternative, more actively maintained.
+Stylelint was removed when PandaCSS was adopted. All styling now goes through `css()`, `cva()`, `sva()` from `styled-system/css` — there are no `<style>` blocks to lint (except the LayerChart Tailwind shim in `app.css`, which is trivial and static).
 
 ### Check commands
 
@@ -368,16 +336,12 @@ Underlying `package.json` scripts:
 
 | Script | What it runs |
 |---|---|
-| `check` | `typecheck && lint && format:check` — full gate |
+| `check` | `typecheck && lint:js && lint:biome && lint:actions && format && spell && analyze && links && audit && just:check` |
 | `typecheck` | `svelte-kit sync && svelte-check` |
-| `lint` | `lint:js && lint:css && lint:biome` |
 | `lint:js` | `eslint .` |
-| `lint:css` | `stylelint "src/**/*.{css,svelte}"` |
 | `lint:biome` | `biome lint .` |
-| `format` | `biome format --write .` |
-| `format:check` | `biome format .` (no write, exit non-zero on diff) |
-| `fix` | `format && fix:js` |
-| `fix:js` | `eslint . --fix` |
+| `format` | `biome format .` (check mode — no write) |
+| `fix` | `biome format --write . && eslint . --fix` |
 
 **Never call `bunx`** for locally-installed tools — it has network/cache overhead and bypasses the `package.json` script layer. Call `bun run <script>` instead. Binaries are resolved from `node_modules/.bin` automatically inside scripts.
 
