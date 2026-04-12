@@ -1,10 +1,10 @@
-import { PUBLIC_SITE_URL } from '$env/static/public';
+import { SITE_URL } from '$lib/env';
 import type { RequestHandler } from './$types';
 
 export const prerender = true;
 
 export const GET: RequestHandler = () => {
-	const baseUrl = PUBLIC_SITE_URL.replace(/\/+$/, '');
+	const baseUrl = SITE_URL.replace(/\/+$/, '');
 
 	const body = `User-agent: *
 Allow: /

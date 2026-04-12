@@ -1,5 +1,5 @@
 <script lang="ts">
-import { PUBLIC_SITE_URL } from '$env/static/public';
+import { SITE_URL } from '$lib/env';
 import favicon from '$lib/assets/favicon.svg';
 import { page } from '$app/state';
 import { getRouteMeta, SITE_NAME } from '$lib/meta';
@@ -9,7 +9,7 @@ let { children } = $props();
 
 const meta = $derived(getRouteMeta(page.url.pathname));
 const canonicalUrl = $derived.by(() => {
-	const siteUrl = PUBLIC_SITE_URL.replace(/\/+$/, '');
+	const siteUrl = SITE_URL.replace(/\/+$/, '');
 	const path = page.url.pathname === '/' ? '' : page.url.pathname;
 	return `${siteUrl}${path}`;
 });

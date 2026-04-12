@@ -1,4 +1,4 @@
-import { PUBLIC_SITE_URL } from '$env/static/public';
+import { SITE_URL } from '$lib/env';
 import { routeMeta } from '$lib/meta';
 import type { RequestHandler } from './$types';
 
@@ -14,7 +14,7 @@ function escapeXml(s: string): string {
 }
 
 export const GET: RequestHandler = () => {
-	const baseUrl = PUBLIC_SITE_URL.replace(/\/+$/, '');
+	const baseUrl = SITE_URL.replace(/\/+$/, '');
 
 	const urls = Object.keys(routeMeta)
 		.map((path) => {
