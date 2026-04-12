@@ -1,26 +1,109 @@
 <script lang="ts">
-	import { Download, Plus, Search } from 'lucide-svelte';
-	import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+import { Download, Plus, Search } from 'lucide-svelte';
+import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
 
-	let search = $state('');
-	let categoryFilter = $state('all');
+let search = $state('');
+let categoryFilter = $state('all');
 
-	const games = [
-		{ id: 'APP-72850', name: 'The Elder Scrolls V: Skyrim', developer: 'Bethesda Softworks', category: 'RPG', price: '$29.99', owners: '4.2M', reviews: 98, status: 'active', released: 'Nov 11, 2011' },
-		{ id: 'APP-49520', name: 'Borderlands 2', developer: 'Gearbox Software', category: 'Shooter', price: '$29.99', owners: '2.1M', reviews: 97, status: 'active', released: 'Sep 18, 2012' },
-		{ id: 'APP-204360', name: 'XCOM: Enemy Unknown', developer: 'Firaxis Games', category: 'Strategy', price: '$49.99', owners: '1.4M', reviews: 95, status: 'active', released: 'Oct 9, 2012' },
-		{ id: 'APP-70000', name: 'Dota 2', developer: 'Valve', category: 'MOBA', price: 'Free', owners: '12.8M', reviews: 88, status: 'active', released: 'Jul 9, 2013' },
-		{ id: 'APP-440', name: 'Team Fortress 2', developer: 'Valve', category: 'Shooter', price: 'Free', owners: '18.4M', reviews: 92, status: 'active', released: 'Oct 10, 2007' },
-		{ id: 'APP-221100', name: 'DayZ (Early Access)', developer: 'Bohemia Interactive', category: 'Survival', price: '$29.99', owners: '890K', reviews: 72, status: 'review', released: 'Dec 16, 2013' },
-		{ id: 'APP-113020', name: 'Monaco: What\'s Yours Is Mine', developer: 'Pocketwatch Games', category: 'Indie', price: '$14.99', owners: '340K', reviews: 90, status: 'active', released: 'Apr 24, 2013' },
-		{ id: 'APP-99999', name: '[REDACTED] Title', developer: 'Anon Studios', category: 'Action', price: '$19.99', owners: '0', reviews: 0, status: 'pending', released: 'TBD' },
-	];
+const games = [
+	{
+		id: 'APP-72850',
+		name: 'The Elder Scrolls V: Skyrim',
+		developer: 'Bethesda Softworks',
+		category: 'RPG',
+		price: '$29.99',
+		owners: '4.2M',
+		reviews: 98,
+		status: 'active',
+		released: 'Nov 11, 2011'
+	},
+	{
+		id: 'APP-49520',
+		name: 'Borderlands 2',
+		developer: 'Gearbox Software',
+		category: 'Shooter',
+		price: '$29.99',
+		owners: '2.1M',
+		reviews: 97,
+		status: 'active',
+		released: 'Sep 18, 2012'
+	},
+	{
+		id: 'APP-204360',
+		name: 'XCOM: Enemy Unknown',
+		developer: 'Firaxis Games',
+		category: 'Strategy',
+		price: '$49.99',
+		owners: '1.4M',
+		reviews: 95,
+		status: 'active',
+		released: 'Oct 9, 2012'
+	},
+	{
+		id: 'APP-70000',
+		name: 'Dota 2',
+		developer: 'Valve',
+		category: 'MOBA',
+		price: 'Free',
+		owners: '12.8M',
+		reviews: 88,
+		status: 'active',
+		released: 'Jul 9, 2013'
+	},
+	{
+		id: 'APP-440',
+		name: 'Team Fortress 2',
+		developer: 'Valve',
+		category: 'Shooter',
+		price: 'Free',
+		owners: '18.4M',
+		reviews: 92,
+		status: 'active',
+		released: 'Oct 10, 2007'
+	},
+	{
+		id: 'APP-221100',
+		name: 'DayZ (Early Access)',
+		developer: 'Bohemia Interactive',
+		category: 'Survival',
+		price: '$29.99',
+		owners: '890K',
+		reviews: 72,
+		status: 'review',
+		released: 'Dec 16, 2013'
+	},
+	{
+		id: 'APP-113020',
+		name: "Monaco: What's Yours Is Mine",
+		developer: 'Pocketwatch Games',
+		category: 'Indie',
+		price: '$14.99',
+		owners: '340K',
+		reviews: 90,
+		status: 'active',
+		released: 'Apr 24, 2013'
+	},
+	{
+		id: 'APP-99999',
+		name: '[REDACTED] Title',
+		developer: 'Anon Studios',
+		category: 'Action',
+		price: '$19.99',
+		owners: '0',
+		reviews: 0,
+		status: 'pending',
+		released: 'TBD'
+	}
+];
 
-	const filtered = $derived(games.filter(g => {
-		const matchSearch = !search || g.name.toLowerCase().includes(search.toLowerCase()) || g.id.includes(search);
+const filtered = $derived(
+	games.filter((g) => {
+		const matchSearch =
+			!search || g.name.toLowerCase().includes(search.toLowerCase()) || g.id.includes(search);
 		const matchCat = categoryFilter === 'all' || g.category === categoryFilter;
 		return matchSearch && matchCat;
-	}));
+	})
+);
 </script>
 
 <PageHeader title="Applications &amp; Games" subtitle="68,412 total apps · 34 awaiting review">

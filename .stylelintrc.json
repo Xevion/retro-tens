@@ -21,6 +21,18 @@
 		"alpha-value-notation": null,
 
 		"color-hex-length": null,
-		"value-keyword-case": ["lower", { "ignoreProperties": ["font-family", "/^--font.*/"] }]
+
+		"value-keyword-case": [
+			"lower",
+			{
+				"ignoreProperties": ["font-family", "/^--font.*/", "shape-rendering"],
+				"ignoreKeywords": [
+					"optimizeSpeed",
+					"optimizeLegibility",
+					"geometricPrecision",
+					"crispEdges"
+				]
+			}
+		]
 	}
 }

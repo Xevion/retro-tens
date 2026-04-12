@@ -1,14 +1,14 @@
 <script lang="ts">
-	type Status = 'online' | 'offline' | 'away' | 'banned';
+type Status = 'online' | 'offline' | 'away' | 'banned';
 
-	let { status }: { status: Status } = $props();
+let { status }: { status: Status } = $props();
 
-	const labels: Record<Status, string> = {
-		online: 'Online',
-		offline: 'Offline',
-		away: 'Away',
-		banned: 'Banned'
-	};
+const labels: Record<Status, string> = {
+	online: 'Online',
+	offline: 'Offline',
+	away: 'Away',
+	banned: 'Banned'
+};
 </script>
 
 <span class="status-dot {status}"></span>

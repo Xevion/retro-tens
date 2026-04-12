@@ -1,35 +1,35 @@
 <script lang="ts">
-	import { CalendarDays, Download } from 'lucide-svelte';
-	import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+import { CalendarDays, Download } from 'lucide-svelte';
+import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
 
-	const weeklyData = [
-		{ label: 'Mon', users: 7.2, revenue: 1.8 },
-		{ label: 'Tue', users: 7.8, revenue: 2.1 },
-		{ label: 'Wed', users: 8.1, revenue: 2.4 },
-		{ label: 'Thu', users: 7.6, revenue: 1.9 },
-		{ label: 'Fri', users: 8.9, revenue: 3.2 },
-		{ label: 'Sat', users: 10.2, revenue: 4.1 },
-		{ label: 'Sun', users: 9.4, revenue: 3.7 },
-	];
-	const maxUsers = Math.max(...weeklyData.map(d => d.users));
-	const maxRevenue = Math.max(...weeklyData.map(d => d.revenue));
+const weeklyData = [
+	{ label: 'Mon', users: 7.2, revenue: 1.8 },
+	{ label: 'Tue', users: 7.8, revenue: 2.1 },
+	{ label: 'Wed', users: 8.1, revenue: 2.4 },
+	{ label: 'Thu', users: 7.6, revenue: 1.9 },
+	{ label: 'Fri', users: 8.9, revenue: 3.2 },
+	{ label: 'Sat', users: 10.2, revenue: 4.1 },
+	{ label: 'Sun', users: 9.4, revenue: 3.7 }
+];
+const maxUsers = Math.max(...weeklyData.map((d) => d.users));
+const maxRevenue = Math.max(...weeklyData.map((d) => d.revenue));
 
-	const topGames = [
-		{ name: 'Dota 2', players: '412K', change: '+18%', color: 'green' },
-		{ name: 'Team Fortress 2', players: '84K', change: '+4%', color: 'green' },
-		{ name: 'Skyrim', players: '62K', change: '-2%', color: 'red' },
-		{ name: 'Borderlands 2', players: '51K', change: '+31%', color: 'green' },
-		{ name: 'Counter-Strike: Source', players: '48K', change: '-6%', color: 'red' },
-		{ name: 'XCOM: Enemy Unknown', players: '43K', change: '+12%', color: 'green' },
-	];
+const topGames = [
+	{ name: 'Dota 2', players: '412K', change: '+18%', color: 'green' },
+	{ name: 'Team Fortress 2', players: '84K', change: '+4%', color: 'green' },
+	{ name: 'Skyrim', players: '62K', change: '-2%', color: 'red' },
+	{ name: 'Borderlands 2', players: '51K', change: '+31%', color: 'green' },
+	{ name: 'Counter-Strike: Source', players: '48K', change: '-6%', color: 'red' },
+	{ name: 'XCOM: Enemy Unknown', players: '43K', change: '+12%', color: 'green' }
+];
 
-	const vacStats = [
-		{ region: 'US East', bans: 284, rate: 0.012 },
-		{ region: 'US West', bans: 198, rate: 0.009 },
-		{ region: 'EU West', bans: 412, rate: 0.018 },
-		{ region: 'Asia Pacific', bans: 188, rate: 0.022 },
-		{ region: 'South America', bans: 94, rate: 0.031 },
-	];
+const vacStats = [
+	{ region: 'US East', bans: 284, rate: 0.012 },
+	{ region: 'US West', bans: 198, rate: 0.009 },
+	{ region: 'EU West', bans: 412, rate: 0.018 },
+	{ region: 'Asia Pacific', bans: 188, rate: 0.022 },
+	{ region: 'South America', bans: 94, rate: 0.031 }
+];
 </script>
 
 <PageHeader title="Analytics &amp; Reports" subtitle="Platform metrics · Week of Nov 5–11, 2012">

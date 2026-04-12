@@ -1,24 +1,111 @@
 <script lang="ts">
-	const games = [
-		{ name: 'Skyrim', tag: 'RPG', price: '$14.99', discount: '-75%', icon: '⚔', color: 'linear-gradient(135deg,#1a0a0a,#3a1010)', sale: true },
-		{ name: 'Mass Effect 3', tag: 'Action', price: '$59.99', icon: '🚀', color: 'linear-gradient(135deg,#0a0a2a,#10103a)' },
-		{ name: 'Torchlight II', tag: 'RPG', price: '$9.99', discount: '-50%', icon: '🏰', color: 'linear-gradient(135deg,#0a1a0a,#10301a)', sale: true },
-		{ name: 'Borderlands 2', tag: 'Shooter', price: '$29.99', icon: '🔫', color: 'linear-gradient(135deg,#1a1a0a,#3a3010)' },
-		{ name: 'XCOM: Enemy Unknown', tag: 'Strategy', price: '$49.99', icon: '🌍', color: 'linear-gradient(135deg,#1a0a1a,#3a1030)' },
-		{ name: 'Team Fortress 2', tag: 'Shooter', price: 'Free', discount: '-25%', icon: '🎮', color: 'linear-gradient(135deg,#0a1a1a,#103030)', free: true },
-		{ name: 'FTL: Faster Than Light', tag: 'Strategy', price: '$9.99', icon: '⚡', color: 'linear-gradient(135deg,#1a1010,#2a2020)' },
-		{ name: 'The Witcher 2', tag: 'RPG', price: '$13.39', discount: '-33%', icon: '🗡', color: 'linear-gradient(135deg,#101a10,#203020)', sale: true },
-	];
+const games = [
+	{
+		name: 'Skyrim',
+		tag: 'RPG',
+		price: '$14.99',
+		discount: '-75%',
+		icon: '⚔',
+		color: 'linear-gradient(135deg,#1a0a0a,#3a1010)',
+		sale: true
+	},
+	{
+		name: 'Mass Effect 3',
+		tag: 'Action',
+		price: '$59.99',
+		icon: '🚀',
+		color: 'linear-gradient(135deg,#0a0a2a,#10103a)'
+	},
+	{
+		name: 'Torchlight II',
+		tag: 'RPG',
+		price: '$9.99',
+		discount: '-50%',
+		icon: '🏰',
+		color: 'linear-gradient(135deg,#0a1a0a,#10301a)',
+		sale: true
+	},
+	{
+		name: 'Borderlands 2',
+		tag: 'Shooter',
+		price: '$29.99',
+		icon: '🔫',
+		color: 'linear-gradient(135deg,#1a1a0a,#3a3010)'
+	},
+	{
+		name: 'XCOM: Enemy Unknown',
+		tag: 'Strategy',
+		price: '$49.99',
+		icon: '🌍',
+		color: 'linear-gradient(135deg,#1a0a1a,#3a1030)'
+	},
+	{
+		name: 'Team Fortress 2',
+		tag: 'Shooter',
+		price: 'Free',
+		discount: '-25%',
+		icon: '🎮',
+		color: 'linear-gradient(135deg,#0a1a1a,#103030)',
+		free: true
+	},
+	{
+		name: 'FTL: Faster Than Light',
+		tag: 'Strategy',
+		price: '$9.99',
+		icon: '⚡',
+		color: 'linear-gradient(135deg,#1a1010,#2a2020)'
+	},
+	{
+		name: 'The Witcher 2',
+		tag: 'RPG',
+		price: '$13.39',
+		discount: '-33%',
+		icon: '🗡',
+		color: 'linear-gradient(135deg,#101a10,#203020)',
+		sale: true
+	}
+];
 
-	const topSellers = [
-		{ rank: 1, name: 'The Elder Scrolls V: Skyrim', price: '$14.99', icon: '⚔', color: 'linear-gradient(135deg,#1a0a0a,#3a1010)' },
-		{ rank: 2, name: 'Borderlands 2', price: '$29.99', icon: '🔫', color: 'linear-gradient(135deg,#1a1a0a,#3a3010)' },
-		{ rank: 3, name: 'Mass Effect 3', price: '$59.99', icon: '🚀', color: 'linear-gradient(135deg,#0a0a2a,#10103a)' },
-		{ rank: 4, name: 'XCOM: Enemy Unknown', price: '$49.99', icon: '🌍', color: 'linear-gradient(135deg,#1a0a1a,#3a1030)' },
-	];
+const topSellers = [
+	{
+		rank: 1,
+		name: 'The Elder Scrolls V: Skyrim',
+		price: '$14.99',
+		icon: '⚔',
+		color: 'linear-gradient(135deg,#1a0a0a,#3a1010)'
+	},
+	{
+		rank: 2,
+		name: 'Borderlands 2',
+		price: '$29.99',
+		icon: '🔫',
+		color: 'linear-gradient(135deg,#1a1a0a,#3a3010)'
+	},
+	{
+		rank: 3,
+		name: 'Mass Effect 3',
+		price: '$59.99',
+		icon: '🚀',
+		color: 'linear-gradient(135deg,#0a0a2a,#10103a)'
+	},
+	{
+		rank: 4,
+		name: 'XCOM: Enemy Unknown',
+		price: '$49.99',
+		icon: '🌍',
+		color: 'linear-gradient(135deg,#1a0a1a,#3a1030)'
+	}
+];
 
-	const subTabs = ['Featured', 'New Releases', 'Top Sellers', 'Specials', 'Greenlight', 'Free to Play'];
-	let activeSubTab = $state('Featured');
+const subTabs = [
+	'Featured',
+	'New Releases',
+	'Top Sellers',
+	'Specials',
+	'Greenlight',
+	'Free to Play'
+];
+let activeSubTab = $state('Featured');
 </script>
 
 <!-- Sub-nav -->

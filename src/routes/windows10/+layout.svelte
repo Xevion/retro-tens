@@ -1,37 +1,41 @@
 <script lang="ts">
-	import '$lib/themes/windows10/tokens.css';
-	import { page } from '$app/state';
-	import { Search, Wifi, Battery } from 'lucide-svelte';
+import '$lib/themes/windows10/tokens.css';
+import { page } from '$app/state';
+import { Search, Wifi, Battery } from 'lucide-svelte';
 
-	let { children } = $props();
+let { children } = $props();
 
-	let time = $state('');
-	let date = $state('');
+let time = $state('');
+let date = $state('');
 
-	function updateClock() {
-		const now = new Date();
-		let h = now.getHours(), m = now.getMinutes(), ampm = h >= 12 ? 'PM' : 'AM';
-		h = h % 12 || 12;
-		time = `${h}:${String(m).padStart(2, '0')} ${ampm}`;
-		date = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
-	}
+function updateClock() {
+	const now = new Date();
+	let h = now.getHours(),
+		m = now.getMinutes(),
+		ampm = h >= 12 ? 'PM' : 'AM';
+	h = h % 12 || 12;
+	time = `${h}:${String(m).padStart(2, '0')} ${ampm}`;
+	date = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
+}
 
-	$effect(() => {
-		updateClock();
-		const interval = setInterval(updateClock, 10000);
-		return () => clearInterval(interval);
-	});
+$effect(() => {
+	updateClock();
+	const interval = setInterval(updateClock, 10000);
+	return () => clearInterval(interval);
+});
 
-	const taskbarApps = [
-		{ icon: 'start', label: 'Start', href: '/windows10' },
-		{ icon: 'search', label: 'Search', href: '/windows10' },
-		{ icon: 'explorer', label: 'File Explorer', href: '/windows10/action-center' },
-		{ icon: 'edge', label: 'Edge', href: '/windows10/resume-builder' },
-	];
+const taskbarApps = [
+	{ icon: 'start', label: 'Start', href: '/windows10' },
+	{ icon: 'search', label: 'Search', href: '/windows10' },
+	{ icon: 'explorer', label: 'File Explorer', href: '/windows10/action-center' },
+	{ icon: 'edge', label: 'Edge', href: '/windows10/resume-builder' }
+];
 
-	function isActiveApp(href: string) {
-		return page.url.pathname.startsWith(href) && href !== '/windows10' || page.url.pathname === href;
-	}
+function isActiveApp(href: string) {
+	return (
+		(page.url.pathname.startsWith(href) && href !== '/windows10') || page.url.pathname === href
+	);
+}
 </script>
 
 <div class="theme-windows10">

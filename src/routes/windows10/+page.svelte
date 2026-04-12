@@ -1,16 +1,16 @@
 <script lang="ts">
-	const apps = [
-		{
-			name: 'Action Center',
-			href: '/windows10/action-center',
-			icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="5" width="32" height="22" rx="2" stroke="#d8e3f0" stroke-width="1.5" fill="none"/><path d="M4 10h32" stroke="#4a90d9" stroke-width="1.5"/><circle cx="8" cy="7.5" r="1.5" fill="#fff" opacity="0.7"/><circle cx="13" cy="7.5" r="1.5" fill="#fff" opacity="0.7"/><path d="M13 35h14" stroke="#b0c2d8" stroke-width="1.5" stroke-linecap="round"/><path d="M20 27v8" stroke="#b0c2d8" stroke-width="1.5"/><rect x="8" y="15" width="24" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.8"/><rect x="8" y="19" width="18" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.8"/><rect x="8" y="23" width="20" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.6"/></svg>`,
-		},
-		{
-			name: 'Resume Builder',
-			href: '/windows10/resume-builder',
-			icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M6 5h28v30H6z" fill="#d8e3f0" stroke="#b0c2d8" stroke-width="1"/><path d="M6 5h28v6H6z" fill="#0078D7"/><rect x="10" y="14" width="20" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="18" width="15" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="22" width="18" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="26" width="12" height="1.5" rx="0.5" fill="#8fa8c0"/></svg>`,
-		},
-	];
+const apps = [
+	{
+		name: 'Action Center',
+		href: '/windows10/action-center',
+		icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="5" width="32" height="22" rx="2" stroke="#d8e3f0" stroke-width="1.5" fill="none"/><path d="M4 10h32" stroke="#4a90d9" stroke-width="1.5"/><circle cx="8" cy="7.5" r="1.5" fill="#fff" opacity="0.7"/><circle cx="13" cy="7.5" r="1.5" fill="#fff" opacity="0.7"/><path d="M13 35h14" stroke="#b0c2d8" stroke-width="1.5" stroke-linecap="round"/><path d="M20 27v8" stroke="#b0c2d8" stroke-width="1.5"/><rect x="8" y="15" width="24" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.8"/><rect x="8" y="19" width="18" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.8"/><rect x="8" y="23" width="20" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.6"/></svg>`
+	},
+	{
+		name: 'Resume Builder',
+		href: '/windows10/resume-builder',
+		icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M6 5h28v30H6z" fill="#d8e3f0" stroke="#b0c2d8" stroke-width="1"/><path d="M6 5h28v6H6z" fill="#0078D7"/><rect x="10" y="14" width="20" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="18" width="15" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="22" width="18" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="26" width="12" height="1.5" rx="0.5" fill="#8fa8c0"/></svg>`
+	}
+];
 </script>
 
 <!-- Desktop icons -->

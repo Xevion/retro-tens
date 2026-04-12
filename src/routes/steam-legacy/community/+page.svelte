@@ -1,72 +1,86 @@
 <script lang="ts">
-	const subTabs = ['Home', 'Discussions', 'Screenshots', 'Videos', 'Workshop', 'Groups'];
-	let activeSubTab = $state('Home');
+const subTabs = ['Home', 'Discussions', 'Screenshots', 'Videos', 'Workshop', 'Groups'];
+let activeSubTab = $state('Home');
 
-	const activity = [
-		{
-			user: 'krazykat99', userBg: '#2a5a10', userInit: 'KR',
-			action: 'earned an achievement in',
-			target: 'Borderlands 2',
-			detail: 'Well-Funded — Earn $3,000,000',
-			time: '12 minutes ago',
-			type: 'achievement',
-			icon: '🏆',
-		},
-		{
-			user: 'foxbyte', userBg: '#4a2a10', userInit: 'FX',
-			action: 'posted a screenshot in',
-			target: 'Team Fortress 2',
-			detail: 'Epic backstab right there',
-			time: '43 minutes ago',
-			type: 'screenshot',
-			icon: '📷',
-		},
-		{
-			user: 'n3xus_zero', userBg: '#1a2a5a', userInit: 'NX',
-			action: 'recommended',
-			target: 'FTL: Faster Than Light',
-			detail: '"Best roguelike I\'ve played in years. Hard as nails but incredibly fair."',
-			time: '1 hour ago',
-			type: 'review',
-			icon: '👍',
-		},
-		{
-			user: 'krazykat99', userBg: '#2a5a10', userInit: 'KR',
-			action: 'is now playing',
-			target: 'Borderlands 2',
-			detail: null,
-			time: '2 hours ago',
-			type: 'playing',
-			icon: '🎮',
-		},
-		{
-			user: 'foxbyte', userBg: '#4a2a10', userInit: 'FX',
-			action: 'commented in the discussion',
-			target: '"Best settings for TF2?"',
-			detail: 'I always run with max settings on DX11, makes a huge difference.',
-			time: '3 hours ago',
-			type: 'discussion',
-			icon: '💬',
-		},
-		{
-			user: 'n3xus_zero', userBg: '#1a2a5a', userInit: 'NX',
-			action: 'earned an achievement in',
-			target: 'FTL: Faster Than Light',
-			detail: 'The Last Stand — Reach the Last Stand with the Rebel Flagship',
-			time: '5 hours ago',
-			type: 'achievement',
-			icon: '🏆',
-		},
-		{
-			user: 'zipcode', userBg: '#3a3a10', userInit: 'ZP',
-			action: 'added to their wishlist',
-			target: 'Dishonored',
-			detail: null,
-			time: '6 hours ago',
-			type: 'wishlist',
-			icon: '⭐',
-		},
-	];
+const activity = [
+	{
+		user: 'krazykat99',
+		userBg: '#2a5a10',
+		userInit: 'KR',
+		action: 'earned an achievement in',
+		target: 'Borderlands 2',
+		detail: 'Well-Funded — Earn $3,000,000',
+		time: '12 minutes ago',
+		type: 'achievement',
+		icon: '🏆'
+	},
+	{
+		user: 'foxbyte',
+		userBg: '#4a2a10',
+		userInit: 'FX',
+		action: 'posted a screenshot in',
+		target: 'Team Fortress 2',
+		detail: 'Epic backstab right there',
+		time: '43 minutes ago',
+		type: 'screenshot',
+		icon: '📷'
+	},
+	{
+		user: 'n3xus_zero',
+		userBg: '#1a2a5a',
+		userInit: 'NX',
+		action: 'recommended',
+		target: 'FTL: Faster Than Light',
+		detail: '"Best roguelike I\'ve played in years. Hard as nails but incredibly fair."',
+		time: '1 hour ago',
+		type: 'review',
+		icon: '👍'
+	},
+	{
+		user: 'krazykat99',
+		userBg: '#2a5a10',
+		userInit: 'KR',
+		action: 'is now playing',
+		target: 'Borderlands 2',
+		detail: null,
+		time: '2 hours ago',
+		type: 'playing',
+		icon: '🎮'
+	},
+	{
+		user: 'foxbyte',
+		userBg: '#4a2a10',
+		userInit: 'FX',
+		action: 'commented in the discussion',
+		target: '"Best settings for TF2?"',
+		detail: 'I always run with max settings on DX11, makes a huge difference.',
+		time: '3 hours ago',
+		type: 'discussion',
+		icon: '💬'
+	},
+	{
+		user: 'n3xus_zero',
+		userBg: '#1a2a5a',
+		userInit: 'NX',
+		action: 'earned an achievement in',
+		target: 'FTL: Faster Than Light',
+		detail: 'The Last Stand — Reach the Last Stand with the Rebel Flagship',
+		time: '5 hours ago',
+		type: 'achievement',
+		icon: '🏆'
+	},
+	{
+		user: 'zipcode',
+		userBg: '#3a3a10',
+		userInit: 'ZP',
+		action: 'added to their wishlist',
+		target: 'Dishonored',
+		detail: null,
+		time: '6 hours ago',
+		type: 'wishlist',
+		icon: '⭐'
+	}
+];
 </script>
 
 <!-- Sub-nav -->

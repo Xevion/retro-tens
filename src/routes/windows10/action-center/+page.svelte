@@ -1,83 +1,103 @@
 <script lang="ts">
-	import {
-		Mail,
-		Calendar,
-		CircleCheck,
-		Wifi,
-		Bluetooth,
-		PlaneTakeoff,
-		Clock,
-		MapPin,
-		BatteryMedium,
-		Tablet,
-		Settings,
-	} from 'lucide-svelte';
-	import type { SvelteComponentTyped } from 'svelte';
+import {
+	Mail,
+	Calendar,
+	CircleCheck,
+	Wifi,
+	Bluetooth,
+	PlaneTakeoff,
+	Clock,
+	MapPin,
+	BatteryMedium,
+	Tablet,
+	Settings
+} from 'lucide-svelte';
+import type { SvelteComponentTyped } from 'svelte';
 
-	type LucideIcon = new (...args: any[]) => SvelteComponentTyped<any>;
+type LucideIcon = new (...args: any[]) => SvelteComponentTyped<any>;
 
-	type Notif = {
-		id: string;
-		group: string;
-		groupColor: string;
-		groupIcon: LucideIcon;
-		title: string;
-		body: string;
-		time: string;
-	};
+type Notif = {
+	id: string;
+	group: string;
+	groupColor: string;
+	groupIcon: LucideIcon;
+	title: string;
+	body: string;
+	time: string;
+};
 
-	let notifications = $state<Notif[]>([
-		{
-			id: 'n1', group: 'Mail', groupColor: '#0078D7', groupIcon: Mail,
-			title: 'Alex Turner', body: 'Re: Q3 Design Review — Updated slides are attached, let me know what you think.', time: '3:42 PM',
-		},
-		{
-			id: 'n2', group: 'Mail', groupColor: '#0078D7', groupIcon: Mail,
-			title: 'Microsoft Outlook', body: 'You have a meeting in 15 minutes: Weekly Sync with Design Team', time: '1:15 PM',
-		},
-		{
-			id: 'n3', group: 'Calendar', groupColor: '#E74856', groupIcon: Calendar,
-			title: 'Reminder', body: 'Project deadline: UI Handoff — Today at 5:00 PM', time: '12:00 PM',
-		},
-		{
-			id: 'n4', group: 'Windows Update', groupColor: '#107C10', groupIcon: CircleCheck,
-			title: 'Updates available', body: 'Cumulative Update for Windows 10 Version 1607 is ready to install.', time: '9:00 AM',
-		},
-	]);
-
-	type QaTile = { label: string; active: boolean; icon: LucideIcon };
-
-	let qaTiles = $state<QaTile[]>([
-		{ label: 'Wi-Fi',         active: true,  icon: Wifi },
-		{ label: 'Bluetooth',     active: false, icon: Bluetooth },
-		{ label: 'Airplane mode', active: false, icon: PlaneTakeoff },
-		{ label: 'Quiet hours',   active: false, icon: Clock },
-		{ label: 'Location',      active: true,  icon: MapPin },
-		{ label: 'Battery saver', active: false, icon: BatteryMedium },
-		{ label: 'Tablet mode',   active: false, icon: Tablet },
-		{ label: 'All settings',  active: false, icon: Settings },
-	]);
-
-	function dismiss(id: string) {
-		notifications = notifications.filter((n) => n.id !== id);
+let notifications = $state<Notif[]>([
+	{
+		id: 'n1',
+		group: 'Mail',
+		groupColor: '#0078D7',
+		groupIcon: Mail,
+		title: 'Alex Turner',
+		body: 'Re: Q3 Design Review — Updated slides are attached, let me know what you think.',
+		time: '3:42 PM'
+	},
+	{
+		id: 'n2',
+		group: 'Mail',
+		groupColor: '#0078D7',
+		groupIcon: Mail,
+		title: 'Microsoft Outlook',
+		body: 'You have a meeting in 15 minutes: Weekly Sync with Design Team',
+		time: '1:15 PM'
+	},
+	{
+		id: 'n3',
+		group: 'Calendar',
+		groupColor: '#E74856',
+		groupIcon: Calendar,
+		title: 'Reminder',
+		body: 'Project deadline: UI Handoff — Today at 5:00 PM',
+		time: '12:00 PM'
+	},
+	{
+		id: 'n4',
+		group: 'Windows Update',
+		groupColor: '#107C10',
+		groupIcon: CircleCheck,
+		title: 'Updates available',
+		body: 'Cumulative Update for Windows 10 Version 1607 is ready to install.',
+		time: '9:00 AM'
 	}
+]);
 
-	function clearAll() {
-		notifications = [];
-	}
+type QaTile = { label: string; active: boolean; icon: LucideIcon };
 
-	function toggleTile(index: number) {
-		qaTiles = qaTiles.map((t, i) => (i === index ? { ...t, active: !t.active } : t));
-	}
+let qaTiles = $state<QaTile[]>([
+	{ label: 'Wi-Fi', active: true, icon: Wifi },
+	{ label: 'Bluetooth', active: false, icon: Bluetooth },
+	{ label: 'Airplane mode', active: false, icon: PlaneTakeoff },
+	{ label: 'Quiet hours', active: false, icon: Clock },
+	{ label: 'Location', active: true, icon: MapPin },
+	{ label: 'Battery saver', active: false, icon: BatteryMedium },
+	{ label: 'Tablet mode', active: false, icon: Tablet },
+	{ label: 'All settings', active: false, icon: Settings }
+]);
 
-	// Group notifications by group name
-	const grouped = $derived(
-		notifications.reduce<Record<string, Notif[]>>((acc, n) => {
-			if (!acc[n.group]) acc[n.group] = [];
-			acc[n.group].push(n);
-			return acc;
-		}, {})
-	);
+function dismiss(id: string) {
+	notifications = notifications.filter((n) => n.id !== id);
+}
+
+function clearAll() {
+	notifications = [];
+}
+
+function toggleTile(index: number) {
+	qaTiles = qaTiles.map((t, i) => (i === index ? { ...t, active: !t.active } : t));
+}
+
+// Group notifications by group name
+const grouped = $derived(
+	notifications.reduce<Record<string, Notif[]>>((acc, n) => {
+		if (!acc[n.group]) acc[n.group] = [];
+		acc[n.group].push(n);
+		return acc;
+	}, {})
+);
 </script>
 
 <!-- Action Center panel -->

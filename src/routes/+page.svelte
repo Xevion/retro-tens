@@ -1,52 +1,55 @@
 <script lang="ts">
-	const themes = [
-		{
-			id: 'steam-legacy',
-			name: 'Steam',
-			era: '2010 – 2013',
-			description: 'The dark olive-green era. Compact pixel density, green accent, gradients everywhere, and zero animations.',
-			font: 'Arial',
-			accent: '#75b022',
-			bg: '#1b2426',
-			text: '#c6d4df',
-			routes: [
-				{ label: 'Store', href: '/steam-legacy' },
-				{ label: 'Library', href: '/steam-legacy/library' },
-				{ label: 'Community', href: '/steam-legacy/community' },
-			],
-		},
-		{
-			id: 'steam-modern',
-			name: 'Steam Admin',
-			era: '2018 – 2023',
-			description: 'Deep navy blue with Source Sans 3. CSS custom properties, glow effects, and a dense data-heavy admin console.',
-			font: 'Source Sans 3',
-			accent: '#66c0f4',
-			bg: '#1b2838',
-			text: '#c7d5e0',
-			routes: [
-				{ label: 'Dashboard', href: '/steam-modern' },
-				{ label: 'Users', href: '/steam-modern/users' },
-				{ label: 'Games', href: '/steam-modern/games' },
-				{ label: 'Reports', href: '/steam-modern/reports' },
-			],
-		},
-		{
-			id: 'windows10',
-			name: 'Windows 10',
-			era: '2015 – 2021',
-			description: 'Fluent Design lite. Light panels, #0078D7 blue, sharp corners everywhere, and Segoe UI.',
-			font: 'Segoe UI',
-			accent: '#0078d7',
-			bg: '#f2f2f2',
-			text: '#1a1a1a',
-			routes: [
-				{ label: 'Desktop', href: '/windows10' },
-				{ label: 'Action Center', href: '/windows10/action-center' },
-				{ label: 'Resume Builder', href: '/windows10/resume-builder' },
-			],
-		},
-	];
+const themes = [
+	{
+		id: 'steam-legacy',
+		name: 'Steam',
+		era: '2010 – 2013',
+		description:
+			'The dark olive-green era. Compact pixel density, green accent, gradients everywhere, and zero animations.',
+		font: 'Arial',
+		accent: '#75b022',
+		bg: '#1b2426',
+		text: '#c6d4df',
+		routes: [
+			{ label: 'Store', href: '/steam-legacy' },
+			{ label: 'Library', href: '/steam-legacy/library' },
+			{ label: 'Community', href: '/steam-legacy/community' }
+		]
+	},
+	{
+		id: 'steam-modern',
+		name: 'Steam Admin',
+		era: '2018 – 2023',
+		description:
+			'Deep navy blue with Source Sans 3. CSS custom properties, glow effects, and a dense data-heavy admin console.',
+		font: 'Source Sans 3',
+		accent: '#66c0f4',
+		bg: '#1b2838',
+		text: '#c7d5e0',
+		routes: [
+			{ label: 'Dashboard', href: '/steam-modern' },
+			{ label: 'Users', href: '/steam-modern/users' },
+			{ label: 'Games', href: '/steam-modern/games' },
+			{ label: 'Reports', href: '/steam-modern/reports' }
+		]
+	},
+	{
+		id: 'windows10',
+		name: 'Windows 10',
+		era: '2015 – 2021',
+		description:
+			'Fluent Design lite. Light panels, #0078D7 blue, sharp corners everywhere, and Segoe UI.',
+		font: 'Segoe UI',
+		accent: '#0078d7',
+		bg: '#f2f2f2',
+		text: '#1a1a1a',
+		routes: [
+			{ label: 'Desktop', href: '/windows10' },
+			{ label: 'Action Center', href: '/windows10/action-center' },
+			{ label: 'Resume Builder', href: '/windows10/resume-builder' }
+		]
+	}
+];
 </script>
 
 <svelte:head>

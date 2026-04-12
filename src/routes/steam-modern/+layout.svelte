@@ -1,91 +1,115 @@
 <script lang="ts">
-	import '$lib/themes/steam-modern/tokens.css';
-	import '$lib/themes/steam-modern/shared.css';
-	import { page } from '$app/state';
-	import type { Component } from 'svelte';
-	import {
-		LayoutDashboard,
-		AlertTriangle,
-		Activity,
-		Users,
-		Ban,
-		Mail,
-		Gamepad2,
-		PenLine,
-		ShoppingBag,
-		Flag,
-		MessageCircle,
-		Image as ImageIcon,
-		BarChart2,
-		Server,
-		Settings,
-		ShoppingCart,
-		MessageSquare
-	} from 'lucide-svelte';
+import '$lib/themes/steam-modern/tokens.css';
+import '$lib/themes/steam-modern/shared.css';
+import { page } from '$app/state';
+import type { Component } from 'svelte';
+import {
+	LayoutDashboard,
+	AlertTriangle,
+	Activity,
+	Users,
+	Ban,
+	Mail,
+	Gamepad2,
+	PenLine,
+	ShoppingBag,
+	Flag,
+	MessageCircle,
+	Image as ImageIcon,
+	BarChart2,
+	Server,
+	Settings,
+	ShoppingCart,
+	MessageSquare
+} from 'lucide-svelte';
 
-	let { children } = $props();
+let { children } = $props();
 
-	type SidebarLink = { icon: Component; label: string; href: string; count?: string; alert?: boolean };
-	type SidebarSection = { title: string; links: SidebarLink[] };
-	type NavTab = { label: string; icon: Component; href: string; badge?: boolean };
+type SidebarLink = {
+	icon: Component;
+	label: string;
+	href: string;
+	count?: string;
+	alert?: boolean;
+};
+type SidebarSection = { title: string; links: SidebarLink[] };
+type NavTab = { label: string; icon: Component; href: string; badge?: boolean };
 
-	const navTabs: NavTab[] = [
-		{ label: 'Dashboard', icon: LayoutDashboard, href: '/steam-modern' },
-		{ label: 'Users', icon: Users, href: '/steam-modern/users' },
-		{ label: 'Games', icon: Gamepad2, href: '/steam-modern/games' },
-		{ label: 'Store', icon: ShoppingCart, href: '/steam-modern/store' },
-		{ label: 'Community', icon: MessageSquare, href: '/steam-modern/community', badge: true },
-		{ label: 'Reports', icon: BarChart2, href: '/steam-modern/reports' },
-		{ label: 'Settings', icon: Settings, href: '/steam-modern/settings' }
-	];
+const navTabs: NavTab[] = [
+	{ label: 'Dashboard', icon: LayoutDashboard, href: '/steam-modern' },
+	{ label: 'Users', icon: Users, href: '/steam-modern/users' },
+	{ label: 'Games', icon: Gamepad2, href: '/steam-modern/games' },
+	{ label: 'Store', icon: ShoppingCart, href: '/steam-modern/store' },
+	{ label: 'Community', icon: MessageSquare, href: '/steam-modern/community', badge: true },
+	{ label: 'Reports', icon: BarChart2, href: '/steam-modern/reports' },
+	{ label: 'Settings', icon: Settings, href: '/steam-modern/settings' }
+];
 
-	const sidebarSections: SidebarSection[] = [
-		{
-			title: 'Overview',
-			links: [
-				{ icon: LayoutDashboard, label: 'Dashboard', href: '/steam-modern' },
-				{ icon: AlertTriangle, label: 'Alerts', href: '/steam-modern/alerts', count: '3', alert: true },
-				{ icon: Activity, label: 'Activity Log', href: '/steam-modern/activity' }
-			]
-		},
-		{
-			title: 'Users',
-			links: [
-				{ icon: Users, label: 'All Users', href: '/steam-modern/users', count: '147M' },
-				{ icon: Ban, label: 'Banned', href: '/steam-modern/users/banned', count: '2,841', alert: true },
-				{ icon: Mail, label: 'Pending Review', href: '/steam-modern/users/pending', count: '128' }
-			]
-		},
-		{
-			title: 'Content',
-			links: [
-				{ icon: Gamepad2, label: 'Apps & Games', href: '/steam-modern/games', count: '68k' },
-				{ icon: PenLine, label: 'Awaiting Review', href: '/steam-modern/games/review', count: '34' },
-				{ icon: ShoppingBag, label: 'Store Mgmt', href: '/steam-modern/store' }
-			]
-		},
-		{
-			title: 'Community',
-			links: [
-				{ icon: Flag, label: 'Report Queue', href: '/steam-modern/community', count: '9', alert: true },
-				{ icon: MessageCircle, label: 'Reviews', href: '/steam-modern/community/reviews' },
-				{ icon: ImageIcon, label: 'Artwork', href: '/steam-modern/community/artwork' }
-			]
-		},
-		{
-			title: 'Infrastructure',
-			links: [
-				{ icon: BarChart2, label: 'Analytics', href: '/steam-modern/reports' },
-				{ icon: Server, label: 'CDN Status', href: '/steam-modern/reports/cdn' },
-				{ icon: Settings, label: 'Config', href: '/steam-modern/settings' }
-			]
-		}
-	];
-
-	function isActive(href: string) {
-		if (href === '/steam-modern') return page.url.pathname === '/steam-modern';
-		return page.url.pathname.startsWith(href);
+const sidebarSections: SidebarSection[] = [
+	{
+		title: 'Overview',
+		links: [
+			{ icon: LayoutDashboard, label: 'Dashboard', href: '/steam-modern' },
+			{
+				icon: AlertTriangle,
+				label: 'Alerts',
+				href: '/steam-modern/alerts',
+				count: '3',
+				alert: true
+			},
+			{ icon: Activity, label: 'Activity Log', href: '/steam-modern/activity' }
+		]
+	},
+	{
+		title: 'Users',
+		links: [
+			{ icon: Users, label: 'All Users', href: '/steam-modern/users', count: '147M' },
+			{
+				icon: Ban,
+				label: 'Banned',
+				href: '/steam-modern/users/banned',
+				count: '2,841',
+				alert: true
+			},
+			{ icon: Mail, label: 'Pending Review', href: '/steam-modern/users/pending', count: '128' }
+		]
+	},
+	{
+		title: 'Content',
+		links: [
+			{ icon: Gamepad2, label: 'Apps & Games', href: '/steam-modern/games', count: '68k' },
+			{ icon: PenLine, label: 'Awaiting Review', href: '/steam-modern/games/review', count: '34' },
+			{ icon: ShoppingBag, label: 'Store Mgmt', href: '/steam-modern/store' }
+		]
+	},
+	{
+		title: 'Community',
+		links: [
+			{
+				icon: Flag,
+				label: 'Report Queue',
+				href: '/steam-modern/community',
+				count: '9',
+				alert: true
+			},
+			{ icon: MessageCircle, label: 'Reviews', href: '/steam-modern/community/reviews' },
+			{ icon: ImageIcon, label: 'Artwork', href: '/steam-modern/community/artwork' }
+		]
+	},
+	{
+		title: 'Infrastructure',
+		links: [
+			{ icon: BarChart2, label: 'Analytics', href: '/steam-modern/reports' },
+			{ icon: Server, label: 'CDN Status', href: '/steam-modern/reports/cdn' },
+			{ icon: Settings, label: 'Config', href: '/steam-modern/settings' }
+		]
 	}
+];
+
+function isActive(href: string) {
+	if (href === '/steam-modern') return page.url.pathname === '/steam-modern';
+	return page.url.pathname.startsWith(href);
+}
 </script>
 
 <svelte:head>

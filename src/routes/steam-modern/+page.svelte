@@ -1,100 +1,148 @@
 <script lang="ts">
-	import { Chart, Svg, Axis, Area, Highlight, Tooltip } from 'layerchart';
-	import { scaleLinear, scaleTime } from 'd3-scale';
-	import { curveMonotoneX } from 'd3-shape';
-	import { RefreshCw, Download } from 'lucide-svelte';
-	import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
-	import StatusBadge from '$lib/components/steam-modern/StatusBadge.svelte';
+import { Chart, Svg, Axis, Area, Highlight, Tooltip } from 'layerchart';
+import { scaleLinear, scaleTime } from 'd3-scale';
+import { curveMonotoneX } from 'd3-shape';
+import { RefreshCw, Download } from 'lucide-svelte';
+import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+import StatusBadge from '$lib/components/steam-modern/StatusBadge.svelte';
 
-	const stats = [
-		{
-			label: 'Concurrent Users',
-			value: '8.4',
-			unit: 'M',
-			delta: '▲ +3.2% from yesterday',
-			up: true,
-			fill: 72,
-			fillStyle: '',
-		},
-		{
-			label: 'Daily Revenue',
-			value: '$2.1',
-			unit: 'M',
-			delta: '▲ +8.7% vs. last week',
-			up: true,
-			fill: 85,
-			fillStyle: 'background:linear-gradient(90deg,#8a6810,#d5a51b)',
-		},
-		{
-			label: 'Total Accounts',
-			value: '147',
-			unit: 'M',
-			delta: '▲ +12,488 today',
-			up: true,
-			fill: 60,
-			fillStyle: 'background:linear-gradient(90deg,#3c7022,#4fa832)',
-		},
-		{
-			label: 'Active Bans (24h)',
-			value: '1,204',
-			unit: '',
-			delta: '▲ +14.2% VAC activity',
-			up: false,
-			fill: 28,
-			fillStyle: 'background:linear-gradient(90deg,#843030,#c94040)',
-		},
-	];
-
-	const revenueData = [
-		{ date: new Date('2012-07-24'), store: 920, market: 310, dlc: 180 },
-		{ date: new Date('2012-07-25'), store: 1140, market: 380, dlc: 210 },
-		{ date: new Date('2012-07-26'), store: 790, market: 260, dlc: 155 },
-		{ date: new Date('2012-07-27'), store: 1340, market: 450, dlc: 240 },
-		{ date: new Date('2012-07-28'), store: 1030, market: 340, dlc: 195 },
-		{ date: new Date('2012-07-29'), store: 1470, market: 490, dlc: 280 },
-		{ date: new Date('2012-07-30'), store: 1280, market: 420, dlc: 255 },
-		{ date: new Date('2012-07-31'), store: 1060, market: 355, dlc: 200 },
-		{ date: new Date('2012-08-01'), store: 1160, market: 385, dlc: 215 },
-		{ date: new Date('2012-08-02'), store: 900, market: 295, dlc: 170 },
-		{ date: new Date('2012-08-03'), store: 1440, market: 475, dlc: 270 },
-		{ date: new Date('2012-08-04'), store: 1505, market: 495, dlc: 285 },
-		{ date: new Date('2012-08-05'), store: 1245, market: 410, dlc: 240 },
-		{ date: new Date('2012-08-06'), store: 1635, market: 540, dlc: 310 },
-	];
-
-	function fmtRevDate(d: Date) {
-		return `${d.getMonth() + 1}/${d.getDate()}`;
+const stats = [
+	{
+		label: 'Concurrent Users',
+		value: '8.4',
+		unit: 'M',
+		delta: '▲ +3.2% from yesterday',
+		up: true,
+		fill: 72,
+		fillStyle: ''
+	},
+	{
+		label: 'Daily Revenue',
+		value: '$2.1',
+		unit: 'M',
+		delta: '▲ +8.7% vs. last week',
+		up: true,
+		fill: 85,
+		fillStyle: 'background:linear-gradient(90deg,#8a6810,#d5a51b)'
+	},
+	{
+		label: 'Total Accounts',
+		value: '147',
+		unit: 'M',
+		delta: '▲ +12,488 today',
+		up: true,
+		fill: 60,
+		fillStyle: 'background:linear-gradient(90deg,#3c7022,#4fa832)'
+	},
+	{
+		label: 'Active Bans (24h)',
+		value: '1,204',
+		unit: '',
+		delta: '▲ +14.2% VAC activity',
+		up: false,
+		fill: 28,
+		fillStyle: 'background:linear-gradient(90deg,#843030,#c94040)'
 	}
+];
 
-	function fmtRevTooltipDate(d: Date) {
-		return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+const revenueData = [
+	{ date: new Date('2012-07-24'), store: 920, market: 310, dlc: 180 },
+	{ date: new Date('2012-07-25'), store: 1140, market: 380, dlc: 210 },
+	{ date: new Date('2012-07-26'), store: 790, market: 260, dlc: 155 },
+	{ date: new Date('2012-07-27'), store: 1340, market: 450, dlc: 240 },
+	{ date: new Date('2012-07-28'), store: 1030, market: 340, dlc: 195 },
+	{ date: new Date('2012-07-29'), store: 1470, market: 490, dlc: 280 },
+	{ date: new Date('2012-07-30'), store: 1280, market: 420, dlc: 255 },
+	{ date: new Date('2012-07-31'), store: 1060, market: 355, dlc: 200 },
+	{ date: new Date('2012-08-01'), store: 1160, market: 385, dlc: 215 },
+	{ date: new Date('2012-08-02'), store: 900, market: 295, dlc: 170 },
+	{ date: new Date('2012-08-03'), store: 1440, market: 475, dlc: 270 },
+	{ date: new Date('2012-08-04'), store: 1505, market: 495, dlc: 285 },
+	{ date: new Date('2012-08-05'), store: 1245, market: 410, dlc: 240 },
+	{ date: new Date('2012-08-06'), store: 1635, market: 540, dlc: 310 }
+];
+
+function fmtRevDate(d: Date) {
+	return `${d.getMonth() + 1}/${d.getDate()}`;
+}
+
+function fmtRevTooltipDate(d: Date) {
+	return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+const activityFeed = [
+	{
+		dot: 'act-danger',
+		time: '14:32',
+		text: '<strong>VAC System</strong> issued 48 bans across 3 games'
+	},
+	{
+		dot: 'act-info',
+		time: '14:28',
+		text: '<strong>Steamworks</strong> build #4892 deployed to CDN'
+	},
+	{
+		dot: 'act-warn',
+		time: '14:15',
+		text: 'Store traffic spike detected — <strong>+340%</strong> on flash sale page'
+	},
+	{ dot: 'act-success', time: '13:55', text: '<strong>Greenlight</strong> approved 6 new titles' },
+	{
+		dot: 'act-danger',
+		time: '13:40',
+		text: 'Admin <strong>ValveAdmin_03</strong> suspended user #44821930'
+	},
+	{ dot: 'act-info', time: '13:22', text: 'Scheduled maintenance complete — all nodes healthy' },
+	{
+		dot: 'act-warn',
+		time: '13:10',
+		text: 'Report queue threshold reached — <strong>9 pending</strong>'
 	}
+];
 
-	const activityFeed = [
-		{ dot: 'act-danger', time: '14:32', text: '<strong>VAC System</strong> issued 48 bans across 3 games' },
-		{ dot: 'act-info', time: '14:28', text: '<strong>Steamworks</strong> build #4892 deployed to CDN' },
-		{ dot: 'act-warn', time: '14:15', text: 'Store traffic spike detected — <strong>+340%</strong> on flash sale page' },
-		{ dot: 'act-success', time: '13:55', text: '<strong>Greenlight</strong> approved 6 new titles' },
-		{ dot: 'act-danger', time: '13:40', text: 'Admin <strong>ValveAdmin_03</strong> suspended user #44821930' },
-		{ dot: 'act-info', time: '13:22', text: 'Scheduled maintenance complete — all nodes healthy' },
-		{ dot: 'act-warn', time: '13:10', text: 'Report queue threshold reached — <strong>9 pending</strong>' },
-	];
+const serverHealth = [
+	{ name: 'US East', val: 94, color: 'green' },
+	{ name: 'US West', val: 88, color: '' },
+	{ name: 'EU Frankfurt', val: 97, color: 'green' },
+	{ name: 'EU Stockholm', val: 91, color: '' },
+	{ name: 'Asia Pacific', val: 79, color: 'gold' },
+	{ name: 'South America', val: 62, color: 'red' }
+];
 
-	const serverHealth = [
-		{ name: 'US East', val: 94, color: 'green' },
-		{ name: 'US West', val: 88, color: '' },
-		{ name: 'EU Frankfurt', val: 97, color: 'green' },
-		{ name: 'EU Stockholm', val: 91, color: '' },
-		{ name: 'Asia Pacific', val: 79, color: 'gold' },
-		{ name: 'South America', val: 62, color: 'red' },
-	];
-
-	const recentUsers = [
-		{ id: '#44821930', name: 'darkw4ve_99', status: 'banned', country: 'RU', games: 0, joined: 'Nov 12, 2012' },
-		{ id: '#44820481', name: 'steamfan2012', status: 'online', country: 'US', games: 47, joined: 'Nov 12, 2012' },
-		{ id: '#44819004', name: 'gamerbro_x', status: 'away', country: 'DE', games: 12, joined: 'Nov 11, 2012' },
-		{ id: '#44817223', name: 'pixelwitch', status: 'offline', country: 'GB', games: 103, joined: 'Nov 11, 2012' },
-	];
+const recentUsers = [
+	{
+		id: '#44821930',
+		name: 'darkw4ve_99',
+		status: 'banned',
+		country: 'RU',
+		games: 0,
+		joined: 'Nov 12, 2012'
+	},
+	{
+		id: '#44820481',
+		name: 'steamfan2012',
+		status: 'online',
+		country: 'US',
+		games: 47,
+		joined: 'Nov 12, 2012'
+	},
+	{
+		id: '#44819004',
+		name: 'gamerbro_x',
+		status: 'away',
+		country: 'DE',
+		games: 12,
+		joined: 'Nov 11, 2012'
+	},
+	{
+		id: '#44817223',
+		name: 'pixelwitch',
+		status: 'offline',
+		country: 'GB',
+		games: 103,
+		joined: 'Nov 11, 2012'
+	}
+];
 </script>
 
 <PageHeader title="Administrator Dashboard" subtitle="Steam Platform Control · Last refreshed 2 minutes ago">

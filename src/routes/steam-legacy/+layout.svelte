@@ -1,19 +1,19 @@
 <script lang="ts">
-	import '$lib/themes/steam-legacy/tokens.css';
-	import { page } from '$app/state';
+import '$lib/themes/steam-legacy/tokens.css';
+import { page } from '$app/state';
 
-	let { children } = $props();
+let { children } = $props();
 
-	const navLinks = [
-		{ label: 'Store', href: '/steam-legacy' },
-		{ label: 'Library', href: '/steam-legacy/library' },
-		{ label: 'Community', href: '/steam-legacy/community' },
-	];
+const navLinks = [
+	{ label: 'Store', href: '/steam-legacy' },
+	{ label: 'Library', href: '/steam-legacy/library' },
+	{ label: 'Community', href: '/steam-legacy/community' }
+];
 
-	function isActive(href: string) {
-		if (href === '/steam-legacy') return page.url.pathname === '/steam-legacy';
-		return page.url.pathname.startsWith(href);
-	}
+function isActive(href: string) {
+	if (href === '/steam-legacy') return page.url.pathname === '/steam-legacy';
+	return page.url.pathname.startsWith(href);
+}
 </script>
 
 <div class="theme-steam-legacy">

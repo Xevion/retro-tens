@@ -1,42 +1,48 @@
 <script lang="ts">
-	import { Minus, Square, X, Plus } from 'lucide-svelte';
+import { Minus, Square, X, Plus } from 'lucide-svelte';
 
-	const sectionNames = ['Personal Information', 'Work Experience', 'Education', 'Skills & Technologies', 'Projects & Portfolio'];
-	let currentSection = $state(0);
-	let previewOpen = $state(false);
-	let activeRibbonTab = $state('form');
+const sectionNames = [
+	'Personal Information',
+	'Work Experience',
+	'Education',
+	'Skills & Technologies',
+	'Projects & Portfolio'
+];
+let currentSection = $state(0);
+let previewOpen = $state(false);
+let activeRibbonTab = $state('form');
 
-	// Form data
-	let fname = $state('');
-	let lname = $state('');
-	let jobTitle = $state('');
-	let location = $state('');
-	let email = $state('');
-	let phone = $state('');
-	let summary = $state('');
+// Form data
+let fname = $state('');
+let lname = $state('');
+let jobTitle = $state('');
+let location = $state('');
+let email = $state('');
+let phone = $state('');
+let summary = $state('');
 
-	const progress = $derived(Math.round(((currentSection + 1) / sectionNames.length) * 100));
+const progress = $derived(Math.round(((currentSection + 1) / sectionNames.length) * 100));
 
-	const skills = $state([
-		{ name: 'Programming', val: 4 },
-		{ name: 'Problem Solving', val: 5 },
-		{ name: 'Communication', val: 3 },
-		{ name: 'System Design', val: 4 },
-		{ name: 'Collaboration', val: 4 },
-	]);
+const skills = $state([
+	{ name: 'Programming', val: 4 },
+	{ name: 'Problem Solving', val: 5 },
+	{ name: 'Communication', val: 3 },
+	{ name: 'System Design', val: 4 },
+	{ name: 'Collaboration', val: 4 }
+]);
 
-	function setRating(si: number, val: number) {
-		skills[si].val = val;
-	}
+function setRating(si: number, val: number) {
+	skills[si].val = val;
+}
 
-	function navigate(dir: number) {
-		const next = currentSection + dir;
-		if (next >= 0 && next < sectionNames.length) currentSection = next;
-	}
+function navigate(dir: number) {
+	const next = currentSection + dir;
+	if (next >= 0 && next < sectionNames.length) currentSection = next;
+}
 
-	function goToSection(idx: number) {
-		currentSection = idx;
-	}
+function goToSection(idx: number) {
+	currentSection = idx;
+}
 </script>
 
 <!-- App window -->
