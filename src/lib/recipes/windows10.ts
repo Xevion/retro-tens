@@ -281,7 +281,10 @@ export const desktopWindow = sva({
 export const drawerStyles: Record<string, string> = {
 	backdrop: css({
 		position: 'fixed',
-		inset: '0',
+		top: '0',
+		left: '0',
+		right: '0',
+		bottom: 'token(sizes.taskbarHeight)',
 		background: 'surface.drawerBackdrop',
 		zIndex: '50',
 		'&[data-state="open"]': {
@@ -293,7 +296,10 @@ export const drawerStyles: Record<string, string> = {
 	}),
 	positioner: css({
 		position: 'fixed',
-		inset: '0',
+		top: '0',
+		left: '0',
+		right: '0',
+		bottom: 'token(sizes.taskbarHeight)',
 		display: 'flex',
 		justifyContent: 'flex-end',
 		alignItems: 'stretch',
@@ -309,8 +315,6 @@ export const drawerStyles: Record<string, string> = {
 		fontFamily: 'ui',
 		color: 'text.primary',
 		outline: 'none',
-		/* Bottom offset for taskbar */
-		marginBottom: 'taskbarHeight',
 		'&[data-state="open"]': {
 			animation: 'win10-drawer-slide-in 0.25s cubic-bezier(0.32, 0.72, 0, 1)'
 		},
