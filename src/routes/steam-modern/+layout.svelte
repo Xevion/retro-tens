@@ -41,7 +41,7 @@ const navTabs: NavTab[] = [
 	{ label: 'Dashboard', icon: LayoutDashboard, href: '/steam-modern' },
 	{ label: 'Users', icon: Users, href: '/steam-modern/users' },
 	{ label: 'Games', icon: Gamepad2, href: '/steam-modern/games' },
-	{ label: 'Store', icon: ShoppingCart },
+	{ label: 'Store', icon: ShoppingCart, href: '/steam-modern/store/search' },
 	{ label: 'Community', icon: MessageSquare, badge: true },
 	{ label: 'Reports', icon: BarChart2, href: '/steam-modern/reports' },
 	{ label: 'Settings', icon: Settings }
@@ -79,7 +79,7 @@ const sidebarSections: SidebarSection[] = [
 		links: [
 			{ icon: Gamepad2, label: 'Apps & Games', href: '/steam-modern/games', count: '68k' },
 			{ icon: PenLine, label: 'Awaiting Review', count: '34' },
-			{ icon: ShoppingBag, label: 'Store Mgmt' }
+			{ icon: ShoppingBag, label: 'Store Mgmt', href: '/steam-modern/store/search' }
 		]
 	},
 	{

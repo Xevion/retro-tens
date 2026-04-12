@@ -50,6 +50,11 @@ export const routeMeta: Record<string, PageMeta> = {
 		'User management panel with account search, status filtering, and admin tools.',
 		'steam-modern'
 	),
+	'/steam-modern/store/search': meta(
+		'Store Browse — Steam Modern',
+		'Steam Store browse and search results with game capsules, tag filtering, and price columns.',
+		'steam-modern'
+	),
 
 	// Windows 10 (2015–2021)
 	'/windows10': meta(

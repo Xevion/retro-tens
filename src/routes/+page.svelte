@@ -30,6 +30,7 @@ const themes = [
 		bg: '#1b2838',
 		text: '#c7d5e0',
 		routes: [
+			{ label: 'Store', href: '/steam-modern/store/search' },
 			{ label: 'Dashboard', href: '/steam-modern' },
 			{ label: 'Users', href: '/steam-modern/users' },
 			{ label: 'Games', href: '/steam-modern/games' },
