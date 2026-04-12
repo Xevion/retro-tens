@@ -1,0 +1,18 @@
+min_version: 2.1.0
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: format
+      glob: "*.{js,ts,svelte,css,json,jsonc,md,yml,yaml}"
+      run: bunx biome format --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+
+    - name: spell
+      glob: "*.{js,ts,svelte,css,json,jsonc,md,yml,yaml,html,toml}"
+      run: typos {staged_files}
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: bunx commitlint --edit {1}

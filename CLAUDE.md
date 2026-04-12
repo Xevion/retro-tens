@@ -12,7 +12,14 @@ A SvelteKit retro UI playground. Three historically faithful software eras, each
 - **Language:** TypeScript strict
 - **Package manager:** Bun (`bun.lock` — use `bun add` / `bun remove`)
 - **Formatter:** Biome (all files including `.svelte` — `biome.json` at project root)
-- **Linters:** ESLint (`eslint.config.js`) + Stylelint (`.stylelintrc.json`)
+- **Linters:** ESLint (`eslint.config.js`) + Stylelint (`.stylelintrc.json`) + Biome lint
+- **Spellcheck:** `typos` (`typos.toml` at project root)
+- **Link checker:** `lychee` (runs `--offline` locally, networked in CI)
+- **Analyzer:** `fallow` (dead code, cycles, duplication, complexity, unused deps)
+- **Workflow linter:** `actionlint` (GitHub Actions)
+- **Runtime tool manager:** `mise` (`mise.toml` pins `actionlint`, `typos`, `lychee`, `lefthook`)
+- **Git hooks:** `lefthook` (`lefthook.yml`) — pre-commit format + spell, commit-msg commitlint
+- **Commit convention:** `@commitlint/config-conventional` via `commitlint.config.js`
 - **Icons:** lucide-svelte
 - **Charts:** LayerChart (requires Tailwind shim in `app.css` — do not remove)
 - **Primitives:** Ark UI (`@ark-ui/svelte`) — bits-ui removed
@@ -21,25 +28,46 @@ A SvelteKit retro UI playground. Three historically faithful software eras, each
 
 ## Commands
 
-`package.json` scripts are the source of truth. The Justfile delegates to them.
+The Justfile has four recipes. All dispatch to `package.json` scripts, which are the source of truth.
 
 ```bash
-just check   # typecheck + all linters + format check — must pass before commit
-just fix     # biome format --write + eslint --fix
-just lint    # lint only (eslint + stylelint + biome)
-just fmt     # biome format --write .
+just            # alias for `just check`
+just check      # typecheck + all linters + analyzers + audit + formatter check
+just fix        # biome format --write + eslint --fix
+just dev        # vite dev
+just lighthouse # unlighthouse crawl — start `just dev` in another terminal first
 ```
 
-Direct script invocation (no Justfile needed):
-```bash
-bun run check          # everything
-bun run typecheck      # svelte-check only
-bun run lint           # eslint + stylelint + biome lint
-bun run format         # biome format --write
-bun run format:check   # biome format check (no write)
-```
+`bun run check` runs, in order: `typecheck`, `lint:js`, `lint:css`, `lint:biome`, `lint:actions`, `format`, `spell`, `analyze`, `links`, `audit`, `just:check`. Fails fast on first error.
+
+Granular scripts for debugging one tool at a time: `bun run typecheck`, `bun run lint:js`, `bun run lint:css`, `bun run lint:biome`, `bun run lint:actions`, `bun run format`, `bun run spell`, `bun run analyze`, `bun run links`, `bun run audit`, `bun run lighthouse`.
 
 **Never use `bunx`** for locally-installed tools — call `bun run <script>` so the `package.json` layer is always the source of truth and `node_modules/.bin` resolution is automatic.
+
+### First-time setup
+
+Before `just check` will work locally:
+
+1. `mise install` — installs `actionlint`, `typos`, `lychee`, `lefthook` from `mise.toml`
+2. `mise trust` — required once per clone
+3. `cargo install fallow-cli` — `fallow` is not in `mise.toml` because its prebuilt `linux-x64-gnu` binary requires glibc 2.39+, which excludes Ubuntu 22.04. CI installs it via `cargo install`; locally, any working fallow binary in `$PATH` is fine.
+4. `bun install`
+5. `lefthook install` — wires `.git/hooks/pre-commit` and `.git/hooks/commit-msg`
+
+### Commit messages
+
+Commits must follow [Conventional Commits](https://www.conventionalcommits.org/). The `commit-msg` hook runs `commitlint` against `@commitlint/config-conventional`, so non-compliant messages are rejected locally before they reach the remote. Types in active use: `feat`, `fix`, `chore`, `refactor`, `docs`, `style`, `test`, `ci`, `build`, `perf`, `revert`.
+
+### Pre-commit hook
+
+`lefthook.yml` runs two jobs in parallel on every `git commit`:
+
+- **format** — `biome format --write` on staged web files, auto-restaging fixes
+- **spell** — `typos` on staged text files
+
+Full lint (`lint:js`, `lint:css`, `lint:biome`) is **not** in the pre-commit hook — it's CI's job. Local commits stay fast and don't block on pre-existing lint debt.
+
+To bypass hooks in an emergency: `git commit --no-verify`. Don't make a habit of it.
 
 ---
 
@@ -161,3 +189,17 @@ Every `href` in the route arrays in `src/routes/+page.svelte` must have a `+page
 5. Add the era entry to `src/routes/+page.svelte`
 6. Add sourcing documentation to `docs/DESIGN.md#eras`
 7. Add archive.org source files to `docs/sources/{era}/`
+
+---
+
+## CI
+
+`.github/workflows/ci.yml` runs on push to `master` and on every PR. Three parallel jobs:
+
+- **check** — installs mise tools + fallow (via `cargo install`), then runs the same `bun run` steps as `just check` minus `links` and `audit`
+- **links** — `lycheeverse/lychee-action` without `--offline`, so external links are actually validated
+- **audit** — `bun audit` isolated so a new CVE doesn't block the rest of CI
+
+The `check` job deliberately splits each `bun run <script>` into its own step so GitHub's job log shows which stage failed without having to grep a 10-command `&&` chain.
+
+Unlighthouse is **not** in CI — run it locally via `just lighthouse` when you want perf/a11y crawls.
