@@ -83,12 +83,12 @@ const panelStyles = panel();
 					<td class={cellText({ tone: 'muted' })}>{u.joined}</td>
 					<td class={cellText({ tone: 'muted' })}>{u.lastSeen}</td>
 					<td>
-						<span class={actionLink()}>View</span>
-						<span class={actionLink()}>Warn</span>
+						<button type="button" class={actionLink()}>View</button>
+						<button type="button" class={actionLink()}>Warn</button>
 						{#if u.status === 'banned'}
-							<span class={actionLink({ color: 'green' })}>Unban</span>
+							<button type="button" class={actionLink({ color: 'green' })}>Unban</button>
 						{:else}
-							<span class={actionLink({ color: 'red' })}>Ban</span>
+							<button type="button" class={actionLink({ color: 'red' })}>Ban</button>
 						{/if}
 					</td>
 				</tr>

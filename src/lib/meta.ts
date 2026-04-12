@@ -71,16 +71,6 @@ export const routeMeta: Record<string, PageMeta> = {
 		'Windows 10',
 		'Windows 10 Fluent Design circa 2015–2021: light panels, sharp corners, Segoe UI, and signature #0078D7 blue.',
 		'windows10'
-	),
-	'/windows10/action-center': meta(
-		'Action Center — Windows 10',
-		'Windows 10 Action Center with notification groups, quick settings toggles, and brightness slider.',
-		'windows10'
-	),
-	'/windows10/resume-builder': meta(
-		'Resume Builder — Windows 10',
-		'A resume builder application styled as a Windows 10 desktop app with section editing.',
-		'windows10'
 	)
 } satisfies Record<string, PageMeta>;
 

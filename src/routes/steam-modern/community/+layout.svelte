@@ -10,6 +10,6 @@ const main = css({
 });
 </script>
 
-<main class={main}>
+<div class={main}>
 	{@render children()}
-</main>
+</div>

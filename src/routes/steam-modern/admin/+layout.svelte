@@ -148,8 +148,17 @@ const sidebarLink = css({
 
 const sidebarLinkActive = css({
 	color: 'accent',
-	background: 'rgba(102, 192, 244, 0.1)',
+	background: 'accent.glowSubtle',
 	borderLeftColor: 'token(colors.accent)'
+});
+
+const sidebarLinkDisabled = css({
+	opacity: '0.5',
+	cursor: 'default',
+	_hover: {
+		color: 'text.secondary',
+		background: 'transparent'
+	}
 });
 
 const iconWrap = css({
@@ -189,7 +198,7 @@ const mainPane = css({
 				{#each section.links as link (link.label)}
 					{@const Icon = link.icon}
 					{@const tag = link.href ? 'a' : 'button'}
-					<svelte:element this={tag} {...link.href ? { href: resolve(link.href) } : {}} type={link.href ? null : 'button'} class={cx(sidebarLink, isActive(link.href) ? sidebarLinkActive : '')}>
+					<svelte:element this={tag} {...link.href ? { href: resolve(link.href) } : { 'aria-disabled': 'true' }} type={link.href ? null : 'button'} class={cx(sidebarLink, isActive(link.href) ? sidebarLinkActive : '', !link.href ? sidebarLinkDisabled : '')}>
 						<span class={iconWrap}><Icon size={12} /></span>
 						{link.label}
 						{#if link.count}

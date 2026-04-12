@@ -48,6 +48,7 @@ const sidebarBlock = css({
 </script>
 
 <div class={pageWrap}>
+	<h1 class={css({ srOnly: true })}>Steam Community</h1>
 	<div class={header}></div>
 
 	<div class={contentGrid}>

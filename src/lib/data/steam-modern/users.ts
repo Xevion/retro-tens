@@ -7,7 +7,6 @@ faker.seed(2014);
 interface User {
 	id: string;
 	name: string;
-	email: string;
 	status: UserStatus;
 	games: number;
 	hours: number;
@@ -39,7 +38,6 @@ export const users: User[] = Array.from({ length: 8 }, (_, i) => {
 	return {
 		id: `#${faker.number.int({ min: 44800000, max: 44830000 })}`,
 		name: faker.internet.username().toLowerCase().slice(0, 14),
-		email: faker.internet.email().toLowerCase(),
 		status,
 		games:
 			status === 'banned'

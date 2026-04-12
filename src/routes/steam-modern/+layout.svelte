@@ -33,7 +33,7 @@ const chromeBar = css({
 	alignItems: 'center',
 	padding: '0 8px',
 	gap: '6px',
-	borderBottom: '1px solid #0a0f16',
+	borderBottom: '1px solid token(colors.border.chrome)',
 	flexShrink: '0'
 });
 
@@ -99,7 +99,7 @@ const navLink = css({
 	alignItems: 'center',
 	padding: '0 12px',
 	height: '40px',
-	color: '#e5e5e5',
+	color: 'text.nav',
 	fontSize: '13px',
 	fontWeight: '400',
 	textDecoration: 'none',
@@ -109,14 +109,14 @@ const navLink = css({
 	textTransform: 'uppercase',
 	letterSpacing: '0.04em',
 	_hover: {
-		color: '#ffffff'
+		color: 'text.bright'
 	}
 });
 
 const navLinkActive = css({
-	color: '#ffffff',
+	color: 'text.bright',
 	fontWeight: '600',
-	background: 'rgba(255, 255, 255, 0.08)'
+	background: 'surface.navActive'
 });
 
 const userArea = css({
@@ -146,7 +146,7 @@ const adminAvatar = css({
 	justifyContent: 'center',
 	fontSize: '9px',
 	fontWeight: '700',
-	color: '#fff',
+	color: 'text.bright',
 	border: '1px solid token(colors.border.light)'
 });
 
@@ -205,8 +205,8 @@ const contentArea = css({
 		</nav>
 
 		<!-- Content area — inner layouts handle their own chrome -->
-		<div class={contentArea}>
+		<main class={contentArea}>
 			{@render children()}
-		</div>
+		</main>
 	</div>
 </div>

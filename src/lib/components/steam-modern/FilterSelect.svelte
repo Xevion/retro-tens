@@ -38,7 +38,7 @@ const triggerClass = css({
 	/* sourced: .searchbox border */
 	border: '1px solid rgba(0, 0, 0, 0.3)',
 	/* sourced: .searchbox input color */
-	color: '#eeeeee',
+	color: 'text.input',
 	padding: '5px 8px',
 	fontSize: 'sm',
 	borderRadius: 'sm',
@@ -51,7 +51,7 @@ const triggerClass = css({
 
 const contentClass = css({
 	/* sourced: .popup_body.search_v2 background */
-	background: '#3D4450',
+	background: 'surface.dropdown',
 	border: '1px solid rgba(0, 0, 0, 0.3)',
 	borderRadius: 'sm',
 	padding: '2px 0',
@@ -71,16 +71,16 @@ const itemClass = css({
 	padding: '5px 10px',
 	fontSize: 'sm',
 	fontFamily: 'ui',
-	color: '#c6d4df',
+	color: 'text.primary',
 	cursor: 'pointer',
 	_highlighted: {
 		/* sourced: .search_suggest .match:hover */
-		background: '#212d3d',
-		color: '#ffffff'
+		background: 'surface.dropdownHover',
+		color: 'text.bright'
 	},
 	_checked: {
 		/* sourced: --gpColor-ChalkyBlue */
-		color: '#66c0f4',
+		color: 'accent',
 		fontWeight: '600'
 	}
 });

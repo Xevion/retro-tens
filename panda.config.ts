@@ -130,7 +130,11 @@ export default defineConfig({
 						tag: { value: '#384959' },
 						tagHover: { value: 'rgba(38, 54, 69, 0.6)' },
 						/* discount badge bg — .discount_pct */
-						discountBadge: { value: '#4c6b22' }
+						discountBadge: { value: '#4c6b22' },
+						/* modal/popup overlay */
+						overlay: { value: 'rgba(0, 0, 0, 0.3)' },
+						/* active nav tab bg — .store_nav .tab:hover */
+						navActive: { value: 'rgba(255, 255, 255, 0.08)' }
 					},
 					text: {
 						bright: { value: '#ffffff' },
@@ -143,6 +147,8 @@ export default defineConfig({
 						disabled: { value: '#3a5068' },
 						/* nav tab text — .store_nav .tab > span */
 						nav: { value: '#e5e5e5' },
+						/* searchbox input text — .searchbox input */
+						input: { value: '#eeeeee' },
 						/* tag pill text — .app_tag */
 						tag: { value: '#b0aeac' },
 						tagHover: { value: 'rgba(227, 234, 239, 1)' },
@@ -172,6 +178,7 @@ export default defineConfig({
 						blue: { value: '#1a9fff' },
 						blueHi: { value: '#00bbff' },
 						glow: { value: 'rgba(102, 192, 244, 0.15)' },
+						glowSubtle: { value: 'rgba(102, 192, 244, 0.1)' },
 						/* --gpColor-Yellow */
 						gold: { value: '#ffc82c' },
 						/* --gpColor-Green */
@@ -209,7 +216,9 @@ export default defineConfig({
 						/* footer rule — #footer .rule */
 						footer: { value: '#363c44' },
 						/* search suggest match — .search_suggest .match */
-						suggest: { value: '#13242e' }
+						suggest: { value: '#13242e' },
+						/* fictional client chrome accent — not sourced from Steam web CSS */
+						chrome: { value: '#0a0f16' }
 					},
 					divider: { value: '#1a2d40' },
 					shadow: {

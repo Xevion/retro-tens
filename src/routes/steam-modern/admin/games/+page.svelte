@@ -52,7 +52,7 @@ const scoreBar = css({
 	display: 'inline-block',
 	width: '60px',
 	height: '4px',
-	background: 'rgba(0, 0, 0, 0.3)',
+	background: 'surface.overlay',
 	borderRadius: '1px',
 	verticalAlign: 'middle',
 	overflow: 'hidden',
@@ -115,9 +115,9 @@ const scoreFill = css({ height: '100%', borderRadius: '1px' });
 					</td>
 					<td class={cellText({ tone: 'muted' })}>{g.released}</td>
 					<td>
-						<span class={actionLink()}>View</span>
-						<span class={actionLink()}>Edit</span>
-						<span class={actionLink({ color: 'red' })}>Remove</span>
+						<button type="button" class={actionLink()}>View</button>
+						<button type="button" class={actionLink()}>Edit</button>
+						<button type="button" class={actionLink({ color: 'red' })}>Remove</button>
 					</td>
 				</tr>
 			{/each}
