@@ -3,7 +3,17 @@ default:
 
 # Typecheck, all linters, analyzers, audit, formatter check.
 check:
-    bun run check
+    #!/usr/bin/env bash
+    set -u
+    failed=()
+    for step in typecheck lint:js lint:css lint:biome lint:actions format spell audit just:check analyze links; do
+        printf '\n\033[1;34m::: %s\033[0m\n' "$step"
+        bun run "$step" || failed+=("$step")
+    done
+    if (( ${#failed[@]} )); then
+        printf '\n\033[1;31mFAILED: %s\033[0m\n' "${failed[*]}"
+        exit 1
+    fi
 
 # Auto-format and auto-fix lint issues.
 fix:
