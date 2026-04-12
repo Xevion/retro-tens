@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: read
+  # Required for github/codeql-action/upload-sarif to annotate PRs
+  security-events: write
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -37,13 +39,6 @@ jobs:
 
       - uses: jdx/mise-action@v2
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          key: fallow-cli-2.28.2
-
-      - name: Install fallow
-        run: cargo install fallow-cli --version 2.28.2 --locked
-
       - run: bun install --frozen-lockfile
 
       - run: bun run typecheck
@@ -53,8 +48,44 @@ jobs:
       - run: bun run lint:actions
       - run: bun run format
       - run: bun run spell
-      - run: bun run analyze
       - run: bun run just:check
+
+  analyze:
+    name: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Deep history so `--changed-since` and snapshot diffs can reach base
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: fallow-cli-2.28.2
+
+      - name: Install fallow
+        run: cargo install fallow-cli --version 2.28.2 --locked
+
+      - run: bun install --frozen-lockfile
+
+      - name: Fallow — default analysis (dead-code + dupes + health)
+        run: fallow --group-by directory --score --sarif-file fallow.sarif
+
+      - name: Fallow — production mode (strict dep hygiene)
+        run: bun run analyze:production
+
+      - name: Save health snapshot (master only)
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        run: fallow --score --save-snapshot --quiet
+
+      - name: Upload SARIF
+        if: always() && hashFiles('fallow.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: fallow.sarif
+          category: fallow
 
   links:
     name: links

@@ -74,6 +74,15 @@
 					}
 				}
 			}
+		},
+		{
+			"includes": [".fallowrc.json"],
+			"json": {
+				"parser": {
+					"allowComments": true,
+					"allowTrailingCommas": true
+				}
+			}
 		}
 	]
 }

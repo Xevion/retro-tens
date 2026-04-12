@@ -12,6 +12,11 @@ pre-commit:
       glob: "*.{js,ts,svelte,css,json,jsonc,md,yml,yaml,html,toml}"
       run: typos {staged_files}
 
+pre-push:
+  jobs:
+    - name: analyze-audit
+      run: bun run analyze:audit
+
 commit-msg:
   jobs:
     - name: commitlint

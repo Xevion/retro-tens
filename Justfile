@@ -1,4 +1,5 @@
-default: check
+default:
+	just --list
 
 # Typecheck, all linters, analyzers, audit, formatter check.
 check:
@@ -18,4 +19,4 @@ preview:
 
 # Crawl the preview build with Lighthouse. Start `just preview` (port 4173) first.
 lighthouse:
-    bun run lighthouse
+    bunx unlighthouse-ci

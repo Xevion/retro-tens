@@ -15,7 +15,7 @@ A SvelteKit retro UI playground. Three historically faithful software eras, each
 - **Linters:** ESLint (`eslint.config.js`) + Stylelint (`.stylelintrc.json`) + Biome lint
 - **Spellcheck:** `typos` (`typos.toml` at project root)
 - **Link checker:** `lychee` (runs `--offline` locally, networked in CI)
-- **Analyzer:** `fallow` (dead code, cycles, duplication, complexity, unused deps)
+- **Analyzer:** `fallow` (dead code, cycles, duplication, complexity, unused deps) — configured via `.fallowrc.json`. Also exposed as an MCP server via `.claude/settings.json` (`fallow-mcp` command)
 - **Workflow linter:** `actionlint` (GitHub Actions)
 - **Runtime tool manager:** `mise` (`mise.toml` pins `actionlint`, `typos`, `lychee`, `lefthook`)
 - **Git hooks:** `lefthook` (`lefthook.yml`) — pre-commit format + spell, commit-msg commitlint
@@ -44,6 +44,13 @@ just lighthouse # unlighthouse crawl — start `bun run preview` first (port 417
 
 Granular scripts for debugging one tool at a time: `bun run typecheck`, `bun run lint:js`, `bun run lint:css`, `bun run lint:biome`, `bun run lint:actions`, `bun run format`, `bun run spell`, `bun run analyze`, `bun run links`, `bun run audit`, `bun run lighthouse`.
 
+Fallow has extra entry points beyond the default `bun run analyze`:
+
+- `bun run analyze:production` — strict dep hygiene (excludes test/story files, flags type-only deps miscategorized as runtime). Runs in the CI `analyze` job as a second step.
+- `bun run analyze:audit` — PR-scoped `fallow audit --changed-since origin/master`. Wired into the `pre-push` lefthook so bad pushes fail before reaching CI.
+- `bun run fix:dead` — previews fallow's auto-fixes (unused exports, dependencies, enum members) via `--dry-run`. Never destructive.
+- `bun run fix:dead:apply` — applies the fixes. Not wired into `bun run fix` / `just fix` — invoke manually when you actually want to delete code.
+
 **Never use `bunx`** for locally-installed tools — call `bun run <script>` so the `package.json` layer is always the source of truth and `node_modules/.bin` resolution is automatic.
 
 ### First-time setup
@@ -60,16 +67,15 @@ Before `just check` will work locally:
 
 Commits must follow [Conventional Commits](https://www.conventionalcommits.org/). The `commit-msg` hook runs `commitlint` against `@commitlint/config-conventional`, so non-compliant messages are rejected locally before they reach the remote. Types in active use: `feat`, `fix`, `chore`, `refactor`, `docs`, `style`, `test`, `ci`, `build`, `perf`, `revert`.
 
-### Pre-commit hook
+### Pre-commit / pre-push hooks
 
-`lefthook.yml` runs two jobs in parallel on every `git commit`:
+`lefthook.yml` wires three hook stages:
 
-- **format** — `biome format --write` on staged web files, auto-restaging fixes
-- **spell** — `typos` on staged text files
+- **pre-commit** (parallel): `format` (biome format --write on staged web files, auto-restage) and `spell` (typos on staged text files). Full lint (`lint:js`, `lint:css`, `lint:biome`) is **not** here — it's CI's job. Local commits stay fast.
+- **pre-push**: `analyze-audit` runs `bun run analyze:audit` (= `fallow audit --changed-since origin/master`) on the PR-scoped file set. Catches dead code / complexity / duplication regressions before they reach CI.
+- **commit-msg**: `commitlint --edit` against `@commitlint/config-conventional`.
 
-Full lint (`lint:js`, `lint:css`, `lint:biome`) is **not** in the pre-commit hook — it's CI's job. Local commits stay fast and don't block on pre-existing lint debt.
-
-To bypass hooks in an emergency: `git commit --no-verify`. Don't make a habit of it.
+To bypass hooks in an emergency: `git commit --no-verify` / `git push --no-verify`. Don't make a habit of it.
 
 ---
 
@@ -196,14 +202,17 @@ Every `href` in the route arrays in `src/routes/+page.svelte` must have a `+page
 
 ## CI
 
-`.github/workflows/ci.yml` runs on push to `master` and on every PR. Four parallel jobs:
+`.github/workflows/ci.yml` runs on push to `master` and on every PR. Five parallel jobs:
 
 - **commits** (PR only) — `commitlint --from base --to head` so contributors without local hooks still get caught
-- **check** — installs mise tools + fallow (via `cargo install`), then runs the same `bun run` steps as `just check` minus `links` and `audit`
+- **check** — installs mise tools, then runs `typecheck`, `lint:*`, `format`, `spell`, `just:check` as individual `bun run` steps
+- **analyze** — installs fallow via `cargo install`, runs `fallow --group-by directory --score --sarif-file fallow.sarif`, then `analyze:production` for strict dep hygiene. On `master` pushes, saves a health snapshot to `.fallow/snapshots/`. SARIF is uploaded via `github/codeql-action/upload-sarif` with `if: always()` so PR annotations render even when fallow fails the job
 - **links** — `lycheeverse/lychee-action` without `--offline`, so external links are actually validated
 - **audit** — `bun audit` isolated so a new CVE doesn't block the rest of CI
 
-The `check` job deliberately splits each `bun run <script>` into its own step so GitHub's job log shows which stage failed without having to grep a 10-command `&&` chain.
+The `check` and `analyze` jobs deliberately split each `bun run <script>` / `fallow` invocation into its own step so GitHub's job log shows which stage failed without having to grep a 10-command `&&` chain.
+
+Fallow lives in its own `analyze` job (not `check`) so slow Rust compilation of `fallow-cli` doesn't block fast lint feedback, and a fallow regression doesn't hide lint failures in the same job log.
 
 Unlighthouse is **not** in CI — run it locally via `just lighthouse` when you want perf/a11y crawls. It needs a preview server and Chromium, which makes it a poor fit for per-PR gating.
 

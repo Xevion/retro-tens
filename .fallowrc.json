@@ -1,4 +1,63 @@
 {
 	"$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
-	"entry": ["unlighthouse.config.ts"]
+
+	// Treat unlighthouse.config.ts as an explicit entry point. Required because
+	// fallow has no built-in unlighthouse plugin and cannot otherwise discover it.
+	"entry": ["unlighthouse.config.ts"],
+
+	// reason: unlighthouse loads its config via file convention (default export),
+	// not via a JS import, so fallow's reachability graph cannot see the default
+	// export as "used". Suppressing only the default export is surgical — the file
+	// itself still participates in dead-code analysis.
+	"ignoreExports": [{ "file": "unlighthouse.config.ts", "exports": ["default"] }],
+
+	// reason: postcss-html is consumed exclusively by .stylelintrc.json as the
+	// customSyntax value. It is never statically imported from any JS/TS file,
+	// so fallow correctly flags it as unused. The package is still required at
+	// runtime for stylelint to parse .svelte files.
+	"ignoreDependencies": ["postcss-html"],
+
+	// Stricter than fallow's defaults (20 cyclomatic / 15 cognitive). This is a
+	// small greenfield project — no function should have meaningful branching
+	// complexity yet. Revisit if this starts fighting realistic page logic.
+	"health": {
+		"maxCyclomatic": 15,
+		"maxCognitive": 10,
+		"ignore": []
+	},
+
+	// Strict mode (exact token-sequence matches). Low minTokens / minLines catch
+	// more duplication. The project's multi-era structure shares layout skeletons
+	// but not content, so token-level clones should remain rare.
+	"duplicates": {
+		"enabled": true,
+		"mode": "strict",
+		"minTokens": 50,
+		"minLines": 5,
+		"threshold": 0.0,
+		"skipLocal": false,
+		"crossLanguage": false
+	},
+
+	// Self-documenting severities. Defaults are already mostly "error" — we
+	// promote a few warn-level rules to error for a stricter posture and leave
+	// the rest explicit so the intent is visible in the config rather than
+	// inherited silently.
+	"rules": {
+		"unused-files": "error",
+		"unused-exports": "error",
+		"unused-types": "error",
+		"unused-dependencies": "error",
+		"unused-dev-dependencies": "error",
+		"unused-optional-dependencies": "error",
+		"unused-enum-members": "error",
+		"unused-class-members": "error",
+		"unresolved-imports": "error",
+		"unlisted-dependencies": "error",
+		"duplicate-exports": "error",
+		"type-only-dependencies": "error",
+		"test-only-dependencies": "warn",
+		"circular-dependencies": "error",
+		"boundary-violation": "error"
+	}
 }

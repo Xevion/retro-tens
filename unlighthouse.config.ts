@@ -9,7 +9,8 @@ export default defineConfig({
 		skipJavascript: false
 	},
 	ci: {
-		buildStatic: false
+		buildStatic: false,
+		reporter: 'jsonExpanded'
 	},
 	outputPath: '.unlighthouse'
 });
