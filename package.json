@@ -9,7 +9,7 @@
 		"preview": "vite preview",
 		"test": "vitest run",
 		"test:a11y": "playwright test",
-		"prepare": "panda codegen && (svelte-kit sync || echo '')",
+		"prepare": "(svelte-kit sync || echo '') && panda codegen",
 		"typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"lint:js": "eslint .",
 		"lint:biome": "biome lint .",
