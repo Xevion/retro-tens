@@ -42,7 +42,7 @@ const themes = [
 		description:
 			'Fluent Design lite. Light panels, #0078D7 blue, sharp corners everywhere, and Segoe UI.',
 		font: 'Segoe UI',
-		accent: '#0078d7',
+		accent: '#2b8fd9',
 		bg: '#f2f2f2',
 		text: '#1a1a1a',
 		routes: [
@@ -81,7 +81,7 @@ const logo = css({
 
 const tagline = css({
 	fontSize: '13px',
-	color: '#666',
+	color: '#999',
 	letterSpacing: '0.02em'
 });
 
@@ -132,13 +132,13 @@ const cardName = css({
 
 const cardEra = css({
 	fontSize: '11px',
-	color: '#555',
+	color: '#999',
 	letterSpacing: '0.05em'
 });
 
 const cardDesc = css({
 	fontSize: '12px',
-	color: '#888',
+	color: '#a0a0a0',
 	lineHeight: '1.6',
 	fontFamily: 'system-ui, sans-serif'
 });
@@ -150,7 +150,7 @@ const metaPill = css({
 	background: '#1e1e1e',
 	border: '1px solid #333',
 	padding: '2px 8px',
-	color: '#666',
+	color: '#999',
 	letterSpacing: '0.04em'
 });
 
@@ -181,7 +181,7 @@ const siteFooter = css({
 	padding: '20px 32px',
 	textAlign: 'center',
 	fontSize: '11px',
-	color: '#444',
+	color: '#888',
 	letterSpacing: '0.05em'
 });
 

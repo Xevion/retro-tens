@@ -328,11 +328,7 @@ const qaLabelActive = css({
 						{groupName}
 					</div>
 					{#each groupNotifs as notif (notif.id)}
-						<div
-							class={notifCard}
-							role="button"
-							tabindex="0"
-						>
+						<div class={notifCard}>
 							<div class={notifCardTop}>
 								<div class={notifTitle}>{notif.title}</div>
 								<div class={notifTime}>{notif.time}</div>

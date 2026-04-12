@@ -45,8 +45,8 @@ const sb = searchBarSva();
 		<span class={sb.icon}><Search size={12} /></span>
 		<input class={sb.input} placeholder="Search by name or ID…" bind:value={search} />
 	</div>
-	<span class={filterLabel}>Status:</span>
-	<select class={filterSelect} bind:value={statusFilter}>
+	<label for="status-filter" class={filterLabel}>Status:</label>
+	<select id="status-filter" class={filterSelect} bind:value={statusFilter}>
 		<option value="all">All</option>
 		<option value="online">Online</option>
 		<option value="away">Away</option>

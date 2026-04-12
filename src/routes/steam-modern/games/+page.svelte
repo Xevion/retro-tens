@@ -73,8 +73,8 @@ const scoreFill = css({ height: '100%', borderRadius: '1px' });
 		<span class={sb.icon}><Search size={12} /></span>
 		<input class={sb.input} placeholder="Search by name or App ID…" bind:value={search} />
 	</div>
-	<span class={filterLabel}>Category:</span>
-	<select class={filterSelect} bind:value={categoryFilter}>
+	<label for="category-filter" class={filterLabel}>Category:</label>
+	<select id="category-filter" class={filterSelect} bind:value={categoryFilter}>
 		{#each filterCategories as cat (cat.value)}
 			<option value={cat.value}>{cat.label}</option>
 		{/each}

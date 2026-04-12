@@ -1,5 +1,4 @@
 <script lang="ts">
-import { Tabs } from '@ark-ui/svelte/tabs';
 import { Minus, Square, X, Plus } from 'lucide-svelte';
 import { css, cx } from 'styled-system/css';
 import {
@@ -29,8 +28,6 @@ const appWindow = css({
 	margin: '16px auto 0'
 });
 
-const ribbonRoot = css({ display: 'contents' });
-
 const ribbonList = css({
 	background: 'surface.ribbon',
 	borderBottom: '1px solid #d4d4d4',
@@ -55,13 +52,14 @@ const ribbonTrigger = css({
 	alignItems: 'center',
 	transition: 'color token(durations.fast) ease, border-color token(durations.fast) ease',
 	letterSpacing: '0.01em',
-	_hover: { color: 'accent', background: 'accent.subtle' },
-	_selected: {
-		color: 'accent',
-		borderBottomColor: 'accent',
-		fontWeight: '600',
-		background: 'surface.base'
-	}
+	_hover: { color: 'accent', background: 'accent.subtle' }
+});
+
+const ribbonTriggerActive = css({
+	color: 'accent',
+	borderBottomColor: 'accent',
+	fontWeight: '600',
+	background: 'surface.base'
 });
 
 const progressBar = css({ height: '3px', background: 'border.light' });
@@ -375,12 +373,10 @@ function goToSection(idx: number) {
 	</div>
 
 	<!-- Ribbon -->
-	<Tabs.Root bind:value={ribbonTab} class={ribbonRoot}>
-		<Tabs.List class={ribbonList}>
-			<Tabs.Trigger class={ribbonTrigger} value="form">FORM VIEW</Tabs.Trigger>
-			<Tabs.Trigger class={ribbonTrigger} value="preview">LIVE PREVIEW</Tabs.Trigger>
-		</Tabs.List>
-	</Tabs.Root>
+	<div class={ribbonList}>
+		<button type="button" class={cx(ribbonTrigger, ribbonTab === 'form' ? ribbonTriggerActive : '')} aria-pressed={ribbonTab === 'form'} onclick={() => (ribbonTab = 'form')}>FORM VIEW</button>
+		<button type="button" class={cx(ribbonTrigger, ribbonTab === 'preview' ? ribbonTriggerActive : '')} aria-pressed={ribbonTab === 'preview'} onclick={() => (ribbonTab = 'preview')}>LIVE PREVIEW</button>
+	</div>
 
 	<!-- Progress bar -->
 	<div class={progressBar}>
