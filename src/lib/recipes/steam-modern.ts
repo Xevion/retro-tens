@@ -15,7 +15,7 @@ export const btn = cva({
 		borderRadius: 'DEFAULT',
 		cursor: 'pointer',
 		border: 'none',
-		transition: 'all var(--durations) ease',
+		transition: 'token(transitions.DEFAULT)',
 		textTransform: 'uppercase',
 		letterSpacing: '0.05em',
 		fontFamily: 'ui'
@@ -60,17 +60,17 @@ export const badge = cva({
 		color: {
 			green: {
 				background: 'rgba(79, 168, 50, 0.2)',
-				color: '#6dcf4a',
+				color: 'accent.greenText',
 				border: '1px solid rgba(79, 168, 50, 0.3)'
 			},
 			red: {
 				background: 'rgba(201, 64, 64, 0.2)',
-				color: '#e07070',
+				color: 'accent.redText',
 				border: '1px solid rgba(201, 64, 64, 0.3)'
 			},
 			yellow: {
 				background: 'rgba(213, 165, 27, 0.2)',
-				color: '#e8c44e',
+				color: 'accent.goldText',
 				border: '1px solid rgba(213, 165, 27, 0.3)'
 			},
 			blue: {
@@ -198,7 +198,8 @@ export const actionLink = cva({
 	},
 	variants: {
 		color: {
-			red: { color: '#e07070' }
+			red: { color: 'accent.redText' },
+			green: { color: 'accent.green' }
 		}
 	}
 });
@@ -207,6 +208,7 @@ export const userAvatar = css({
 	width: '24px',
 	height: '24px',
 	borderRadius: 'DEFAULT',
+	background: 'linear-gradient(135deg, #2a6591, #1b4a6b)',
 	display: 'inline-flex',
 	alignItems: 'center',
 	justifyContent: 'center',

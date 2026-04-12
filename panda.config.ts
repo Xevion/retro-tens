@@ -74,6 +74,9 @@ export default defineConfig({
 				},
 				durations: {
 					DEFAULT: { value: '0.1s' }
+				},
+				transitions: {
+					DEFAULT: { value: 'all 0.1s ease' }
 				}
 			}
 		},
@@ -112,7 +115,10 @@ export default defineConfig({
 						green: { value: '#4fa832' },
 						red: { value: '#c94040' },
 						orange: { value: '#d8832a' },
-						purple: { value: '#9c72b5' }
+						purple: { value: '#9c72b5' },
+						greenText: { value: '#6dcf4a' },
+						redText: { value: '#e07070' },
+						goldText: { value: '#e8c44e' }
 					},
 					border: {
 						DEFAULT: { value: '#2a475e' },
@@ -141,6 +147,11 @@ export default defineConfig({
 				durations: {
 					DEFAULT: { value: '0.15s' },
 					fast: { value: '0.1s' }
+				},
+				transitions: {
+					DEFAULT: { value: 'all 0.15s ease' },
+					fast: { value: 'all 0.1s ease' },
+					color: { value: 'color 0.15s ease, background 0.15s ease' }
 				}
 			},
 			semanticTokens: {
@@ -222,6 +233,10 @@ export default defineConfig({
 				durations: {
 					DEFAULT: { value: '0.12s' },
 					fast: { value: '0.1s' }
+				},
+				transitions: {
+					DEFAULT: { value: 'all 0.12s ease' },
+					fast: { value: 'all 0.1s ease' }
 				}
 			}
 		}
@@ -302,10 +317,10 @@ export default defineConfig({
 			'--radius': 'var(--radii)',
 			'--radius-sm': 'var(--radii-sm)',
 
-			/* Transitions (composite — durations token + easing) */
-			'--transition': 'all var(--durations) ease',
-			'--transition-fast': 'all var(--durations-fast) ease',
-			'--transition-color': 'color var(--durations) ease, background var(--durations) ease'
+			/* Transitions (composite — references transitions token group) */
+			'--transition': 'var(--transitions)',
+			'--transition-fast': 'var(--transitions-fast)',
+			'--transition-color': 'var(--transitions-color)'
 		}
 	}
 });

@@ -1,6 +1,17 @@
 <script lang="ts">
 import { Download, Plus, Search } from 'lucide-svelte';
 import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+import { css, cx } from 'styled-system/css';
+import {
+	btn,
+	badge,
+	panel,
+	searchBar as searchBarSva,
+	filterSelect,
+	filterLabel,
+	dataTable,
+	actionLink
+} from '$lib/recipes/steam-modern';
 
 let search = $state('');
 let categoryFilter = $state('all');
@@ -104,20 +115,68 @@ const filtered = $derived(
 		return matchSearch && matchCat;
 	})
 );
+
+const statusBadgeColor: Record<string, 'green' | 'yellow' | 'gray'> = {
+	active: 'green',
+	review: 'yellow',
+	pending: 'gray'
+};
+
+function scoreColor(reviews: number): string {
+	if (reviews > 85) return 'var(--colors-accent-green)';
+	if (reviews > 70) return 'var(--colors-accent-gold)';
+	return 'var(--colors-accent-red)';
+}
+
+const pnl = panel();
+const sb = searchBarSva();
+
+const appIcon = css({
+	width: '24px',
+	height: '24px',
+	background: 'linear-gradient(135deg, #2a475e, #1b2838)',
+	border: '1px solid token(colors.border)',
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	fontSize: '12px',
+	borderRadius: 'DEFAULT',
+	verticalAlign: 'middle',
+	marginRight: '6px'
+});
+
+const scoreBar = css({
+	display: 'inline-block',
+	width: '60px',
+	height: '4px',
+	background: 'rgba(0, 0, 0, 0.3)',
+	borderRadius: '1px',
+	verticalAlign: 'middle',
+	overflow: 'hidden',
+	marginRight: '4px'
+});
+
+const scoreFill = css({ height: '100%', borderRadius: '1px' });
+
+const appName = css({ fontSize: '12.5px', fontWeight: '600' });
+const appId = css({ color: 'text.muted', fontSize: '10px', paddingLeft: '32px' });
+const cellSecondary = css({ color: 'text.secondary', fontSize: '12px' });
+const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
+const cellDisabled = css({ color: 'text.disabled', fontSize: '11px' });
 </script>
 
 <PageHeader title="Applications &amp; Games" subtitle="68,412 total apps · 34 awaiting review">
-	<button type="button" class="btn btn-secondary"><Download size={13} /> Export</button>
-	<button type="button" class="btn btn-primary"><Plus size={13} /> Submit App</button>
+	<button type="button" class={btn({ visual: 'secondary' })}><Download size={13} /> Export</button>
+	<button type="button" class={btn({ visual: 'primary' })}><Plus size={13} /> Submit App</button>
 </PageHeader>
 
-<div class="search-bar">
-	<div class="search-wrapper">
-		<span class="search-icon"><Search size={12} /></span>
-		<input class="search-input" placeholder="Search by name or App ID…" bind:value={search} />
+<div class={sb.root}>
+	<div class={sb.wrapper}>
+		<span class={sb.icon}><Search size={12} /></span>
+		<input class={sb.input} placeholder="Search by name or App ID…" bind:value={search} />
 	</div>
-	<span class="filter-label">Category:</span>
-	<select class="filter-select" bind:value={categoryFilter}>
+	<span class={filterLabel}>Category:</span>
+	<select class={filterSelect} bind:value={categoryFilter}>
 		<option value="all">All</option>
 		<option value="RPG">RPG</option>
 		<option value="Shooter">Shooter</option>
@@ -126,11 +185,11 @@ const filtered = $derived(
 		<option value="Indie">Indie</option>
 		<option value="Survival">Survival</option>
 	</select>
-	<span class="filter-label">Showing {filtered.length} results</span>
+	<span class={filterLabel}>Showing {filtered.length} results</span>
 </div>
 
-<div class="panel" style="margin:16px 20px">
-	<table class="data-table">
+<div class={cx(pnl.root, css({ margin: '16px 20px' }))}>
+	<table class={dataTable}>
 		<thead>
 			<tr>
 				<th>App</th>
@@ -148,50 +207,35 @@ const filtered = $derived(
 			{#each filtered as g (g.id)}
 				<tr>
 					<td>
-						<div class="app-icon">{g.name.slice(0,1)}</div>
-						<span style="font-size:12.5px;font-weight:600">{g.name}</span>
-						<br /><span style="color:var(--text-muted);font-size:10px;padding-left:32px">{g.id}</span>
+						<div class={appIcon}>{g.name.slice(0, 1)}</div>
+						<span class={appName}>{g.name}</span>
+						<br /><span class={appId}>{g.id}</span>
 					</td>
-					<td style="color:var(--text-secondary);font-size:12px">{g.developer}</td>
-					<td><span class="badge badge-blue">{g.category}</span></td>
-					<td style="color:var(--text-secondary)">{g.price}</td>
-					<td style="color:var(--text-secondary)">{g.owners}</td>
+					<td class={cellSecondary}>{g.developer}</td>
+					<td><span class={badge({ color: 'blue' })}>{g.category}</span></td>
+					<td class={cellSecondary}>{g.price}</td>
+					<td class={cellSecondary}>{g.owners}</td>
 					<td>
 						{#if g.reviews > 0}
-							<div class="score-bar">
-								<div class="score-fill" style="width:{g.reviews}%;background:{g.reviews>85?'var(--accent-green)':g.reviews>70?'var(--accent-gold)':'var(--accent-red)'}"></div>
+							<div class={scoreBar}>
+								<div class={scoreFill} style="width:{g.reviews}%;background:{scoreColor(g.reviews)}"></div>
 							</div>
-							<span style="font-size:10px;color:var(--text-muted)">{g.reviews}%</span>
+							<span class={cellMuted}>{g.reviews}%</span>
 						{:else}
-							<span style="color:var(--text-disabled);font-size:11px">N/A</span>
+							<span class={cellDisabled}>N/A</span>
 						{/if}
 					</td>
 					<td>
-						<span class="badge" class:badge-green={g.status==='active'} class:badge-yellow={g.status==='review'} class:badge-gray={g.status==='pending'}>
-							{g.status}
-						</span>
+						<span class={badge({ color: statusBadgeColor[g.status] })}>{g.status}</span>
 					</td>
-					<td style="color:var(--text-muted);font-size:11px">{g.released}</td>
+					<td class={cellMuted}>{g.released}</td>
 					<td>
-						<span class="action-link">View</span>
-						<span class="action-link">Edit</span>
-						<span class="action-link red">Remove</span>
+						<span class={actionLink()}>View</span>
+						<span class={actionLink()}>Edit</span>
+						<span class={actionLink({ color: 'red' })}>Remove</span>
 					</td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
 </div>
-
-<style>
-	.app-icon {
-		width: 24px; height: 24px;
-		background: linear-gradient(135deg, #2a475e, #1b2838);
-		border: 1px solid var(--border);
-		display: inline-flex; align-items: center; justify-content: center;
-		font-size: 12px; border-radius: var(--radius);
-		vertical-align: middle; margin-right: 6px;
-	}
-	.score-bar { display: inline-block; width: 60px; height: 4px; background: rgba(0,0,0,0.3); border-radius: 1px; vertical-align: middle; overflow: hidden; margin-right: 4px; }
-	.score-fill { height: 100%; border-radius: 1px; }
-</style>

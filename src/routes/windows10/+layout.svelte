@@ -2,7 +2,7 @@
 import { page } from '$app/state';
 import { Search, Wifi, Battery } from 'lucide-svelte';
 import { css, cx } from 'styled-system/css';
-import { flex, hstack, vstack } from 'styled-system/patterns';
+import { hstack, vstack } from 'styled-system/patterns';
 
 let { children } = $props();
 

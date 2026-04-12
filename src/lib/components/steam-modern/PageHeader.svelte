@@ -1,7 +1,6 @@
 <script lang="ts">
 import type { Snippet } from 'svelte';
-import { css } from 'styled-system/css';
-import { flex } from 'styled-system/patterns';
+import { pageHeader } from '$lib/recipes/steam-modern';
 
 let {
 	title,
@@ -13,37 +12,15 @@ let {
 	children?: Snippet;
 } = $props();
 
-const header = css({
-	background: 'linear-gradient(180deg, #1f3348 0%, #182636 100%)',
-	borderBottom: '1px solid token(colors.divider)',
-	padding: '16px 24px 14px',
-	display: 'flex',
-	alignItems: 'flex-end',
-	justifyContent: 'space-between'
-});
-
-const titleStyle = css({
-	fontSize: '20px',
-	fontWeight: '300',
-	color: 'text.bright',
-	letterSpacing: '0.02em'
-});
-
-const subtitleStyle = css({
-	fontSize: 'sm',
-	color: 'text.muted',
-	marginTop: '2px'
-});
-
-const actions = flex({ gap: '8px' });
+const styles = pageHeader();
 </script>
 
-<div class={header}>
+<div class={styles.root}>
 	<div>
-		<div class={titleStyle}>{title}</div>
-		<div class={subtitleStyle}>{subtitle}</div>
+		<div class={styles.title}>{title}</div>
+		<div class={styles.subtitle}>{subtitle}</div>
 	</div>
-	<div class={actions}>
+	<div class={styles.actions}>
 		{@render children?.()}
 	</div>
 </div>
