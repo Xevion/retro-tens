@@ -178,6 +178,7 @@ function isActive(href: string) {
 		font-size: var(--font-size-base);
 		color: var(--text-primary);
 		background: transparent;
+		min-height: 100vh;
 	}
 
 	.steam-client {
@@ -187,6 +188,9 @@ function isActive(href: string) {
 		overflow: hidden;
 		user-select: none;
 		min-width: 760px;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
 	}
 
 	/* Title bar */
@@ -360,7 +364,7 @@ function isActive(href: string) {
 	/* Main layout */
 	.main-layout {
 		display: flex;
-		min-height: 520px;
+		flex: 1;
 	}
 	.content-area {
 		flex: 1;

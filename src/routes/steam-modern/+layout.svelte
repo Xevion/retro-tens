@@ -211,12 +211,13 @@ function isActive(href: string) {
 		font-size: var(--font-size-base);
 		color: var(--text-primary);
 		background: var(--surface-root);
+		min-height: 100vh;
 	}
 
 	.app-shell {
 		display: flex;
 		flex-direction: column;
-		min-height: 600px;
+		min-height: 100vh;
 		background: var(--surface-root);
 		overflow: hidden;
 	}
@@ -395,7 +396,6 @@ function isActive(href: string) {
 		display: flex;
 		flex: 1;
 		overflow: hidden;
-		min-height: 500px;
 	}
 
 	/* Sidebar */

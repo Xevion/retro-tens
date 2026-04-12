@@ -114,12 +114,13 @@ $effect(() => {
 		font-family: var(--font-ui);
 		font-size: var(--font-size-base);
 		color: var(--text-primary);
+		min-height: 100vh;
 	}
 
 	.desktop-shell {
 		display: flex;
 		flex-direction: column;
-		min-height: 600px;
+		min-height: 100vh;
 		position: relative;
 	}
 
@@ -127,7 +128,6 @@ $effect(() => {
 		flex: 1;
 		position: relative;
 		overflow: hidden;
-		min-height: 560px;
 	}
 
 	.desktop-bg {
