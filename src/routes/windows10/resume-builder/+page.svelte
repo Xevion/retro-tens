@@ -1,5 +1,8 @@
 <script lang="ts">
 import { Minus, Square, X, Plus } from 'lucide-svelte';
+import { RatingGroup } from '@ark-ui/svelte/rating-group';
+import { Tabs } from '@ark-ui/svelte/tabs';
+import { TagsInput } from '@ark-ui/svelte/tags-input';
 import { css, cx } from 'styled-system/css';
 import {
 	btn,
@@ -311,7 +314,7 @@ const sectionNames = [
 	'Projects & Portfolio'
 ];
 let currentSection = $state(0);
-let ribbonTab = $state<string | null>('form');
+let ribbonTab = $state<string>('form');
 const previewOpen = $derived(ribbonTab === 'preview');
 
 let fname = $state('');
@@ -324,6 +327,8 @@ let summary = $state('');
 
 const progress = $derived(Math.round(((currentSection + 1) / sectionNames.length) * 100));
 
+let tags = $state<string[]>(['Rust', 'TypeScript', 'Python']);
+
 const skills = $state([
 	{ name: 'Programming', val: 4 },
 	{ name: 'Problem Solving', val: 5 },
@@ -331,10 +336,6 @@ const skills = $state([
 	{ name: 'System Design', val: 4 },
 	{ name: 'Collaboration', val: 4 }
 ]);
-
-function setRating(si: number, val: number) {
-	skills[si].val = val;
-}
 
 function navigate(dir: number) {
 	const next = currentSection + dir;
@@ -347,7 +348,7 @@ function goToSection(idx: number) {
 </script>
 
 <!-- App window -->
-<div class={appWindow}>
+<Tabs.Root class={appWindow} bind:value={ribbonTab}>
 	<!-- Title bar -->
 	<div class={tb.root}>
 		<div class={tb.left}>
@@ -373,10 +374,10 @@ function goToSection(idx: number) {
 	</div>
 
 	<!-- Ribbon -->
-	<div class={ribbonList}>
-		<button type="button" class={cx(ribbonTrigger, ribbonTab === 'form' ? ribbonTriggerActive : '')} aria-pressed={ribbonTab === 'form'} onclick={() => (ribbonTab = 'form')}>FORM VIEW</button>
-		<button type="button" class={cx(ribbonTrigger, ribbonTab === 'preview' ? ribbonTriggerActive : '')} aria-pressed={ribbonTab === 'preview'} onclick={() => (ribbonTab = 'preview')}>LIVE PREVIEW</button>
-	</div>
+	<Tabs.List class={ribbonList}>
+		<Tabs.Trigger class={cx(ribbonTrigger, ribbonTab === 'form' ? ribbonTriggerActive : '')} value="form">FORM VIEW</Tabs.Trigger>
+		<Tabs.Trigger class={cx(ribbonTrigger, ribbonTab === 'preview' ? ribbonTriggerActive : '')} value="preview">LIVE PREVIEW</Tabs.Trigger>
+	</Tabs.List>
 
 	<!-- Progress bar -->
 	<div class={progressBar}>
@@ -507,25 +508,49 @@ function goToSection(idx: number) {
 				</div>
 				<div class={formArea}>
 					<div class={fieldGroup}>
-						<label for="chip-input" class={labelRecipe}>Technical Skills <span class={css({ fontWeight: '400', color: 'text.disabled' })}>(type and press Enter)</span></label>
-						<div class={chipContainer}>
-							{#each ['Rust', 'TypeScript', 'Python'] as chipName (chipName)}
-								<div class={chip}>{chipName} <button type="button" class={chipX} aria-label="Remove {chipName}">×</button></div>
-							{/each}
-							<input id="chip-input" class={chipInput} placeholder="e.g. React, Go…" />
-						</div>
+						<TagsInput.Root bind:value={tags} class={css({ width: '100%' })}>
+							<TagsInput.Context>
+								{#snippet render(tagsInput)}
+									<TagsInput.Label class={labelRecipe}>Technical Skills <span class={css({ fontWeight: '400', color: 'text.disabled' })}>(type and press Enter)</span></TagsInput.Label>
+									<TagsInput.Control class={chipContainer}>
+										{#each tagsInput().value as value, index (index)}
+											<TagsInput.Item {index} {value} class={chip}>
+												<TagsInput.ItemPreview class={css({ display: 'inline-flex', alignItems: 'center', gap: '4px' })}>
+													<TagsInput.ItemText>{value}</TagsInput.ItemText>
+													<TagsInput.ItemDeleteTrigger class={chipX}>×</TagsInput.ItemDeleteTrigger>
+												</TagsInput.ItemPreview>
+												<TagsInput.ItemInput class={chipInput} />
+											</TagsInput.Item>
+										{/each}
+										<TagsInput.Input placeholder="e.g. React, Go…" class={chipInput} />
+									</TagsInput.Control>
+								{/snippet}
+							</TagsInput.Context>
+							<TagsInput.HiddenInput />
+						</TagsInput.Root>
 					</div>
 					<hr class={sectionDivider} />
 					<p class={proficiencyHeading}>Proficiency Levels</p>
-					{#each skills as skill, si (skill.name)}
-						<div class={ratingRow}>
-							<span class={ratingLabel}>{skill.name}</span>
-							<div class={ratingDots}>
-								{#each [1, 2, 3, 4, 5] as n (n)}
-									<button type="button" class={cx(ratingDot, n <= skill.val ? ratingDotFilled : '')} onclick={() => setRating(si, n)} aria-label="{skill.name}, {n} of 5"></button>
-								{/each}
-							</div>
-						</div>
+					{#each skills as skill, _si (skill.name)}
+						<RatingGroup.Root count={5} bind:value={skill.val} class={ratingRow}>
+							<RatingGroup.Label class={ratingLabel}>{skill.name}</RatingGroup.Label>
+							<RatingGroup.Control class={ratingDots}>
+								<RatingGroup.Context>
+									{#snippet render(ratingGroup)}
+										{#each ratingGroup().items as item (item)}
+											<RatingGroup.Item index={item} class={cx(ratingDot, item <= skill.val ? ratingDotFilled : '')}>
+												<RatingGroup.ItemContext>
+													{#snippet render(_itemState)}
+														<span></span>
+													{/snippet}
+												</RatingGroup.ItemContext>
+											</RatingGroup.Item>
+										{/each}
+									{/snippet}
+								</RatingGroup.Context>
+								<RatingGroup.HiddenInput />
+							</RatingGroup.Control>
+						</RatingGroup.Root>
 					{/each}
 				</div>
 			{/if}
@@ -599,4 +624,4 @@ function goToSection(idx: number) {
 			</button>
 		</div>
 	</div>
-</div>
+</Tabs.Root>

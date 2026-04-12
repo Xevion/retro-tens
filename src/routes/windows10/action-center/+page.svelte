@@ -12,6 +12,7 @@ import {
 	Tablet,
 	Settings
 } from 'lucide-svelte';
+import { ToggleGroup } from '@ark-ui/svelte/toggle-group';
 import type { ComponentType } from 'svelte';
 import { css, cx } from 'styled-system/css';
 import { grid } from 'styled-system/patterns';
@@ -65,18 +66,20 @@ let notifications = $state<Notif[]>([
 	}
 ]);
 
-type QaTile = { label: string; active: boolean; icon: ComponentType };
+type QaTile = { label: string; icon: ComponentType };
 
-let qaTiles = $state<QaTile[]>([
-	{ label: 'Wi-Fi', active: true, icon: Wifi },
-	{ label: 'Bluetooth', active: false, icon: Bluetooth },
-	{ label: 'Airplane mode', active: false, icon: PlaneTakeoff },
-	{ label: 'Quiet hours', active: false, icon: Clock },
-	{ label: 'Location', active: true, icon: MapPin },
-	{ label: 'Battery saver', active: false, icon: BatteryMedium },
-	{ label: 'Tablet mode', active: false, icon: Tablet },
-	{ label: 'All settings', active: false, icon: Settings }
-]);
+const qaTiles: QaTile[] = [
+	{ label: 'Wi-Fi', icon: Wifi },
+	{ label: 'Bluetooth', icon: Bluetooth },
+	{ label: 'Airplane mode', icon: PlaneTakeoff },
+	{ label: 'Quiet hours', icon: Clock },
+	{ label: 'Location', icon: MapPin },
+	{ label: 'Battery saver', icon: BatteryMedium },
+	{ label: 'Tablet mode', icon: Tablet },
+	{ label: 'All settings', icon: Settings }
+];
+
+let activeQaTiles = $state<string[]>(['Wi-Fi', 'Location']);
 
 function dismiss(id: string) {
 	notifications = notifications.filter((n) => n.id !== id);
@@ -84,10 +87,6 @@ function dismiss(id: string) {
 
 function clearAll() {
 	notifications = [];
-}
-
-function toggleTile(index: number) {
-	qaTiles = qaTiles.map((t, i) => (i === index ? { ...t, active: !t.active } : t));
 }
 
 const grouped = $derived(
@@ -345,21 +344,20 @@ const qaLabelActive = css({
 	<!-- Quick actions -->
 	<div class={quickActions}>
 		<div class={qaTitle}>Quick actions</div>
-		<div class={qaGrid}>
-			{#each qaTiles as tile, i (tile.label)}
+		<ToggleGroup.Root bind:value={activeQaTiles} multiple class={qaGrid}>
+			{#each qaTiles as tile (tile.label)}
 				{@const Icon = tile.icon}
-				<button
-					type="button"
-					class={cx(qaTileBase, tile.active ? qaTileActive : '')}
-					onclick={() => toggleTile(i)}
-					title={tile.label}
+				{@const active = activeQaTiles.includes(tile.label)}
+				<ToggleGroup.Item
+					value={tile.label}
+					class={cx(qaTileBase, active ? qaTileActive : '')}
 				>
-					<div class={cx(qaIcon, tile.active ? qaIconActive : '')}>
+					<div class={cx(qaIcon, active ? qaIconActive : '')}>
 						<Icon size={20} strokeWidth={1.5} />
 					</div>
-					<span class={cx(qaLabel, tile.active ? qaLabelActive : '')}>{tile.label}</span>
-				</button>
+					<span class={cx(qaLabel, active ? qaLabelActive : '')}>{tile.label}</span>
+				</ToggleGroup.Item>
 			{/each}
-		</div>
+		</ToggleGroup.Root>
 	</div>
 </div>
