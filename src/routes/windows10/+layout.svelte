@@ -30,9 +30,9 @@ $effect(() => {
 		<!-- Desktop background + page content -->
 		<div class="desktop-area">
 			<div class="desktop-bg"></div>
-			<div class="desktop-content">
+			<main class="desktop-content">
 				{@render children()}
-			</div>
+			</main>
 		</div>
 
 		<!-- Taskbar -->

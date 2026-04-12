@@ -1,4 +1,6 @@
 <script lang="ts">
+import '@fontsource-variable/source-sans-3';
+import '@fontsource-variable/source-sans-3/wght-italic.css';
 import '$lib/themes/steam-modern/tokens.css';
 import '$lib/themes/steam-modern/shared.css';
 import { page } from '$app/state';
@@ -111,15 +113,6 @@ function isActive(href: string) {
 	return page.url.pathname.startsWith(href);
 }
 </script>
-
-<svelte:head>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"
-		rel="stylesheet"
-	/>
-</svelte:head>
 
 <div class="theme-steam-modern">
 	<div class="app-shell">

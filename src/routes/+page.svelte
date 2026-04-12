@@ -52,10 +52,6 @@ const themes = [
 ];
 </script>
 
-<svelte:head>
-	<title>retro-tens — retro design playground</title>
-</svelte:head>
-
 <div class="page">
 	<header class="site-header">
 		<div class="header-inner">

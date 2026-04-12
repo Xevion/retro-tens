@@ -69,10 +69,11 @@ function isActive(href: string) {
 				<div class="steam-logo-dot">S</div>
 				<span class="title-text">STEAM</span>
 			</div>
+			<!-- a11y-exemption: decorative window chrome buttons — 14px matches the 2010 Steam client -->
 			<div class="win-btns">
-				<button type="button" class="win-btn min">—</button>
-				<button type="button" class="win-btn max">□</button>
-				<button type="button" class="win-btn cls">✕</button>
+				<button type="button" class="win-btn min" aria-hidden="true" tabindex="-1">—</button>
+				<button type="button" class="win-btn max" aria-hidden="true" tabindex="-1">□</button>
+				<button type="button" class="win-btn cls" aria-hidden="true" tabindex="-1">✕</button>
 			</div>
 		</div>
 
@@ -100,9 +101,9 @@ function isActive(href: string) {
 
 		<!-- Main layout: content + sidebar -->
 		<div class="main-layout">
-			<div class="content-area">
+			<main class="content-area">
 				{@render children()}
-			</div>
+			</main>
 
 			<!-- Persistent sidebar -->
 			<aside class="sidebar">

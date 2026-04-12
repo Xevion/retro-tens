@@ -10,7 +10,13 @@ export default defineConfig({
 	},
 	ci: {
 		buildStatic: false,
-		reporter: 'jsonExpanded'
+		reporter: 'jsonExpanded',
+		budget: {
+			performance: 80,
+			accessibility: 80,
+			'best-practices': 95,
+			seo: 85
+		}
 	},
 	outputPath: '.unlighthouse'
 });
