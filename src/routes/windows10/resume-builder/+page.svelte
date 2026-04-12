@@ -59,13 +59,13 @@ function goToSection(idx: number) {
 			<span class="title-text">Resume Builder — Microsoft Office Style</span>
 		</div>
 		<div class="title-controls">
-			<button class="tb-btn" aria-label="Minimize">
+			<button type="button" class="tb-btn" aria-label="Minimize">
 				<Minus size={10} color="#fff" strokeWidth={1.5} />
 			</button>
-			<button class="tb-btn" aria-label="Maximize">
+			<button type="button" class="tb-btn" aria-label="Maximize">
 				<Square size={10} color="#fff" strokeWidth={1.5} />
 			</button>
-			<button class="tb-btn close-btn" aria-label="Close">
+			<button type="button" class="tb-btn close-btn" aria-label="Close">
 				<X size={10} color="#fff" strokeWidth={1.5} />
 			</button>
 		</div>
@@ -73,10 +73,10 @@ function goToSection(idx: number) {
 
 	<!-- Ribbon -->
 	<div class="ribbon">
-		<button class="ribbon-tab" class:active={activeRibbonTab === 'form'} onclick={() => { activeRibbonTab = 'form'; previewOpen = false; }}>
+		<button type="button" class="ribbon-tab" class:active={activeRibbonTab === 'form'} onclick={() => { activeRibbonTab = 'form'; previewOpen = false; }}>
 			FORM VIEW
 		</button>
-		<button class="ribbon-tab" class:active={activeRibbonTab === 'preview'} onclick={() => { activeRibbonTab = 'preview'; previewOpen = true; }}>
+		<button type="button" class="ribbon-tab" class:active={activeRibbonTab === 'preview'} onclick={() => { activeRibbonTab = 'preview'; previewOpen = true; }}>
 			LIVE PREVIEW
 		</button>
 	</div>
@@ -92,8 +92,9 @@ function goToSection(idx: number) {
 		<div class="sidebar">
 			<div class="sidebar-section">
 				<div class="sidebar-header">Sections</div>
-				{#each sectionNames as name, i}
+				{#each sectionNames as name, i (name)}
 					<button
+						type="button"
 						class="sidebar-item"
 						class:active={currentSection === i}
 						class:done={i < currentSection}
@@ -106,8 +107,8 @@ function goToSection(idx: number) {
 			</div>
 			<div class="sidebar-section" style="border-top:1px solid var(--border-light);padding-top:10px">
 				<div class="sidebar-header">Templates</div>
-				{#each [['Technical', true], ['Minimal', false], ['Executive', false]] as [name, sel]}
-					<button class="sidebar-item" style="font-size:11.5px">
+				{#each [['Technical', true], ['Minimal', false], ['Executive', false]] as [name, sel] (name)}
+					<button type="button" class="sidebar-item" style="font-size:11.5px">
 						<span style="width:7px;height:7px;{sel?'background:var(--accent);border-radius:1px':'background:#e8e8e8;border:1px solid #ccc;border-radius:1px'};flex-shrink:0;display:inline-block;margin-right:2px"></span>
 						{name}
 					</button>
@@ -153,7 +154,7 @@ function goToSection(idx: number) {
 					<div class="experience-card">
 						<div class="exp-card-header">
 							<span class="exp-num">Experience #1</span>
-							<button class="btn-remove">Remove</button>
+							<button type="button" class="btn-remove">Remove</button>
 						</div>
 						<div class="field-row cols2">
 							<div><label for="exp-jobtitle">Job Title <span class="req">*</span></label><input id="exp-jobtitle" type="text" placeholder="e.g. Software Engineer" /></div>
@@ -167,7 +168,7 @@ function goToSection(idx: number) {
 						<div><label for="exp-desc">Key Responsibilities &amp; Achievements</label>
 						<textarea id="exp-desc" placeholder="• Describe your impact with measurable outcomes&#10;• Technologies used and problems solved"></textarea></div>
 					</div>
-					<button class="add-entry-btn">
+					<button type="button" class="add-entry-btn">
 						<Plus size={13} strokeWidth={1.5} />
 						Add Work Experience
 					</button>
@@ -184,7 +185,7 @@ function goToSection(idx: number) {
 					<div class="experience-card">
 						<div class="exp-card-header">
 							<span class="exp-num">Education #1</span>
-							<button class="btn-remove">Remove</button>
+							<button type="button" class="btn-remove">Remove</button>
 						</div>
 						<div class="field-row cols2">
 							<div><label for="edu-degree">Degree / Certificate <span class="req">*</span></label><input id="edu-degree" type="text" placeholder="B.S. Computer Science" /></div>
@@ -196,7 +197,7 @@ function goToSection(idx: number) {
 							<div><label for="edu-field">Field of Study</label><input id="edu-field" type="text" placeholder="Computer Science" /></div>
 						</div>
 					</div>
-					<button class="add-entry-btn">
+					<button type="button" class="add-entry-btn">
 						<Plus size={13} strokeWidth={1.5} />
 						Add Education
 					</button>
@@ -213,20 +214,20 @@ function goToSection(idx: number) {
 					<div class="field-group">
 						<label for="chip-input">Technical Skills <span style="font-weight:400;color:#888">(type and press Enter)</span></label>
 						<div class="chip-container">
-							{#each ['Rust', 'TypeScript', 'Python'] as chip}
-								<div class="chip">{chip} <button class="chip-x" aria-label="Remove {chip}">×</button></div>
+							{#each ['Rust', 'TypeScript', 'Python'] as chip (chip)}
+								<div class="chip">{chip} <button type="button" class="chip-x" aria-label="Remove {chip}">×</button></div>
 							{/each}
 							<input id="chip-input" class="chip-input" placeholder="e.g. React, Go…" />
 						</div>
 					</div>
 					<hr class="section-divider" />
 					<p class="proficiency-heading">Proficiency Levels</p>
-					{#each skills as skill, si}
+					{#each skills as skill, si (skill.name)}
 						<div class="rating-row">
 							<span class="rating-label">{skill.name}</span>
 							<div class="rating-dots">
-								{#each [1,2,3,4,5] as n}
-									<button class="rating-dot" class:filled={n <= skill.val} onclick={() => setRating(si, n)} aria-label="{skill.name}, {n} of 5"></button>
+								{#each [1,2,3,4,5] as n (n)}
+									<button type="button" class="rating-dot" class:filled={n <= skill.val} onclick={() => setRating(si, n)} aria-label="{skill.name}, {n} of 5"></button>
 								{/each}
 							</div>
 						</div>
@@ -244,7 +245,7 @@ function goToSection(idx: number) {
 					<div class="experience-card">
 						<div class="exp-card-header">
 							<span class="exp-num">Project #1</span>
-							<button class="btn-remove">Remove</button>
+							<button type="button" class="btn-remove">Remove</button>
 						</div>
 						<div class="field-row cols2">
 							<div><label for="proj-name">Project Name <span class="req">*</span></label><input id="proj-name" type="text" placeholder="e.g. Maestro" /></div>
@@ -256,7 +257,7 @@ function goToSection(idx: number) {
 						</div>
 						<div><label for="proj-desc">Description &amp; Impact</label><textarea id="proj-desc" placeholder="What does the project do? What was technically challenging?"></textarea></div>
 					</div>
-					<button class="add-entry-btn">
+					<button type="button" class="add-entry-btn">
 						<Plus size={13} strokeWidth={1.5} />
 						Add Project
 					</button>
@@ -295,10 +296,10 @@ function goToSection(idx: number) {
 		<div class="status-text">Section {currentSection + 1} of {sectionNames.length} — {sectionNames[currentSection]}</div>
 		<div class="status-actions">
 			{#if currentSection > 0}
-				<button class="btn" onclick={() => navigate(-1)}>← Back</button>
+				<button type="button" class="btn" onclick={() => navigate(-1)}>← Back</button>
 			{/if}
-			<button class="btn">Save Draft</button>
-			<button class="btn primary" onclick={() => navigate(1)}>
+			<button type="button" class="btn">Save Draft</button>
+			<button type="button" class="btn primary" onclick={() => navigate(1)}>
 				{currentSection === sectionNames.length - 1 ? 'Generate Resume →' : 'Next →'}
 			</button>
 		</div>

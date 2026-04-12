@@ -65,7 +65,7 @@ const themes = [
 	</header>
 
 	<main class="themes-grid">
-		{#each themes as theme}
+		{#each themes as theme (theme.id)}
 			<div class="theme-card" style="--card-accent:{theme.accent}">
 				<div class="card-preview">
 					{#if theme.id === 'steam-legacy'}
@@ -87,13 +87,13 @@ const themes = [
 								<div class="psl-content">
 									<div class="psl-featured"></div>
 									<div class="psl-grid">
-										{#each Array(8) as _}
+										{#each Array(8) as _, i (i)}
 											<div class="psl-tile"></div>
 										{/each}
 									</div>
 								</div>
 								<div class="psl-sidebar">
-									{#each Array(4) as _}
+									{#each Array(4) as _, i (i)}
 										<div class="psl-friend"></div>
 									{/each}
 								</div>
@@ -109,19 +109,19 @@ const themes = [
 							</div>
 							<div class="psm-menubar"></div>
 							<div class="psm-navtabs">
-								{#each ['Dashboard','Users','Games','Reports'] as t, i}
+								{#each ['Dashboard','Users','Games','Reports'] as t, i (t)}
 									<span class:active={i===0}>{t}</span>
 								{/each}
 							</div>
 							<div class="psm-body">
 								<div class="psm-sidebar">
-									{#each Array(6) as _}
+									{#each Array(6) as _, i (i)}
 										<div class="psm-link"></div>
 									{/each}
 								</div>
 								<div class="psm-main">
 									<div class="psm-stats">
-										{#each Array(4) as _}
+										{#each Array(4) as _, i (i)}
 											<div class="psm-stat"></div>
 										{/each}
 									</div>
@@ -142,12 +142,12 @@ const themes = [
 								<div class="pw10-panel">
 									<div class="pw10-panel-header"></div>
 									<div class="pw10-notifs">
-										{#each Array(3) as _}
+										{#each Array(3) as _, i (i)}
 											<div class="pw10-notif"></div>
 										{/each}
 									</div>
 									<div class="pw10-qa">
-										{#each Array(8) as _}
+										{#each Array(8) as _, i (i)}
 											<div class="pw10-tile"></div>
 										{/each}
 									</div>
@@ -168,7 +168,7 @@ const themes = [
 						<span class="meta-pill">Font: {theme.font}</span>
 					</div>
 					<div class="card-links">
-						{#each theme.routes as route}
+						{#each theme.routes as route (route.href)}
 							<a href={route.href} class="route-link">{route.label} →</a>
 						{/each}
 					</div>

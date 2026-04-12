@@ -24,18 +24,6 @@ $effect(() => {
 	return () => clearInterval(interval);
 });
 
-const taskbarApps = [
-	{ icon: 'start', label: 'Start', href: '/windows10' },
-	{ icon: 'search', label: 'Search', href: '/windows10' },
-	{ icon: 'explorer', label: 'File Explorer', href: '/windows10/action-center' },
-	{ icon: 'edge', label: 'Edge', href: '/windows10/resume-builder' }
-];
-
-function isActiveApp(href: string) {
-	return (
-		(page.url.pathname.startsWith(href) && href !== '/windows10') || page.url.pathname === href
-	);
-}
 </script>
 
 <div class="theme-windows10">

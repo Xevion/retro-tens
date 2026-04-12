@@ -10,6 +10,20 @@ const navLinks = [
 	{ label: 'Community', href: '/steam-legacy/community' }
 ];
 
+const friends = [
+	{ initials: 'KR', name: 'krazykat99', game: 'Borderlands 2', bg: '#2a5a10', dotColor: 'var(--status-ingame)' },
+	{ initials: 'NX', name: 'n3xus_zero', status: 'Online', bg: '#1a2a5a', dotColor: 'var(--status-online)' },
+	{ initials: 'FX', name: 'foxbyte', game: 'Team Fortress 2', bg: '#4a2a10', dotColor: 'var(--status-ingame)' },
+	{ initials: 'ZP', name: 'zipcode', status: 'Away', bg: '#3a3a10', dotColor: 'var(--status-away)' },
+	{ initials: 'MV', name: 'maverick_x', status: 'Last on 2 days ago', bg: '#2a2a2a', dotColor: 'var(--status-offline)', statusColor: '#555' },
+];
+
+const news = [
+	{ date: 'Nov 12, 2012', title: 'Steam Big Picture Mode now available for all users' },
+	{ date: 'Nov 10, 2012', title: 'Autumn Sale starts Friday — thousands of games discounted' },
+	{ date: 'Nov 8, 2012', title: 'Greenlight selects 10 new titles for distribution' },
+];
+
 function isActive(href: string) {
 	if (href === '/steam-legacy') return page.url.pathname === '/steam-legacy';
 	return page.url.pathname.startsWith(href);
@@ -25,9 +39,9 @@ function isActive(href: string) {
 				<span class="title-text">STEAM</span>
 			</div>
 			<div class="win-btns">
-				<button class="win-btn min">—</button>
-				<button class="win-btn max">□</button>
-				<button class="win-btn cls">✕</button>
+				<button type="button" class="win-btn min">—</button>
+				<button type="button" class="win-btn max">□</button>
+				<button type="button" class="win-btn cls">✕</button>
 			</div>
 		</div>
 
@@ -37,7 +51,7 @@ function isActive(href: string) {
 				<span class="steam-brand">STEAM<span class="brand-accent">™</span></span>
 			</div>
 			<nav class="nav-tabs">
-				{#each navLinks as link}
+				{#each navLinks as link (link.href)}
 					<a href={link.href} class="nav-tab" class:active={isActive(link.href)}>
 						{link.label}
 					</a>
@@ -66,7 +80,7 @@ function isActive(href: string) {
 						<span class="sidebar-head-title">Friends</span>
 						<span class="sidebar-head-count">4 online</span>
 					</div>
-					{#each friends as friend}
+					{#each friends as friend (friend.name)}
 						<div class="friend-item">
 							<div class="status-dot" style="background: {friend.dotColor}"></div>
 							<div class="friend-avatar" style="background: {friend.bg}">{friend.initials}</div>
@@ -83,7 +97,7 @@ function isActive(href: string) {
 						</div>
 					{/each}
 					<div class="sidebar-btn-row">
-						<button class="view-all-btn">View All Friends</button>
+						<button type="button" class="view-all-btn">View All Friends</button>
 					</div>
 				</div>
 
@@ -91,7 +105,7 @@ function isActive(href: string) {
 					<div class="sidebar-head">
 						<span class="sidebar-head-title">Steam News</span>
 					</div>
-					{#each news as item}
+					{#each news as item (item.title)}
 						<div class="news-item">
 							<div class="news-date">{item.date}</div>
 							<div class="news-title">{item.title}</div>
@@ -104,7 +118,7 @@ function isActive(href: string) {
 						<div class="account-label">Your Account</div>
 						<div class="account-meta">Wallet Balance</div>
 						<div class="account-balance">$23.47</div>
-						<button class="add-funds-btn">Add Funds</button>
+						<button type="button" class="add-funds-btn">Add Funds</button>
 					</div>
 				</div>
 			</aside>
@@ -126,22 +140,6 @@ function isActive(href: string) {
 		</footer>
 	</div>
 </div>
-
-<script lang="ts" module>
-	const friends = [
-		{ initials: 'KR', name: 'krazykat99', game: 'Borderlands 2', bg: '#2a5a10', dotColor: 'var(--status-ingame)' },
-		{ initials: 'NX', name: 'n3xus_zero', status: 'Online', bg: '#1a2a5a', dotColor: 'var(--status-online)' },
-		{ initials: 'FX', name: 'foxbyte', game: 'Team Fortress 2', bg: '#4a2a10', dotColor: 'var(--status-ingame)' },
-		{ initials: 'ZP', name: 'zipcode', status: 'Away', bg: '#3a3a10', dotColor: 'var(--status-away)' },
-		{ initials: 'MV', name: 'maverick_x', status: 'Last on 2 days ago', bg: '#2a2a2a', dotColor: 'var(--status-offline)', statusColor: '#555' },
-	];
-
-	const news = [
-		{ date: 'Nov 12, 2012', title: 'Steam Big Picture Mode now available for all users' },
-		{ date: 'Nov 10, 2012', title: 'Autumn Sale starts Friday — thousands of games discounted' },
-		{ date: 'Nov 8, 2012', title: 'Greenlight selects 10 new titles for distribution' },
-	];
-</script>
 
 <style>
 	.theme-steam-legacy {

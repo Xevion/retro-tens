@@ -108,8 +108,8 @@ const filtered = $derived(
 </script>
 
 <PageHeader title="User Management" subtitle="147,382,019 total accounts · 8.4M concurrent">
-	<button class="btn btn-secondary"><Download size={13} /> Export CSV</button>
-	<button class="btn btn-primary"><Plus size={13} /> Invite Admin</button>
+	<button type="button" class="btn btn-secondary"><Download size={13} /> Export CSV</button>
+	<button type="button" class="btn btn-primary"><Plus size={13} /> Invite Admin</button>
 </PageHeader>
 
 <div class="search-bar">
@@ -143,7 +143,7 @@ const filtered = $derived(
 			</tr>
 		</thead>
 		<tbody>
-			{#each filtered as u}
+			{#each filtered as u (u.id)}
 				<tr>
 					<td>
 						<div class="user-avatar" style="background:linear-gradient(135deg,#2a6591,#1b4a6b)">{u.name.slice(0,2).toUpperCase()}</div>

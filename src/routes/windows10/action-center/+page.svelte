@@ -12,15 +12,13 @@ import {
 	Tablet,
 	Settings
 } from 'lucide-svelte';
-import type { SvelteComponentTyped } from 'svelte';
-
-type LucideIcon = new (...args: any[]) => SvelteComponentTyped<any>;
+import type { ComponentType } from 'svelte';
 
 type Notif = {
 	id: string;
 	group: string;
 	groupColor: string;
-	groupIcon: LucideIcon;
+	groupIcon: ComponentType;
 	title: string;
 	body: string;
 	time: string;
@@ -65,7 +63,7 @@ let notifications = $state<Notif[]>([
 	}
 ]);
 
-type QaTile = { label: string; active: boolean; icon: LucideIcon };
+type QaTile = { label: string; active: boolean; icon: ComponentType };
 
 let qaTiles = $state<QaTile[]>([
 	{ label: 'Wi-Fi', active: true, icon: Wifi },
@@ -104,14 +102,14 @@ const grouped = $derived(
 <div class="panel">
 	<div class="panel-header">
 		<span class="panel-title">ACTION CENTER</span>
-		<button class="clear-all" onclick={clearAll}>Clear all</button>
+		<button type="button" class="clear-all" onclick={clearAll}>Clear all</button>
 	</div>
 
 	<div class="notifications-area">
 		{#if notifications.length === 0}
 			<div class="empty-state">No new notifications</div>
 		{:else}
-			{#each Object.entries(grouped) as [groupName, groupNotifs], gi}
+			{#each Object.entries(grouped) as [groupName, groupNotifs], gi (groupName)}
 				{@const GroupIcon = groupNotifs[0].groupIcon}
 				{#if gi > 0}<div class="divider"></div>{/if}
 				<div class="notif-group">
@@ -121,7 +119,7 @@ const grouped = $derived(
 						</div>
 						{groupName}
 					</div>
-					{#each groupNotifs as notif}
+					{#each groupNotifs as notif (notif.id)}
 						<div
 							class="notif-card"
 							role="button"
@@ -132,7 +130,7 @@ const grouped = $derived(
 								<div class="notif-time">{notif.time}</div>
 							</div>
 							<div class="notif-body">{notif.body}</div>
-							<button class="notif-dismiss" onclick={() => dismiss(notif.id)}>✕</button>
+							<button type="button" class="notif-dismiss" onclick={() => dismiss(notif.id)}>✕</button>
 						</div>
 					{/each}
 				</div>
@@ -144,9 +142,10 @@ const grouped = $derived(
 	<div class="quick-actions">
 		<div class="qa-title">Quick actions</div>
 		<div class="qa-grid">
-			{#each qaTiles as tile, i}
+			{#each qaTiles as tile, i (tile.label)}
 				{@const Icon = tile.icon}
 				<button
+					type="button"
 					class="qa-tile"
 					class:active={tile.active}
 					onclick={() => toggleTile(i)}

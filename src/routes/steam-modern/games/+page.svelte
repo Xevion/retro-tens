@@ -107,8 +107,8 @@ const filtered = $derived(
 </script>
 
 <PageHeader title="Applications &amp; Games" subtitle="68,412 total apps · 34 awaiting review">
-	<button class="btn btn-secondary"><Download size={13} /> Export</button>
-	<button class="btn btn-primary"><Plus size={13} /> Submit App</button>
+	<button type="button" class="btn btn-secondary"><Download size={13} /> Export</button>
+	<button type="button" class="btn btn-primary"><Plus size={13} /> Submit App</button>
 </PageHeader>
 
 <div class="search-bar">
@@ -145,7 +145,7 @@ const filtered = $derived(
 			</tr>
 		</thead>
 		<tbody>
-			{#each filtered as g}
+			{#each filtered as g (g.id)}
 				<tr>
 					<td>
 						<div class="app-icon">{g.name.slice(0,1)}</div>

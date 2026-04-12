@@ -2,7 +2,7 @@
 import '$lib/themes/steam-modern/tokens.css';
 import '$lib/themes/steam-modern/shared.css';
 import { page } from '$app/state';
-import type { Component } from 'svelte';
+import type { ComponentType } from 'svelte';
 import {
 	LayoutDashboard,
 	AlertTriangle,
@@ -26,14 +26,14 @@ import {
 let { children } = $props();
 
 type SidebarLink = {
-	icon: Component;
+	icon: ComponentType;
 	label: string;
 	href: string;
 	count?: string;
 	alert?: boolean;
 };
 type SidebarSection = { title: string; links: SidebarLink[] };
-type NavTab = { label: string; icon: Component; href: string; badge?: boolean };
+type NavTab = { label: string; icon: ComponentType; href: string; badge?: boolean };
 
 const navTabs: NavTab[] = [
 	{ label: 'Dashboard', icon: LayoutDashboard, href: '/steam-modern' },
@@ -166,7 +166,7 @@ function isActive(href: string) {
 
 		<!-- Nav tabs -->
 		<nav class="nav-tabs">
-			{#each navTabs as tab}
+			{#each navTabs as tab (tab.href)}
 				{@const Icon = tab.icon}
 				<a href={tab.href} class="nav-tab" class:active={isActive(tab.href)}>
 					<span class="tab-icon"><Icon size={14} /></span>
@@ -180,10 +180,10 @@ function isActive(href: string) {
 		<div class="content-area">
 			<!-- Sidebar -->
 			<aside class="sidebar">
-				{#each sidebarSections as section}
+				{#each sidebarSections as section (section.title)}
 					<div class="sidebar-section">
 						<div class="sidebar-section-header">{section.title}</div>
-						{#each section.links as link}
+						{#each section.links as link (link.href)}
 							{@const Icon = link.icon}
 							<a href={link.href} class="sidebar-link" class:active={isActive(link.href)}>
 								<span class="icon"><Icon size={12} /></span>

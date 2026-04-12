@@ -115,9 +115,9 @@ const filtered = $derived(
 
 <!-- Sub-nav -->
 <div class="sub-nav">
-	{#each subTabs as tab, i}
+	{#each subTabs as tab, i (tab)}
 		{#if i > 0}<span class="sub-sep">|</span>{/if}
-		<button class="sub-tab" class:active={activeSubTab === tab} onclick={() => (activeSubTab = tab)}>
+		<button type="button" class="sub-tab" class:active={activeSubTab === tab} onclick={() => (activeSubTab = tab)}>
 			{tab}
 		</button>
 	{/each}
@@ -141,7 +141,7 @@ const filtered = $derived(
 		<span class="section-title">▶ Recently Played</span>
 	</div>
 	<div class="games-grid">
-		{#each recentGames as game}
+		{#each recentGames as game (game.name)}
 			<div class="game-card">
 				<div class="game-img" style="background: {game.color}">
 					<div class="game-overlay"></div>
@@ -164,14 +164,14 @@ const filtered = $derived(
 <div class="section-header">
 	<span class="section-title">▶ {searchVal ? 'Search Results' : 'All Games'}</span>
 </div>
-{#each (searchVal ? filtered : allGames) as game}
+{#each (searchVal ? filtered : allGames) as game (game.name)}
 	<div class="list-item">
 		<div class="list-img" style="background: {game.color}">{game.icon}</div>
 		<span class="list-name">{game.name}</span>
 		<span class="list-tag">{game.tag}</span>
 		<span class="list-hours">{game.hours} hrs</span>
 		<span class="list-last">{game.lastPlayed}</span>
-		<button class="play-btn">▶ Play</button>
+		<button type="button" class="play-btn">▶ Play</button>
 	</div>
 {/each}
 

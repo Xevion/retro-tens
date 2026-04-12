@@ -33,8 +33,8 @@ const vacStats = [
 </script>
 
 <PageHeader title="Analytics &amp; Reports" subtitle="Platform metrics · Week of Nov 5–11, 2012">
-	<button class="btn btn-secondary"><CalendarDays size={13} /> Date Range</button>
-	<button class="btn btn-primary"><Download size={13} /> Export PDF</button>
+	<button type="button" class="btn btn-secondary"><CalendarDays size={13} /> Date Range</button>
+	<button type="button" class="btn btn-primary"><Download size={13} /> Export PDF</button>
 </PageHeader>
 
 <div class="metrics-strip">
@@ -44,7 +44,7 @@ const vacStats = [
 		{label:'New Accounts',value:'87,440',delta:'▲ +3.2%',up:true},
 		{label:'VAC Bans Issued',value:'1,176',delta:'▲ +14.2%',up:false},
 		{label:'Store Transactions',value:'2.8M',delta:'▲ +9.7%',up:true},
-	] as m}
+	] as m (m.label)}
 		<div class="metric-card">
 			<div class="metric-label">{m.label}</div>
 			<div class="metric-value">{m.value}</div>
@@ -59,7 +59,7 @@ const vacStats = [
 		<div class="panel-header">Concurrent Users — This Week</div>
 		<div class="chart-container">
 			<div class="bar-chart">
-				{#each weeklyData as day}
+				{#each weeklyData as day (day.label)}
 					<div class="bar-col">
 						<div class="bar-label-val">{day.users}M</div>
 						<div class="bar-block" style="height:{(day.users/maxUsers*100)}%"></div>
@@ -75,7 +75,7 @@ const vacStats = [
 		<div class="panel-header">Daily Revenue — This Week <span class="badge badge-yellow">$M</span></div>
 		<div class="chart-container">
 			<div class="bar-chart">
-				{#each weeklyData as day}
+				{#each weeklyData as day (day.label)}
 					<div class="bar-col">
 						<div class="bar-label-val">${day.revenue}M</div>
 						<div class="bar-block gold" style="height:{(day.revenue/maxRevenue*100)}%"></div>
@@ -92,7 +92,7 @@ const vacStats = [
 	<div class="panel">
 		<div class="panel-header">Top Games by Current Players</div>
 		<div class="panel-body">
-			{#each topGames as g, i}
+			{#each topGames as g, i (g.name)}
 				<div class="top-game-row">
 					<span class="rank">#{i+1}</span>
 					<span class="game-name">{g.name}</span>
@@ -107,7 +107,7 @@ const vacStats = [
 	<div class="panel">
 		<div class="panel-header">VAC Bans by Region <span class="badge badge-red">24h</span></div>
 		<div class="panel-body">
-			{#each vacStats as v}
+			{#each vacStats as v (v.region)}
 				<div class="vac-row">
 					<span class="vac-region">{v.region}</span>
 					<div class="vac-bar-wrap">

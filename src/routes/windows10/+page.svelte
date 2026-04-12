@@ -44,8 +44,9 @@ const apps = [
 <div class="app-launcher">
 	<div class="launcher-title">Open an App</div>
 	<div class="launcher-grid">
-		{#each apps as app}
+		{#each apps as app (app.href)}
 			<a href={app.href} class="app-tile">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -- reason: hardcoded SVG strings, no user input -->
 				<div class="app-tile-icon">{@html app.icon}</div>
 				<div class="app-tile-name">{app.name}</div>
 			</a>

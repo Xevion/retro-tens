@@ -146,13 +146,13 @@ const recentUsers = [
 </script>
 
 <PageHeader title="Administrator Dashboard" subtitle="Steam Platform Control · Last refreshed 2 minutes ago">
-	<button class="btn btn-secondary"><RefreshCw size={13} /> Refresh</button>
-	<button class="btn btn-primary"><Download size={13} /> Export Report</button>
+	<button type="button" class="btn btn-secondary"><RefreshCw size={13} /> Refresh</button>
+	<button type="button" class="btn btn-primary"><Download size={13} /> Export Report</button>
 </PageHeader>
 
 <!-- Stats row -->
 <div class="stats-grid">
-	{#each stats as stat}
+	{#each stats as stat (stat.label)}
 		<div class="stat-card">
 			<div class="stat-label">{stat.label}</div>
 			<div class="stat-value">{stat.value}<span>{stat.unit}</span></div>
@@ -258,10 +258,11 @@ const recentUsers = [
 	<div class="panel">
 		<div class="panel-header">Activity Log <span class="badge badge-blue">Live</span></div>
 		<div class="panel-body">
-			{#each activityFeed as item}
+			{#each activityFeed as item, i (i)}
 				<div class="activity-item">
 					<span class="activity-time">{item.time}</span>
 					<div class="activity-type {item.dot}"></div>
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -- reason: hardcoded demo content, no user input -->
 					<div class="activity-text">{@html item.text}</div>
 				</div>
 			{/each}
@@ -274,7 +275,7 @@ const recentUsers = [
 	<div class="panel">
 		<div class="panel-header">Server Health</div>
 		<div class="panel-body">
-			{#each serverHealth as srv}
+			{#each serverHealth as srv (srv.name)}
 				<div class="health-row">
 					<span class="health-name">{srv.name}</span>
 					<div class="health-bar-wrap">
@@ -303,7 +304,7 @@ const recentUsers = [
 				</tr>
 			</thead>
 			<tbody>
-				{#each recentUsers as u}
+				{#each recentUsers as u (u.id)}
 					<tr>
 						<td>
 							<div class="user-avatar" style="background:linear-gradient(135deg,#2a6591,#1b4a6b)">{u.name.slice(0,2).toUpperCase()}</div>

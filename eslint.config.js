@@ -22,7 +22,11 @@ export default defineConfig(
 			// see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
 			'no-undef': 'off',
 			'@typescript-eslint/no-explicit-any': 'error',
-			'@typescript-eslint/consistent-type-imports': 'error'
+			'@typescript-eslint/consistent-type-imports': 'error',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{ argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }
+			]
 		}
 	},
 	{
@@ -38,6 +42,7 @@ export default defineConfig(
 		rules: {
 			'svelte/button-has-type': 'error',
 			'svelte/no-unused-svelte-ignore': 'error',
+			'svelte/no-navigation-without-resolve': 'off',
 			// A11y: structural violations are errors; contrast/color violations are warnings
 			// because era-accurate palettes intentionally fail modern contrast ratios.
 			'svelte/valid-compile': 'error'

@@ -85,9 +85,9 @@ const activity = [
 
 <!-- Sub-nav -->
 <div class="sub-nav">
-	{#each subTabs as tab, i}
+	{#each subTabs as tab, i (tab)}
 		{#if i > 0}<span class="sub-sep">|</span>{/if}
-		<button class="sub-tab" class:active={activeSubTab === tab} onclick={() => (activeSubTab = tab)}>
+		<button type="button" class="sub-tab" class:active={activeSubTab === tab} onclick={() => (activeSubTab = tab)}>
 			{tab}
 		</button>
 	{/each}
@@ -101,7 +101,7 @@ const activity = [
 
 <!-- Activity feed -->
 <div class="activity-feed">
-	{#each activity as item}
+	{#each activity as item, i (i)}
 		<div class="activity-item">
 			<div class="activity-icon-col">
 				<div class="activity-type-icon">{item.icon}</div>
@@ -132,7 +132,7 @@ const activity = [
 		{ game: 'Skyrim', title: 'Mod recommendations for 2012 — what are you running?', replies: 83, views: 3491 },
 		{ game: 'Team Fortress 2', title: 'New map suggestions — what should Valve add?', replies: 124, views: 8822 },
 		{ game: 'XCOM: Enemy Unknown', title: 'Classic difficulty tips and tricks', replies: 29, views: 762 },
-	] as disc}
+	] as disc (disc.title)}
 		<div class="disc-item">
 			<span class="disc-game">{disc.game}</span>
 			<span class="disc-title">{disc.title}</span>

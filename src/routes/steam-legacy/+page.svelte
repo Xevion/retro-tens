@@ -110,9 +110,9 @@ let activeSubTab = $state('Featured');
 
 <!-- Sub-nav -->
 <div class="sub-nav">
-	{#each subTabs as tab, i}
+	{#each subTabs as tab, i (tab)}
 		{#if i > 0}<span class="sub-sep">|</span>{/if}
-		<button class="sub-tab" class:active={activeSubTab === tab} onclick={() => (activeSubTab = tab)}>
+		<button type="button" class="sub-tab" class:active={activeSubTab === tab} onclick={() => (activeSubTab = tab)}>
 			{tab}
 		</button>
 	{/each}
@@ -157,7 +157,7 @@ let activeSubTab = $state('Featured');
 	<span class="section-title">▶ Recommended For You</span>
 </div>
 <div class="games-grid">
-	{#each games as game}
+	{#each games as game (game.name)}
 		<div class="game-card">
 			<div class="game-img" style="background: {game.color}">
 				<div class="game-overlay"></div>
@@ -184,7 +184,7 @@ let activeSubTab = $state('Featured');
 	<span class="section-title">▶ Top Sellers This Week</span>
 </div>
 <div class="sellers-grid">
-	{#each topSellers as item}
+	{#each topSellers as item (item.rank)}
 		<div class="list-item">
 			<span class="list-rank">#{item.rank}</span>
 			<div class="list-img" style="background: {item.color}">{item.icon}</div>
