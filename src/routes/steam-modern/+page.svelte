@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { Chart, Svg, Axis, Area, Highlight, Tooltip, Bars } from 'layerchart';
+	import { scaleBand, scaleLinear, scaleTime } from 'd3-scale';
+	import { curveMonotoneX } from 'd3-shape';
+
 	const stats = [
 		{
 			label: 'Concurrent Users',
@@ -38,9 +42,31 @@
 		},
 	];
 
-	const chartBars = [55, 70, 48, 82, 63, 90, 78, 65, 71, 55, 88, 92, 76, 100];
-	const chartDates = ['7/24','7/25','7/26','7/27','7/28','7/29','7/30','7/31','8/1','8/2','8/3','8/4','8/5','8/6'];
-	const chartColors = ['','','','','','','gold','','','','','green','',''];
+	// Revenue data: store + market + dlc breakdown per day
+	const revenueData = [
+		{ date: new Date('2012-07-24'), store: 920, market: 310, dlc: 180 },
+		{ date: new Date('2012-07-25'), store: 1140, market: 380, dlc: 210 },
+		{ date: new Date('2012-07-26'), store: 790, market: 260, dlc: 155 },
+		{ date: new Date('2012-07-27'), store: 1340, market: 450, dlc: 240 },
+		{ date: new Date('2012-07-28'), store: 1030, market: 340, dlc: 195 },
+		{ date: new Date('2012-07-29'), store: 1470, market: 490, dlc: 280 },
+		{ date: new Date('2012-07-30'), store: 1280, market: 420, dlc: 255 },
+		{ date: new Date('2012-07-31'), store: 1060, market: 355, dlc: 200 },
+		{ date: new Date('2012-08-01'), store: 1160, market: 385, dlc: 215 },
+		{ date: new Date('2012-08-02'), store: 900, market: 295, dlc: 170 },
+		{ date: new Date('2012-08-03'), store: 1440, market: 475, dlc: 270 },
+		{ date: new Date('2012-08-04'), store: 1505, market: 495, dlc: 285 },
+		{ date: new Date('2012-08-05'), store: 1245, market: 410, dlc: 240 },
+		{ date: new Date('2012-08-06'), store: 1635, market: 540, dlc: 310 },
+	];
+
+	function fmtRevDate(d: Date) {
+		return `${d.getMonth() + 1}/${d.getDate()}`;
+	}
+
+	function fmtRevTooltipDate(d: Date) {
+		return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+	}
 
 	const activityFeed = [
 		{ dot: 'act-danger', time: '14:32', text: '<strong>VAC System</strong> issued 48 bans across 3 games' },
@@ -98,7 +124,7 @@
 <!-- Two column panels -->
 <div class="two-col">
 	<!-- Revenue chart -->
-	<div class="panel">
+	<div class="panel chart-panel">
 		<div class="panel-header">
 			Revenue — Last 14 Days
 			<div style="display:flex;gap:6px">
@@ -108,24 +134,81 @@
 			</div>
 		</div>
 		<div class="chart-container">
-			<div class="bar-chart">
-				{#each chartBars as height, i}
-					<div class="bar-col">
-						<div
-							class="bar-block"
-							class:gold={chartColors[i] === 'gold'}
-							class:green={chartColors[i] === 'green'}
-							style="height:{height}%"
-						></div>
-					</div>
-				{/each}
+				<Chart
+					data={revenueData}
+					x="date"
+					xScale={scaleTime()}
+					y={(d: (typeof revenueData)[number]) => d.store + d.market + d.dlc}
+					yScale={scaleLinear()}
+					yNice
+					yDomain={[0, null]}
+					padding={{ top: 10, bottom: 28, left: 48, right: 10 }}
+					tooltip={{ mode: 'bisect-x' }}
+				>
+					<Svg>
+						<Axis
+							placement="left"
+							grid={{ style: 'stroke: rgba(42,71,94,0.6)' }}
+							rule={false}
+							format={(v) => `$${(v / 1000).toFixed(0)}k`}
+							classes={{ tickLabel: 'rev-tick-label' }}
+						/>
+						<Axis
+							placement="bottom"
+							format={fmtRevDate}
+							rule={false}
+							classes={{ tickLabel: 'rev-tick-label' }}
+							ticks={7}
+						/>
+						<Area
+							y1={(d) => d.store}
+							fill="#66c0f4"
+							fillOpacity={0.15}
+							curve={curveMonotoneX}
+							line={{ fill: 'none', stroke: '#4a9fc8', strokeWidth: 1.5 }}
+						/>
+						<Area
+							y0={(d) => d.store}
+							y1={(d) => d.store + d.market}
+							fill="#d5a51b"
+							fillOpacity={0.2}
+							curve={curveMonotoneX}
+							line={{ fill: 'none', stroke: '#d5a51b', strokeWidth: 1 }}
+						/>
+						<Area
+							y0={(d) => d.store + d.market}
+							y1={(d) => d.store + d.market + d.dlc}
+							fill="#4fa832"
+							fillOpacity={0.25}
+							curve={curveMonotoneX}
+							line={{ fill: 'none', stroke: '#4fa832', strokeWidth: 1 }}
+						/>
+						<Highlight lines={{ stroke: 'rgba(102,192,244,0.4)', strokeWidth: 1 }} />
+					</Svg>
+					<Tooltip.Root let:data classes={{ root: 'rev-tooltip' }} variant="none">
+						{@const d = data as (typeof revenueData)[number]}
+						<div class="rev-tooltip-inner">
+							<p class="rev-tooltip-date">{fmtRevTooltipDate(d.date)}</p>
+							<div class="rev-tooltip-row">
+								<span><span class="rev-dot rev-dot-blue"></span>Store</span>
+								<span>${d.store.toLocaleString()}</span>
+							</div>
+							<div class="rev-tooltip-row">
+								<span><span class="rev-dot rev-dot-gold"></span>Market</span>
+								<span>${d.market.toLocaleString()}</span>
+							</div>
+							<div class="rev-tooltip-row">
+								<span><span class="rev-dot rev-dot-green"></span>DLC</span>
+								<span>${d.dlc.toLocaleString()}</span>
+							</div>
+							<div class="rev-tooltip-total">
+								<span>Total</span>
+								<span>${(d.store + d.market + d.dlc).toLocaleString()}</span>
+							</div>
+						</div>
+					</Tooltip.Root>
+				</Chart>
 			</div>
-			<div class="graph-x">
-				{#each chartDates as d}
-					<div class="graph-x-label">{d}</div>
-				{/each}
-			</div>
-		</div>
 	</div>
 
 	<!-- Activity feed -->
@@ -293,21 +376,63 @@
 	.badge-blue { background: rgba(102,192,244,0.15); color: var(--accent); border: 1px solid rgba(102,192,244,0.3); }
 	.badge-gray { background: rgba(85,107,125,0.2); color: var(--text-muted); border: 1px solid rgba(85,107,125,0.3); }
 
-	.chart-container { padding: 14px; }
-	.bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 120px; border-bottom: 1px solid var(--border); }
-	.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
-	.bar-block {
-		width: 100%;
-		background: linear-gradient(180deg, var(--accent-bright), var(--accent-dim));
-		border-radius: 1px 1px 0 0;
-		min-height: 2px;
-		transition: opacity 0.15s;
+	.chart-panel { display: flex; flex-direction: column; }
+	.chart-container { padding: 8px 14px 14px; flex: 1; min-height: 160px; }
+
+	:global(.rev-tick-label) {
+		fill: var(--text-muted) !important;
+		font-size: 10px !important;
+		font-family: var(--font-ui) !important;
 	}
-	.bar-block:hover { opacity: 0.8; }
-	.bar-block.gold { background: linear-gradient(180deg, #e8c44e, var(--accent-gold)); }
-	.bar-block.green { background: linear-gradient(180deg, #6dcf4a, var(--accent-green)); }
-	.graph-x { display: flex; gap: 6px; padding-top: 4px; }
-	.graph-x-label { flex: 1; font-size: 9px; color: var(--text-muted); text-align: center; }
+
+	:global(.rev-tooltip) { pointer-events: none; }
+	.rev-tooltip-inner {
+		background: var(--surface-elevated);
+		border: 1px solid var(--border-light);
+		border-radius: var(--radius);
+		padding: 8px 10px;
+		font-size: 11px;
+		min-width: 130px;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+	}
+	.rev-tooltip-date {
+		color: var(--text-muted);
+		font-size: 10px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		margin-bottom: 6px;
+	}
+	.rev-tooltip-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 12px;
+		padding: 2px 0;
+		color: var(--text-secondary);
+	}
+	.rev-tooltip-row span:last-child { color: var(--text-primary); font-weight: 600; }
+	.rev-tooltip-total {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: 5px;
+		padding-top: 5px;
+		border-top: 1px solid var(--divider);
+		color: var(--text-bright);
+		font-weight: 700;
+	}
+	.rev-dot {
+		display: inline-block;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		margin-right: 5px;
+		vertical-align: middle;
+	}
+	.rev-dot-blue { background: #66c0f4; }
+	.rev-dot-gold { background: #d5a51b; }
+	.rev-dot-green { background: #4fa832; }
 
 	.activity-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--divider); font-size: var(--font-size-sm); }
 	.activity-item:last-child { border-bottom: none; }
