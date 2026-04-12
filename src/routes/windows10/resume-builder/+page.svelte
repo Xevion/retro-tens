@@ -385,7 +385,7 @@ function goToSection(idx: number) {
 	</div>
 
 	<!-- Content -->
-	<div class={content}>
+	<Tabs.Content value="form" class={content}>
 		<!-- Sidebar -->
 		<div class={sidebar}>
 			<div class={sidebarSection}>
@@ -609,7 +609,31 @@ function goToSection(idx: number) {
 				</div>
 			</div>
 		{/if}
-	</div>
+	</Tabs.Content>
+
+	<Tabs.Content value="preview" class={content}>
+		<div class={previewPane} class:full-width={true} style="width: 100%; border-left: none;">
+			<div class={previewHeader}>Live Preview</div>
+			<div class={previewBody}>
+				{#if fname || lname}
+					<div class={previewName}>{fname} {lname}</div>
+					<div class={previewContact}>
+						{jobTitle || 'Your Title'}{location ? ' · ' + location : ''}<br />
+						{email}{phone ? ' · ' + phone : ''}
+					</div>
+				{/if}
+				{#if summary}
+					<div class={previewSectionTitle}>Summary</div>
+					<div class={css({ fontSize: 'xs' })}>{summary}</div>
+				{/if}
+				{#if !fname && !lname}
+					<div class={previewPlaceholder}>
+						Start filling in the form to see your resume preview here.
+					</div>
+				{/if}
+			</div>
+		</div>
+	</Tabs.Content>
 
 	<!-- Status bar -->
 	<div class={statusBar}>
