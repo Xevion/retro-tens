@@ -1,0 +1,53 @@
+/* Steam ~2010–2013 era: dark olive/charcoal, green accent, Arial */
+.theme-steam-legacy {
+	--surface-root: #1a1a1a;
+	--surface-base: #1b2426;
+	--surface-panel: #1e1e1e;
+	--surface-card: #1e2d2f;
+	--surface-card-hover: #243436;
+	--surface-elevated: #252525;
+	--surface-input: #111111;
+	--surface-section-head: #1a2729;
+	--surface-sidebar: #1e1e1e;
+	--surface-top-bar: #252525;
+	--surface-title-bar: #1a1a1a;
+	--surface-footer: #171717;
+
+	--text-bright: #ffffff;
+	--text-primary: #c6d4df;
+	--text-secondary: #8f98a0;
+	--text-muted: #738895;
+	--text-dim: #4a6a7a;
+	--text-rank: #4a7010;
+
+	--accent: #75b022;
+	--accent-hover: #90ba3c;
+	--accent-dim: #4a7010;
+	--accent-deep: #3d5a1f;
+	--accent-glow: rgba(117, 176, 34, 0.15);
+	--accent-price: #acf24d;
+	--accent-link: #57cbde;
+	--accent-sale-bg: #4a7010;
+
+	--status-online: #57cbde;
+	--status-ingame: #90ba3c;
+	--status-away: #856c20;
+	--status-offline: #555555;
+
+	--border: #0d0d0d;
+	--border-subtle: #111111;
+	--border-light: #2a3a3e;
+	--border-accent: #4a7010;
+
+	--radius: 2px;
+	--radius-sm: 1px;
+
+	--font-ui: Arial, Helvetica, sans-serif;
+	--font-size-xs: 10px;
+	--font-size-sm: 11px;
+	--font-size-base: 12px;
+	--font-size-nav: 12px;
+
+	--transition: all 0.1s;
+	--transition-color: color 0.1s, background 0.1s;
+}
