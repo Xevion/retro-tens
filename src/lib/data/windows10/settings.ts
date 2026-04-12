@@ -23,7 +23,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'system',
 		name: 'System',
-		icon: '💻',
+		icon: 'monitor',
 		settings: [
 			{
 				label: 'Night light',
@@ -55,7 +55,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'devices',
 		name: 'Devices',
-		icon: '🖨️',
+		icon: 'printer',
 		settings: [
 			{
 				label: 'Bluetooth',
@@ -86,7 +86,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'network',
 		name: 'Network & Internet',
-		icon: '🌐',
+		icon: 'globe',
 		settings: [
 			{ label: 'Wi-Fi', description: 'Connected to NETGEAR-5G', type: 'toggle', value: true },
 			{ label: 'Airplane mode', type: 'toggle', value: false },
@@ -103,7 +103,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'personalization',
 		name: 'Personalization',
-		icon: '🎨',
+		icon: 'palette',
 		settings: [
 			{
 				label: 'Background',
@@ -131,7 +131,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'apps',
 		name: 'Apps',
-		icon: '📦',
+		icon: 'package',
 		settings: [
 			{
 				label: 'Installing apps',
@@ -157,7 +157,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'privacy',
 		name: 'Privacy',
-		icon: '🔒',
+		icon: 'lock',
 		settings: [
 			{
 				label: 'Location',
@@ -194,7 +194,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'update',
 		name: 'Update & Security',
-		icon: '🔄',
+		icon: 'refresh-cw',
 		settings: [
 			{ label: 'Windows Update', type: 'info', value: 'Your device is up to date' },
 			{

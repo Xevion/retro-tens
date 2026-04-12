@@ -205,11 +205,13 @@ export default defineConfig({
 						card: { value: '#fafafa' },
 						chip: { value: '#e3f0fb' },
 						notifCard: { value: '#ffffff' },
+						btnDefault: { value: '#e1e1e1' },
+						btnHoverTint: { value: '#e5f1fb' },
 						taskbar: { value: 'rgba(0, 0, 0, 0.78)' },
 						taskbarHover: { value: 'rgba(255, 255, 255, 0.12)' },
 						taskbarIconHover: { value: 'rgba(255, 255, 255, 0.1)' },
 						taskbarActiveNotif: { value: 'rgba(0, 120, 215, 0.3)' },
-						desktopIconHover: { value: 'rgba(255, 255, 255, 0.18)' },
+						desktopIconHover: { value: 'rgba(0, 120, 215, 0.4)' },
 						appTile: { value: 'rgba(255, 255, 255, 0.15)' },
 						appTileHover: { value: 'rgba(255, 255, 255, 0.25)' },
 						launcher: { value: 'rgba(255, 255, 255, 0.12)' },
@@ -219,7 +221,7 @@ export default defineConfig({
 						qaActiveHover: { value: 'rgba(0, 120, 215, 0.26)' },
 						qaArea: { value: 'rgba(235, 235, 235, 0.8)' },
 						drawerBackdrop: { value: 'rgba(0, 0, 0, 0.3)' },
-						titleBarInactive: { value: '#b0b0b0' },
+						titleBarInactive: { value: '#f2f2f2' },
 						explorerToolbar: { value: '#f5f5f5' },
 						explorerAddressBar: { value: '#ffffff' },
 						settingsCategory: { value: '#f7f7f7' },
@@ -233,6 +235,7 @@ export default defineConfig({
 						muted: { value: '#666666' },
 						disabled: { value: '#888888' },
 						heading: { value: '#111111' },
+						titleBarInactive: { value: '#999999' },
 						desktopIcon: { value: '#ffffff' },
 						taskbar: { value: 'rgba(255, 255, 255, 0.85)' },
 						taskbarBright: { value: 'rgba(255, 255, 255, 0.9)' },
@@ -285,11 +288,14 @@ export default defineConfig({
 					md: { value: '13px' }
 				},
 				sizes: {
-					taskbarHeight: { value: '40px' }
+					taskbarHeight: { value: '48px' }
 				},
 				durations: {
 					DEFAULT: { value: '0.12s' },
 					fast: { value: '0.1s' },
+					standard: { value: '0.25s' },
+					enter: { value: '0.25s' },
+					exit: { value: '0.167s' },
 					panel: { value: '0.15s' },
 					drawer: { value: '0.25s' }
 				},
@@ -313,14 +319,14 @@ export default defineConfig({
 			'--color-surface-content': '#c7d5e0'
 		},
 
-		/* Windows 10 desktop simulation animations */
+		/* Windows 10 desktop simulation animations — uses authentic UWP easing curves */
 		'@keyframes win10-window-open': {
-			from: { opacity: '0', transform: 'scale(0.96)' },
+			from: { opacity: '0', transform: 'scale(0.95)' },
 			to: { opacity: '1', transform: 'scale(1)' }
 		},
 		'@keyframes win10-window-close': {
 			from: { opacity: '1', transform: 'scale(1)' },
-			to: { opacity: '0', transform: 'scale(0.96)' }
+			to: { opacity: '0', transform: 'scale(0.95)' }
 		},
 		'@keyframes win10-window-minimize': {
 			from: { opacity: '1', transform: 'scale(1) translateY(0)' },

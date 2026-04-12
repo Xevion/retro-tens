@@ -1,7 +1,6 @@
 <script lang="ts">
 import { FloatingPanel } from '@ark-ui/svelte/floating-panel';
 import { Minus, Square, X } from 'lucide-svelte';
-import { cx } from 'styled-system/css';
 import { desktopWindow } from '$lib/recipes/windows10';
 import type { Snippet } from 'svelte';
 
@@ -9,6 +8,7 @@ type Props = {
 	title: string;
 	icon?: Snippet;
 	open: boolean;
+	focused?: boolean;
 	zIndex: number;
 	defaultPosition: { x: number; y: number };
 	defaultSize: { width: number; height: number };
@@ -22,6 +22,7 @@ let {
 	title,
 	icon,
 	open = $bindable(),
+	focused = true,
 	zIndex,
 	defaultPosition,
 	defaultSize,
@@ -31,7 +32,7 @@ let {
 	children
 }: Props = $props();
 
-const dw = desktopWindow();
+const dw = $derived(desktopWindow({ focused }));
 
 function handleOpenChange(details: { open: boolean }) {
 	if (!details.open) {
@@ -66,7 +67,7 @@ function handleOpenChange(details: { open: boolean }) {
 						<FloatingPanel.StageTrigger stage="maximized" class={dw.controlBtn} aria-label="Maximize">
 							<Square size={10} strokeWidth={1.5} />
 						</FloatingPanel.StageTrigger>
-						<FloatingPanel.CloseTrigger class={cx(dw.closeBtn)} aria-label="Close">
+						<FloatingPanel.CloseTrigger class={dw.closeBtn} aria-label="Close">
 							<X size={10} strokeWidth={1.5} />
 						</FloatingPanel.CloseTrigger>
 					</FloatingPanel.Control>

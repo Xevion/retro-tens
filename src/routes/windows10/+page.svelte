@@ -76,6 +76,12 @@ const openApps = $derived(
 	)
 );
 
+const focusedApp = $derived<AppId | null>(
+	(Object.entries(windowOpen) as [AppId, boolean][])
+		.filter(([, open]) => open)
+		.sort(([a], [b]) => windowZ[b] - windowZ[a])[0]?.[0] ?? null
+);
+
 type DesktopIcon = {
 	label: string;
 	icon: string;
@@ -193,6 +199,7 @@ const desktopIconLabel = css({
 			<DesktopWindow
 				title={def.title}
 				bind:open={windowOpen[def.id]}
+				focused={focusedApp === def.id}
 				zIndex={windowZ[def.id]}
 				defaultPosition={def.defaultPosition}
 				defaultSize={def.defaultSize}

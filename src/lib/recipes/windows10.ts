@@ -12,15 +12,15 @@ export const btn = cva({
 		height: '26px',
 		padding: '0 14px',
 		border: '1px solid token(colors.border.input)',
-		background: 'surface.ribbon',
+		background: 'surface.btnDefault',
 		fontFamily: 'ui',
 		fontSize: 'sm',
 		color: 'text.secondary',
 		cursor: 'pointer',
 		transition: 'all token(durations.fast) ease',
 		_hover: {
-			background: 'border.light',
-			borderColor: 'border.inputHover'
+			background: 'surface.btnHoverTint',
+			borderColor: 'accent'
 		}
 	},
 	variants: {
@@ -52,8 +52,9 @@ export const input = css({
 	borderRadius: 'DEFAULT',
 	appearance: 'none',
 	_focus: {
+		borderWidth: '2px',
 		borderColor: 'accent',
-		boxShadow: '0 0 0 1px token(colors.accent)'
+		padding: '0 7px'
 	},
 	_hover: {
 		'&:not(:focus)': {
@@ -78,8 +79,9 @@ export const textarea = css({
 	resize: 'vertical',
 	lineHeight: '1.5',
 	_focus: {
+		borderWidth: '2px',
 		borderColor: 'accent',
-		boxShadow: '0 0 0 1px token(colors.accent)'
+		padding: '5px 7px'
 	},
 	_hover: {
 		'&:not(:focus)': {
@@ -175,22 +177,20 @@ export const desktopWindow = sva({
 		},
 		content: {
 			background: 'surface.base',
-			border: '1px solid token(colors.border.window)',
 			display: 'flex',
 			flexDirection: 'column',
-			boxShadow: '0 4px 20px token(colors.shadow.window)',
 			outline: 'none',
 			overflow: 'hidden',
+			transition: 'border-color token(durations.fast) ease, box-shadow token(durations.fast) ease',
 			'&[data-state="open"]': {
-				animation: 'win10-window-open 0.15s ease-out'
+				animation: 'win10-window-open 0.25s cubic-bezier(0, 0, 0, 1)'
 			},
 			'&[data-state="closed"]': {
-				animation: 'win10-window-close 0.12s ease-in'
+				animation: 'win10-window-close 0.167s cubic-bezier(1, 0, 1, 1)'
 			}
 		},
 		header: {
 			height: 'titleBarHeight',
-			background: 'accent',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'space-between',
@@ -198,6 +198,7 @@ export const desktopWindow = sva({
 			userSelect: 'none',
 			flexShrink: '0',
 			cursor: 'grab',
+			transition: 'background token(durations.fast) ease',
 			'&:active': { cursor: 'grabbing' }
 		},
 		title: {
@@ -205,11 +206,11 @@ export const desktopWindow = sva({
 			alignItems: 'center',
 			gap: '8px',
 			fontSize: 'sm',
-			color: 'text.bright',
 			fontWeight: '400',
 			overflow: 'hidden',
 			textOverflow: 'ellipsis',
-			whiteSpace: 'nowrap'
+			whiteSpace: 'nowrap',
+			transition: 'color token(durations.fast) ease'
 		},
 		control: {
 			display: 'flex',
@@ -225,9 +226,7 @@ export const desktopWindow = sva({
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			color: 'text.bright',
-			transition: 'background token(durations.fast) ease',
-			_hover: { background: 'surface.taskbarHover' }
+			transition: 'background token(durations.fast) ease, color token(durations.fast) ease'
 		},
 		closeBtn: {
 			width: '46px',
@@ -238,9 +237,7 @@ export const desktopWindow = sva({
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			color: 'text.bright',
-			transition: 'background token(durations.fast) ease',
-			_hover: { background: 'accent.red' }
+			transition: 'background token(durations.fast) ease, color token(durations.fast) ease'
 		},
 		body: {
 			flex: '1',
@@ -275,6 +272,45 @@ export const desktopWindow = sva({
 			'&[data-axis="se"]': { bottom: '-3px', right: '-3px', cursor: 'nwse-resize' },
 			'&[data-axis="sw"]': { bottom: '-3px', left: '-3px', cursor: 'nesw-resize' }
 		}
+	},
+	variants: {
+		focused: {
+			true: {
+				content: {
+					border: '1px solid token(colors.accent)',
+					boxShadow: '0 4px 20px token(colors.shadow.windowFocused)'
+				},
+				header: { background: 'accent' },
+				title: { color: 'text.bright' },
+				controlBtn: {
+					color: 'text.bright',
+					_hover: { background: 'surface.taskbarHover' }
+				},
+				closeBtn: {
+					color: 'text.bright',
+					_hover: { background: 'accent.red' }
+				}
+			},
+			false: {
+				content: {
+					border: '1px solid token(colors.border.window)',
+					boxShadow: '0 4px 20px token(colors.shadow.window)'
+				},
+				header: { background: 'surface.titleBarInactive' },
+				title: { color: 'text.titleBarInactive' },
+				controlBtn: {
+					color: 'text.titleBarInactive',
+					_hover: { background: 'surface.hover' }
+				},
+				closeBtn: {
+					color: 'text.titleBarInactive',
+					_hover: { background: 'accent.red', color: 'text.bright' }
+				}
+			}
+		}
+	},
+	defaultVariants: {
+		focused: true
 	}
 });
 
@@ -288,10 +324,10 @@ export const drawerStyles: Record<string, string> = {
 		background: 'surface.drawerBackdrop',
 		zIndex: '50',
 		'&[data-state="open"]': {
-			animation: 'win10-fade-in 0.25s ease'
+			animation: 'win10-fade-in 0.25s cubic-bezier(0, 0, 0, 1)'
 		},
 		'&[data-state="closed"]': {
-			animation: 'win10-fade-out 0.2s ease'
+			animation: 'win10-fade-out 0.167s cubic-bezier(1, 0, 1, 1)'
 		}
 	}),
 	positioner: css({
@@ -306,7 +342,7 @@ export const drawerStyles: Record<string, string> = {
 		zIndex: '50'
 	}),
 	content: css({
-		width: '344px',
+		width: '360px',
 		maxHeight: 'none',
 		background: 'surface.panel',
 		borderLeft: '1px solid token(colors.border.medium)',
@@ -316,10 +352,10 @@ export const drawerStyles: Record<string, string> = {
 		color: 'text.primary',
 		outline: 'none',
 		'&[data-state="open"]': {
-			animation: 'win10-drawer-slide-in 0.25s cubic-bezier(0.32, 0.72, 0, 1)'
+			animation: 'win10-drawer-slide-in 0.25s cubic-bezier(0, 0, 0, 1)'
 		},
 		'&[data-state="closed"]': {
-			animation: 'win10-drawer-slide-out 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+			animation: 'win10-drawer-slide-out 0.167s cubic-bezier(1, 0, 1, 1)'
 		}
 	})
 };

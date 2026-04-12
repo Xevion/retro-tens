@@ -1,7 +1,19 @@
 <script lang="ts">
 import { Switch } from '@ark-ui/svelte/switch';
+import { Monitor, Printer, Globe, Palette, Package, Lock, RefreshCw } from 'lucide-svelte';
+import type { ComponentType } from 'svelte';
 import { css, cx } from 'styled-system/css';
 import { categories } from '$lib/data/windows10/settings';
+
+const iconMap: Record<string, ComponentType> = {
+	monitor: Monitor,
+	printer: Printer,
+	globe: Globe,
+	palette: Palette,
+	package: Package,
+	lock: Lock,
+	'refresh-cw': RefreshCw
+};
 
 let activeCategory = $state<string>('system');
 
@@ -119,28 +131,41 @@ const switchRoot = css({
 });
 
 const switchControl = css({
-	width: '44px',
+	width: '40px',
 	height: '20px',
-	background: '#ccc',
+	background: 'transparent',
+	border: '2px solid #767676',
 	borderRadius: '10px',
 	position: 'relative',
-	transition: 'background 0.15s ease',
+	transition: 'all 0.15s ease',
 	'&[data-state="checked"]': {
-		background: 'accent'
+		background: 'accent',
+		borderColor: 'accent'
+	},
+	'&:hover [data-part="thumb"]': {
+		width: '14px',
+		height: '14px'
+	},
+	'&:active [data-part="thumb"]': {
+		width: '17px',
+		height: '14px',
+		borderRadius: '7px'
 	}
 });
 
 const switchThumb = css({
-	width: '14px',
-	height: '14px',
-	background: 'white',
+	width: '12px',
+	height: '12px',
+	background: '#333333',
 	borderRadius: '50%',
 	position: 'absolute',
-	top: '3px',
-	left: '3px',
-	transition: 'transform 0.15s ease',
+	top: '50%',
+	left: '2px',
+	transform: 'translateY(-50%)',
+	transition: 'all 0.15s ease',
 	'&[data-state="checked"]': {
-		transform: 'translateX(24px)'
+		background: 'white',
+		transform: 'translateX(20px) translateY(-50%)'
 	}
 });
 
@@ -196,12 +221,15 @@ const searchBar = css({
 	<div class={sidebarStyle}>
 		<input type="text" class={searchBar} placeholder="Find a setting" aria-label="Search settings" />
 		{#each categories as cat (cat.id)}
+			{@const Icon = iconMap[cat.icon]}
 			<button
 				type="button"
 				class={cx(sidebarItem, activeCategory === cat.id ? sidebarItemActive : '')}
 				onclick={() => (activeCategory = cat.id)}
 			>
-				<span>{cat.icon}</span>
+				{#if Icon}
+					<Icon size={20} strokeWidth={1.2} />
+				{/if}
 				{cat.name}
 			</button>
 		{/each}

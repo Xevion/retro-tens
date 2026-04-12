@@ -1,6 +1,18 @@
 <script lang="ts">
 import { SvelteSet } from 'svelte/reactivity';
-import { ChevronLeft, ChevronRight, ChevronUp, LayoutGrid, List, ChevronDown } from 'lucide-svelte';
+import {
+	ChevronLeft,
+	ChevronRight,
+	ChevronUp,
+	LayoutGrid,
+	List,
+	ChevronDown,
+	Folder,
+	Image,
+	FileCode,
+	Archive,
+	File
+} from 'lucide-svelte';
 import { css, cx } from 'styled-system/css';
 import { folderTree, filesByPath, type FileEntry } from '$lib/data/windows10/file-explorer';
 
@@ -357,7 +369,7 @@ function fileTypeLabel(entry: FileEntry): string {
 						{:else}
 							<span style="width: 16px"></span>
 						{/if}
-						<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(node.path)}>📁 {node.name}</button>
+						<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(node.path)}><Folder size={14} color="#FFB900" strokeWidth={1.5} /> {node.name}</button>
 					</div>
 					{#if node.children && expandedNodes.has(node.path)}
 						<div class={treeChildren}>
@@ -373,7 +385,7 @@ function fileTypeLabel(entry: FileEntry): string {
 										{:else}
 											<span style="width: 16px"></span>
 										{/if}
-										<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(child.path)}>📁 {child.name}</button>
+										<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(child.path)}><Folder size={14} color="#FFB900" strokeWidth={1.5} /> {child.name}</button>
 									</div>
 									{#if child.children && expandedNodes.has(child.path)}
 										<div class={treeChildren}>
@@ -384,7 +396,7 @@ function fileTypeLabel(entry: FileEntry): string {
 													onclick={() => navigateTo(grandchild.path)}
 												>
 													<span style="width: 16px"></span>
-													📁 {grandchild.name}
+													<Folder size={14} color="#FFB900" strokeWidth={1.5} /> {grandchild.name}
 												</button>
 											{/each}
 										</div>
@@ -418,7 +430,7 @@ function fileTypeLabel(entry: FileEntry): string {
 					>
 						<div class={fileName}>
 							<span class={fileIcon}>
-								{#if entry.type === 'folder'}📁{:else if entry.icon === 'image'}🖼️{:else if entry.icon === 'code'}📄{:else if entry.icon === 'archive'}📦{:else}📃{/if}
+								{#if entry.type === 'folder'}<Folder size={16} color="#FFB900" strokeWidth={1.5} />{:else if entry.icon === 'image'}<Image size={16} color="#666" strokeWidth={1.5} />{:else if entry.icon === 'code'}<FileCode size={16} color="#666" strokeWidth={1.5} />{:else if entry.icon === 'archive'}<Archive size={16} color="#666" strokeWidth={1.5} />{:else}<File size={16} color="#666" strokeWidth={1.5} />{/if}
 							</span>
 							{entry.name}
 						</div>
@@ -437,8 +449,8 @@ function fileTypeLabel(entry: FileEntry): string {
 							ondblclick={() => { if (entry.type === 'folder') navigateTo(currentPath + '\\' + entry.name); }}
 							onkeydown={(e) => { if (e.key === 'Enter' && entry.type === 'folder') navigateTo(currentPath + '\\' + entry.name); }}
 						>
-							<span style="font-size: 28px">
-								{#if entry.type === 'folder'}📁{:else if entry.icon === 'image'}🖼️{:else if entry.icon === 'code'}📄{:else if entry.icon === 'archive'}📦{:else}📃{/if}
+							<span>
+								{#if entry.type === 'folder'}<Folder size={32} color="#FFB900" strokeWidth={1.2} />{:else if entry.icon === 'image'}<Image size={32} color="#666" strokeWidth={1.2} />{:else if entry.icon === 'code'}<FileCode size={32} color="#666" strokeWidth={1.2} />{:else if entry.icon === 'archive'}<Archive size={32} color="#666" strokeWidth={1.2} />{:else}<File size={32} color="#666" strokeWidth={1.2} />{/if}
 							</span>
 							<span class={gridItemLabel}>{entry.name}</span>
 						</div>

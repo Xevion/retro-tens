@@ -243,7 +243,7 @@ const qaTitle = css({
 
 const qaGrid = grid({
 	columns: 4,
-	gap: '5px'
+	gap: '6px'
 });
 
 const qaTileBase = css({
@@ -258,7 +258,7 @@ const qaTileBase = css({
 	cursor: 'pointer',
 	fontFamily: 'ui',
 	transition: 'background token(durations.DEFAULT) ease',
-	minHeight: '60px',
+	minHeight: '72px',
 	_hover: { background: 'surface.qaHover' }
 });
 
