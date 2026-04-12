@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Minus, Square, X, Plus } from 'lucide-svelte';
+import { Plus } from 'lucide-svelte';
 import { RatingGroup } from '@ark-ui/svelte/rating-group';
 import { Tabs } from '@ark-ui/svelte/tabs';
 import { TagsInput } from '@ark-ui/svelte/tags-input';
@@ -9,26 +9,17 @@ import {
 	input as inputRecipe,
 	textarea as textareaRecipe,
 	label as labelRecipe,
-	titleBar as titleBarSva,
 	experienceCard as experienceCardSva,
 	addEntryBtn
 } from '$lib/recipes/windows10';
 
-// Page-specific styles inlined to work around fallow's .svelte import-graph bug
-// (fallow-rs/fallow#TBD: dead-code analysis fails to credit .svelte → .ts imports
-// even though --trace correctly resolves them). Shared recipes stay in $lib/recipes/.
-const tb = titleBarSva();
 const expCard = experienceCardSva();
 
-const appWindow = css({
-	background: 'surface.base',
-	border: '1px solid token(colors.border.window)',
+const appRoot = css({
 	display: 'flex',
 	flexDirection: 'column',
-	minHeight: '560px',
-	width: '680px',
-	boxShadow: '0 4px 20px token(colors.shadow.window)',
-	margin: '16px auto 0'
+	flex: '1',
+	overflow: 'hidden'
 });
 
 const ribbonList = css({
@@ -347,32 +338,7 @@ function goToSection(idx: number) {
 }
 </script>
 
-<!-- App window -->
-<Tabs.Root class={appWindow} bind:value={ribbonTab}>
-	<!-- Title bar -->
-	<div class={tb.root}>
-		<div class={tb.left}>
-			<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-				<rect x="1" y="2" width="14" height="10" rx="0.8" stroke="#fff" stroke-width="1.1" fill="none" />
-				<path d="M1 5h14" stroke="#fff" stroke-width="0.9" opacity="0.6" />
-				<path d="M5 14h6" stroke="#fff" stroke-width="1.1" stroke-linecap="round" />
-				<path d="M8 12v2" stroke="#fff" stroke-width="1.1" />
-			</svg>
-			<span class={tb.text}>Resume Builder — Microsoft Office Style</span>
-		</div>
-		<div class={tb.controls}>
-			<button type="button" class={tb.btn} aria-label="Minimize">
-				<Minus size={10} color="#fff" strokeWidth={1.5} />
-			</button>
-			<button type="button" class={tb.btn} aria-label="Maximize">
-				<Square size={10} color="#fff" strokeWidth={1.5} />
-			</button>
-			<button type="button" class={tb.closeBtn} aria-label="Close">
-				<X size={10} color="#fff" strokeWidth={1.5} />
-			</button>
-		</div>
-	</div>
-
+<Tabs.Root class={appRoot} bind:value={ribbonTab}>
 	<!-- Ribbon -->
 	<Tabs.List class={ribbonList}>
 		<Tabs.Trigger class={cx(ribbonTrigger, ribbonTab === 'form' ? ribbonTriggerActive : '')} value="form">FORM VIEW</Tabs.Trigger>
@@ -414,7 +380,6 @@ function goToSection(idx: number) {
 
 		<!-- Main form area -->
 		<div class={main}>
-			<!-- Section 0: Personal Info -->
 			{#if currentSection === 0}
 				<div class={sectionHeader}>
 					<div class={sectionTitle}>Personal Information</div>
@@ -440,7 +405,6 @@ function goToSection(idx: number) {
 				</div>
 			{/if}
 
-			<!-- Section 1: Work Experience -->
 			{#if currentSection === 1}
 				<div class={sectionHeader}>
 					<div class={sectionTitle}>Work Experience</div>
@@ -471,7 +435,6 @@ function goToSection(idx: number) {
 				</div>
 			{/if}
 
-			<!-- Section 2: Education -->
 			{#if currentSection === 2}
 				<div class={sectionHeader}>
 					<div class={sectionTitle}>Education</div>
@@ -500,7 +463,6 @@ function goToSection(idx: number) {
 				</div>
 			{/if}
 
-			<!-- Section 3: Skills -->
 			{#if currentSection === 3}
 				<div class={sectionHeader}>
 					<div class={sectionTitle}>Skills &amp; Technologies</div>
@@ -555,7 +517,6 @@ function goToSection(idx: number) {
 				</div>
 			{/if}
 
-			<!-- Section 4: Projects -->
 			{#if currentSection === 4}
 				<div class={sectionHeader}>
 					<div class={sectionTitle}>Projects &amp; Portfolio</div>
@@ -585,7 +546,6 @@ function goToSection(idx: number) {
 			{/if}
 		</div>
 
-		<!-- Live preview pane -->
 		{#if previewOpen}
 			<div class={previewPane}>
 				<div class={previewHeader}>Live Preview</div>
@@ -593,7 +553,7 @@ function goToSection(idx: number) {
 					{#if fname || lname}
 						<div class={previewName}>{fname} {lname}</div>
 						<div class={previewContact}>
-							{jobTitle || 'Your Title'}{location ? ' · ' + location : ''}<br />
+							{jobTitle || 'Your Title'}{location ? ' �� ' + location : ''}<br />
 							{email}{phone ? ' · ' + phone : ''}
 						</div>
 					{/if}
@@ -612,7 +572,7 @@ function goToSection(idx: number) {
 	</Tabs.Content>
 
 	<Tabs.Content value="preview" class={content}>
-		<div class={previewPane} class:full-width={true} style="width: 100%; border-left: none;">
+		<div class={previewPane} style="width: 100%; border-left: none;">
 			<div class={previewHeader}>Live Preview</div>
 			<div class={previewBody}>
 				{#if fname || lname}

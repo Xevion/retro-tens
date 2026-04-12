@@ -97,20 +97,6 @@ const grouped = $derived(
 	}, {})
 );
 
-const panel = css({
-	position: 'relative',
-	zIndex: '2',
-	width: '344px',
-	minHeight: '520px',
-	background: 'surface.panel',
-	borderLeft: '1px solid token(colors.border.medium)',
-	display: 'flex',
-	flexDirection: 'column',
-	fontFamily: 'ui',
-	color: 'text.primary',
-	overflow: 'hidden'
-});
-
 const panelHeader = css({
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -305,59 +291,55 @@ const qaLabelActive = css({
 });
 </script>
 
-<!-- Action Center panel -->
-<div class={panel}>
-	<div class={panelHeader}>
-		<span class={panelTitle}>ACTION CENTER</span>
-		<button type="button" class={clearAllBtn} onclick={clearAll}>Clear all</button>
-	</div>
+<div class={panelHeader}>
+	<span class={panelTitle}>ACTION CENTER</span>
+	<button type="button" class={clearAllBtn} onclick={clearAll}>Clear all</button>
+</div>
 
-	<div class={notificationsArea}>
-		{#if notifications.length === 0}
-			<div class={emptyState}>No new notifications</div>
-		{:else}
-			{#each Object.entries(grouped) as [groupName, groupNotifs], gi (groupName)}
-				{@const GroupIcon = groupNotifs[0].groupIcon}
-				{#if gi > 0}<div class={divider}></div>{/if}
-				<div class={notifGroup}>
-					<div class={notifGroupHeader}>
-						<div class={groupIcon} style="background:{groupNotifs[0].groupColor}">
-							<GroupIcon size={10} color="#fff" strokeWidth={1.5} />
-						</div>
-						{groupName}
+<div class={notificationsArea}>
+	{#if notifications.length === 0}
+		<div class={emptyState}>No new notifications</div>
+	{:else}
+		{#each Object.entries(grouped) as [groupName, groupNotifs], gi (groupName)}
+			{@const GroupIcon = groupNotifs[0].groupIcon}
+			{#if gi > 0}<div class={divider}></div>{/if}
+			<div class={notifGroup}>
+				<div class={notifGroupHeader}>
+					<div class={groupIcon} style="background:{groupNotifs[0].groupColor}">
+						<GroupIcon size={10} color="#fff" strokeWidth={1.5} />
 					</div>
-					{#each groupNotifs as notif (notif.id)}
-						<div class={notifCard}>
-							<div class={notifCardTop}>
-								<div class={notifTitle}>{notif.title}</div>
-								<div class={notifTime}>{notif.time}</div>
-							</div>
-							<div class={notifBody}>{notif.body}</div>
-							<button type="button" class="{notifDismiss} notif-dismiss" onclick={() => dismiss(notif.id)}>✕</button>
-						</div>
-					{/each}
+					{groupName}
 				</div>
-			{/each}
-		{/if}
-	</div>
-
-	<!-- Quick actions -->
-	<div class={quickActions}>
-		<div class={qaTitle}>Quick actions</div>
-		<ToggleGroup.Root bind:value={activeQaTiles} multiple class={qaGrid}>
-			{#each qaTiles as tile (tile.label)}
-				{@const Icon = tile.icon}
-				{@const active = activeQaTiles.includes(tile.label)}
-				<ToggleGroup.Item
-					value={tile.label}
-					class={cx(qaTileBase, active ? qaTileActive : '')}
-				>
-					<div class={cx(qaIcon, active ? qaIconActive : '')}>
-						<Icon size={20} strokeWidth={1.5} />
+				{#each groupNotifs as notif (notif.id)}
+					<div class={notifCard}>
+						<div class={notifCardTop}>
+							<div class={notifTitle}>{notif.title}</div>
+							<div class={notifTime}>{notif.time}</div>
+						</div>
+						<div class={notifBody}>{notif.body}</div>
+						<button type="button" class="{notifDismiss} notif-dismiss" onclick={() => dismiss(notif.id)}>✕</button>
 					</div>
-					<span class={cx(qaLabel, active ? qaLabelActive : '')}>{tile.label}</span>
-				</ToggleGroup.Item>
-			{/each}
-		</ToggleGroup.Root>
-	</div>
+				{/each}
+			</div>
+		{/each}
+	{/if}
+</div>
+
+<div class={quickActions}>
+	<div class={qaTitle}>Quick actions</div>
+	<ToggleGroup.Root bind:value={activeQaTiles} multiple class={qaGrid}>
+		{#each qaTiles as tile (tile.label)}
+			{@const Icon = tile.icon}
+			{@const active = activeQaTiles.includes(tile.label)}
+			<ToggleGroup.Item
+				value={tile.label}
+				class={cx(qaTileBase, active ? qaTileActive : '')}
+			>
+				<div class={cx(qaIcon, active ? qaIconActive : '')}>
+					<Icon size={20} strokeWidth={1.5} />
+				</div>
+				<span class={cx(qaLabel, active ? qaLabelActive : '')}>{tile.label}</span>
+			</ToggleGroup.Item>
+		{/each}
+	</ToggleGroup.Root>
 </div>

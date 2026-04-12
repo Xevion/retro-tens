@@ -217,7 +217,14 @@ export default defineConfig({
 						qaHover: { value: 'rgba(0, 0, 0, 0.12)' },
 						qaActive: { value: 'rgba(0, 120, 215, 0.18)' },
 						qaActiveHover: { value: 'rgba(0, 120, 215, 0.26)' },
-						qaArea: { value: 'rgba(235, 235, 235, 0.8)' }
+						qaArea: { value: 'rgba(235, 235, 235, 0.8)' },
+						drawerBackdrop: { value: 'rgba(0, 0, 0, 0.3)' },
+						titleBarInactive: { value: '#b0b0b0' },
+						explorerToolbar: { value: '#f5f5f5' },
+						explorerAddressBar: { value: '#ffffff' },
+						settingsCategory: { value: '#f7f7f7' },
+						settingsCategoryHover: { value: '#eaeaea' },
+						settingsCategoryActive: { value: '#e0e8f0' }
 					},
 					text: {
 						bright: { value: '#ffffff' },
@@ -258,7 +265,9 @@ export default defineConfig({
 					divider: { value: 'rgba(0, 0, 0, 0.07)' },
 					shadow: {
 						window: { value: 'rgba(0, 0, 0, 0.18)' },
-						desktopIcon: { value: 'rgba(0, 0, 0, 0.6)' }
+						windowFocused: { value: 'rgba(0, 0, 0, 0.28)' },
+						desktopIcon: { value: 'rgba(0, 0, 0, 0.6)' },
+						drawer: { value: 'rgba(0, 0, 0, 0.35)' }
 					}
 				},
 				radii: {
@@ -280,11 +289,16 @@ export default defineConfig({
 				},
 				durations: {
 					DEFAULT: { value: '0.12s' },
-					fast: { value: '0.1s' }
+					fast: { value: '0.1s' },
+					panel: { value: '0.15s' },
+					drawer: { value: '0.25s' }
 				},
 				transitions: {
 					DEFAULT: { value: 'all 0.12s ease' },
 					fast: { value: 'all 0.1s ease' }
+				},
+				spacing: {
+					titleBarHeight: { value: '32px' }
 				}
 			}
 		}
@@ -297,6 +311,36 @@ export default defineConfig({
 			'--color-surface-200': '#1b2838',
 			'--color-surface-300': '#2a475e',
 			'--color-surface-content': '#c7d5e0'
+		},
+
+		/* Windows 10 desktop simulation animations */
+		'@keyframes win10-window-open': {
+			from: { opacity: '0', transform: 'scale(0.96)' },
+			to: { opacity: '1', transform: 'scale(1)' }
+		},
+		'@keyframes win10-window-close': {
+			from: { opacity: '1', transform: 'scale(1)' },
+			to: { opacity: '0', transform: 'scale(0.96)' }
+		},
+		'@keyframes win10-window-minimize': {
+			from: { opacity: '1', transform: 'scale(1) translateY(0)' },
+			to: { opacity: '0', transform: 'scale(0.9) translateY(20px)' }
+		},
+		'@keyframes win10-drawer-slide-in': {
+			from: { transform: 'translateX(100%)' },
+			to: { transform: 'translateX(0)' }
+		},
+		'@keyframes win10-drawer-slide-out': {
+			from: { transform: 'translateX(0)' },
+			to: { transform: 'translateX(100%)' }
+		},
+		'@keyframes win10-fade-in': {
+			from: { opacity: '0' },
+			to: { opacity: '1' }
+		},
+		'@keyframes win10-fade-out': {
+			from: { opacity: '1' },
+			to: { opacity: '0' }
 		}
 	}
 });

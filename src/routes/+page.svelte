@@ -46,11 +46,7 @@ const themes = [
 		accent: '#2b8fd9',
 		bg: '#f2f2f2',
 		text: '#1a1a1a',
-		routes: [
-			{ label: 'Desktop', href: '/windows10' },
-			{ label: 'Action Center', href: '/windows10/action-center' },
-			{ label: 'Resume Builder', href: '/windows10/resume-builder' }
-		]
+		routes: [{ label: 'Desktop', href: '/windows10' }]
 	}
 ] as const;
 

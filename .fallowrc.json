@@ -18,7 +18,26 @@
 		{ "file": "unlighthouse.config.ts", "exports": ["default"] },
 		{
 			"file": "src/lib/recipes/windows10.ts",
-			"exports": ["btn", "input", "textarea", "label", "addEntryBtn"]
+			"exports": [
+				"btn",
+				"input",
+				"textarea",
+				"label",
+				"addEntryBtn",
+				"desktopWindow",
+				"drawerStyles",
+				"taskbarStyles",
+				"experienceCard"
+			]
+		},
+		// reason: fallow cannot trace .svelte file imports from data modules
+		{
+			"file": "src/lib/data/windows10/file-explorer.ts",
+			"exports": ["folderTree", "filesByPath", "FileEntry", "FolderNode"]
+		},
+		{
+			"file": "src/lib/data/windows10/settings.ts",
+			"exports": ["categories", "SettingType", "SettingDef", "SettingsCategory"]
 		},
 		// reason: routeMeta is consumed only by test files (tests/meta.test.ts).
 		// Production mode excludes tests, so fallow correctly flags it as unused.
