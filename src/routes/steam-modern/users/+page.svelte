@@ -12,8 +12,7 @@ import {
 	dataTable,
 	userAvatar,
 	actionLink,
-	cellSecondary,
-	cellMuted,
+	cellText,
 	entityName,
 	entityId
 } from '$lib/recipes/steam-modern';
@@ -80,11 +79,11 @@ const sb = searchBarSva();
 						<br /><span class={entityId}>{u.id}</span>
 					</td>
 					<td><StatusBadge status={u.status} /></td>
-					<td class={cellSecondary}>{u.country}</td>
-					<td class={cellSecondary}>{u.games.toLocaleString()}</td>
-					<td class={cellSecondary}>{u.hours.toLocaleString()}</td>
-					<td class={cellMuted}>{u.joined}</td>
-					<td class={cellMuted}>{u.lastSeen}</td>
+					<td class={cellText({ tone: 'secondary' })}>{u.country}</td>
+					<td class={cellText({ tone: 'secondary' })}>{u.games.toLocaleString()}</td>
+					<td class={cellText({ tone: 'secondary' })}>{u.hours.toLocaleString()}</td>
+					<td class={cellText({ tone: 'muted' })}>{u.joined}</td>
+					<td class={cellText({ tone: 'muted' })}>{u.lastSeen}</td>
 					<td>
 						<span class={actionLink()}>View</span>
 						<span class={actionLink()}>Warn</span>

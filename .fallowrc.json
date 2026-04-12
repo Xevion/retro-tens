@@ -19,6 +19,13 @@
 		{
 			"file": "src/lib/recipes/windows10.ts",
 			"exports": ["btn", "input", "textarea", "label", "addEntryBtn"]
+		},
+		// reason: routeMeta is consumed only by test files (tests/meta.test.ts).
+		// Production mode excludes tests, so fallow correctly flags it as unused.
+		// It's intentionally test-only infrastructure.
+		{
+			"file": "src/lib/meta.ts",
+			"exports": ["routeMeta"]
 		}
 	],
 

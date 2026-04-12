@@ -17,7 +17,7 @@
 		"format": "biome format .",
 		"spell": "typos",
 		"analyze": "fallow --group-by directory",
-		"analyze:production": "fallow dead-code --production --group-by directory",
+		"analyze:production": "fallow dead-code --production --quiet --group-by directory",
 		"analyze:audit": "fallow audit --changed-since origin/master",
 		"fix:dead": "fallow fix --dry-run",
 		"fix:dead:apply": "fallow fix --yes",
@@ -25,7 +25,7 @@
 		"audit": "bun audit --audit-level moderate",
 		"just:check": "just --fmt --check --unstable",
 		"lighthouse": "unlighthouse",
-		"check": "bun run typecheck && bun run lint:js && bun run lint:biome && bun run lint:actions && bun run format && bun run spell && bun run analyze && bun run links && bun run audit && bun run just:check",
+		"check": "bun run typecheck && bun run lint:js && bun run lint:biome && bun run lint:actions && bun run format && bun run spell && bun run analyze && bun run analyze:production && bun run links && bun run audit && bun run just:check",
 		"fix": "biome format --write . && eslint . --fix"
 	},
 	"devDependencies": {

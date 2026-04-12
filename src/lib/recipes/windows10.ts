@@ -178,7 +178,7 @@ export const experienceCard = sva({
 		},
 		removeBtn: {
 			background: 'none',
-			border: '1px solid #d4d4d4',
+			border: '1px solid token(colors.border.light)',
 			padding: '2px 10px',
 			fontFamily: 'ui',
 			fontSize: 'sm',
@@ -188,7 +188,7 @@ export const experienceCard = sva({
 			_hover: {
 				borderColor: 'accent.red',
 				color: 'accent.red',
-				background: '#fff0f0'
+				background: 'accent.redSubtle'
 			}
 		}
 	}

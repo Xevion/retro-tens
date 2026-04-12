@@ -15,8 +15,7 @@ import {
 	userAvatar,
 	actionLink,
 	twoCol,
-	cellSecondary,
-	cellMuted,
+	cellText,
 	delta as deltaCva,
 	metricCard,
 	metricsGrid,
@@ -341,11 +340,11 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 						<td>
 							<div class={userAvatar()}>{u.name.slice(0, 2).toUpperCase()}</div>
 							<span class={entityName}>{u.name}</span>
-							<span class={cellMuted} style="margin-left:4px">{u.id}</span>
+							<span class={cellText({ tone: 'muted' })} style="margin-left:4px">{u.id}</span>
 						</td>
 						<td><StatusBadge status={u.status} /></td>
-						<td class={cellSecondary}>{u.games}</td>
-						<td class={cellMuted}>{u.joined}</td>
+						<td class={cellText({ tone: 'secondary' })}>{u.games}</td>
+						<td class={cellText({ tone: 'muted' })}>{u.joined}</td>
 					</tr>
 				{/each}
 			</tbody>

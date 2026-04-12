@@ -2,6 +2,7 @@
 import { page } from '$app/state';
 import { css, cx } from 'styled-system/css';
 import { flex, hstack, vstack } from 'styled-system/patterns';
+import { token } from 'styled-system/tokens';
 
 let { children } = $props();
 
@@ -17,36 +18,36 @@ const friends = [
 		name: 'krazykat99',
 		game: 'Borderlands 2',
 		bg: '#2a5a10',
-		dotColor: 'var(--colors-status-ingame)'
+		dotColor: token('colors.status.ingame')
 	},
 	{
 		initials: 'NX',
 		name: 'n3xus_zero',
 		status: 'Online',
 		bg: '#1a2a5a',
-		dotColor: 'var(--colors-status-online)'
+		dotColor: token('colors.status.online')
 	},
 	{
 		initials: 'FX',
 		name: 'foxbyte',
 		game: 'Team Fortress 2',
 		bg: '#4a2a10',
-		dotColor: 'var(--colors-status-ingame)'
+		dotColor: token('colors.status.ingame')
 	},
 	{
 		initials: 'ZP',
 		name: 'zipcode',
 		status: 'Away',
 		bg: '#3a3a10',
-		dotColor: 'var(--colors-status-away)'
+		dotColor: token('colors.status.away')
 	},
 	{
 		initials: 'MV',
 		name: 'maverick_x',
 		status: 'Last on 2 days ago',
 		bg: '#2a2a2a',
-		dotColor: 'var(--colors-status-offline)',
-		statusColor: '#555'
+		dotColor: token('colors.status.offline'),
+		statusColor: token('colors.status.offline')
 	}
 ];
 
@@ -512,7 +513,7 @@ const footerLink = css({
 			</div>
 			<nav class={navTabsContainer}>
 				{#each navLinks as link (link.href)}
-					<a href={link.href} class="{navTabStyle} {isActive(link.href) ? navTabActiveStyle : ''}">
+					<a href={link.href} class={cx(navTabStyle, isActive(link.href) ? navTabActiveStyle : '')}>
 						{link.label}
 					</a>
 				{/each}
@@ -549,7 +550,7 @@ const footerLink = css({
 								{#if friend.game}
 									<div class={friendGame}>{friend.game}</div>
 								{:else}
-									<div class={friendStatusStyle} style:color={friend.statusColor ?? 'var(--colors-text-muted)'}>
+									<div class={friendStatusStyle} style:color={friend.statusColor ?? token('colors.text.muted')}>
 										{friend.status}
 									</div>
 								{/if}

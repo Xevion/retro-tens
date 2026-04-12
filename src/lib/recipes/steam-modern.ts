@@ -226,10 +226,12 @@ export const userAvatar = cva({
 	variants: {
 		visual: {
 			user: {
-				background: 'linear-gradient(135deg, #2a6591, #1b4a6b)'
+				background:
+					'linear-gradient(135deg, token(colors.surface.avatarStart), token(colors.surface.avatarEnd))'
 			},
 			app: {
-				background: 'linear-gradient(135deg, #2a475e, #1b2838)',
+				background:
+					'linear-gradient(135deg, token(colors.surface.appAvatarStart), token(colors.surface.appAvatarEnd))',
 				border: '1px solid token(colors.border)',
 				fontSize: '12px',
 				fontWeight: '400'
@@ -269,7 +271,7 @@ export const progressBar = sva({
 		},
 		fill: {
 			height: '100%',
-			background: 'linear-gradient(90deg, var(--colors-accent-dim), var(--colors-accent))',
+			background: 'linear-gradient(90deg, token(colors.accent.dim), token(colors.accent))',
 			borderRadius: '1px',
 			transition: 'width 1s ease'
 		}
@@ -277,10 +279,23 @@ export const progressBar = sva({
 	variants: {
 		color: {
 			green: {
-				fill: { background: 'linear-gradient(90deg, #3c7022, var(--colors-accent-green))' }
+				fill: {
+					background:
+						'linear-gradient(90deg, token(colors.accent.greenDark), token(colors.accent.green))'
+				}
 			},
-			red: { fill: { background: 'linear-gradient(90deg, #843030, var(--colors-accent-red))' } },
-			gold: { fill: { background: 'linear-gradient(90deg, #8a6810, var(--colors-accent-gold))' } }
+			red: {
+				fill: {
+					background:
+						'linear-gradient(90deg, token(colors.accent.redDark), token(colors.accent.red))'
+				}
+			},
+			gold: {
+				fill: {
+					background:
+						'linear-gradient(90deg, token(colors.accent.goldDark), token(colors.accent.gold))'
+				}
+			}
 		}
 	}
 });
@@ -296,7 +311,8 @@ export const pageHeader = sva({
 	slots: ['root', 'title', 'subtitle', 'actions'],
 	base: {
 		root: {
-			background: 'linear-gradient(180deg, #1f3348 0%, #182636 100%)',
+			background:
+				'linear-gradient(180deg, token(colors.surface.card) 0%, token(colors.surface.headerGradientEnd) 100%)',
 			borderBottom: '1px solid token(colors.divider)',
 			padding: '16px 24px 14px',
 			display: 'flex',
@@ -321,9 +337,16 @@ export const pageHeader = sva({
 	}
 });
 
-export const cellSecondary = css({ color: 'text.secondary' });
-export const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
-export const cellDisabled = css({ color: 'text.disabled', fontSize: '11px' });
+export const cellText = cva({
+	base: {},
+	variants: {
+		tone: {
+			secondary: { color: 'text.secondary' },
+			muted: { color: 'text.muted', fontSize: '11px' },
+			disabled: { color: 'text.disabled', fontSize: '11px' }
+		}
+	}
+});
 
 export const dataRow = css({
 	display: 'flex',

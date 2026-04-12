@@ -12,9 +12,7 @@ import {
 	dataTable,
 	actionLink,
 	userAvatar,
-	cellSecondary,
-	cellMuted,
-	cellDisabled,
+	cellText,
 	entityName,
 	entityId
 } from '$lib/recipes/steam-modern';
@@ -107,24 +105,24 @@ const scoreFill = css({ height: '100%', borderRadius: '1px' });
 						<span class={entityName}>{g.name}</span>
 						<br /><span class={entityId}>{g.id}</span>
 					</td>
-					<td class={cellSecondary}>{g.developer}</td>
+					<td class={cellText({ tone: 'secondary' })}>{g.developer}</td>
 					<td><span class={badge({ color: 'blue' })}>{g.category}</span></td>
-					<td class={cellSecondary}>{g.price}</td>
-					<td class={cellSecondary}>{g.owners}</td>
+					<td class={cellText({ tone: 'secondary' })}>{g.price}</td>
+					<td class={cellText({ tone: 'secondary' })}>{g.owners}</td>
 					<td>
 						{#if g.reviews > 0}
 							<div class={scoreBar}>
 								<div class={scoreFill} style="width:{g.reviews}%;background:{scoreColor(g.reviews)}"></div>
 							</div>
-							<span class={cellMuted}>{g.reviews}%</span>
+							<span class={cellText({ tone: 'muted' })}>{g.reviews}%</span>
 						{:else}
-							<span class={cellDisabled}>N/A</span>
+							<span class={cellText({ tone: 'disabled' })}>N/A</span>
 						{/if}
 					</td>
 					<td>
 						<span class={badge({ color: statusBadgeColor[g.status] })}>{g.status}</span>
 					</td>
-					<td class={cellMuted}>{g.released}</td>
+					<td class={cellText({ tone: 'muted' })}>{g.released}</td>
 					<td>
 						<span class={actionLink()}>View</span>
 						<span class={actionLink()}>Edit</span>

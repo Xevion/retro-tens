@@ -3,7 +3,7 @@ import '@fontsource-variable/source-sans-3';
 import '@fontsource-variable/source-sans-3/wght-italic.css';
 import { page } from '$app/state';
 import type { ComponentType } from 'svelte';
-import { css } from 'styled-system/css';
+import { css, cx } from 'styled-system/css';
 import { flex, hstack, vstack } from 'styled-system/patterns';
 import {
 	LayoutDashboard,
@@ -240,7 +240,8 @@ const adminAvatar = css({
 	width: '20px',
 	height: '20px',
 	borderRadius: 'sm',
-	background: 'linear-gradient(135deg, #2a6591, #1b4a6b)',
+	background:
+		'linear-gradient(135deg, token(colors.surface.avatarStart), token(colors.surface.avatarEnd))',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
@@ -398,9 +399,9 @@ const mainPane = css({
 		<!-- macOS-style chrome bar -->
 		<div class={chromeBar}>
 			<div class={ctrlArea}>
-				<span class="{chromeBtn} {chromeBtnClose}"></span>
-				<span class="{chromeBtn} {chromeBtnMin}"></span>
-				<span class="{chromeBtn} {chromeBtnMax}"></span>
+				<span class={cx(chromeBtn, chromeBtnClose)}></span>
+				<span class={cx(chromeBtn, chromeBtnMin)}></span>
+				<span class={cx(chromeBtn, chromeBtnMax)}></span>
 			</div>
 			<div class={chromeTitle}>Steam — Administrator Console [Build 20170823-b]</div>
 		</div>
@@ -440,7 +441,7 @@ const mainPane = css({
 		<nav class={navTabsBar}>
 			{#each navTabs as tab (tab.href)}
 				{@const Icon = tab.icon}
-				<a href={tab.href} class="{navTab} {isActive(tab.href) ? navTabActive : ''}">
+				<a href={tab.href} class={cx(navTab, isActive(tab.href) ? navTabActive : '')}>
 					<span class={tabIcon}><Icon size={14} /></span>
 					{tab.label}
 					{#if tab.badge}<span class={tabBadge}></span>{/if}
@@ -457,11 +458,11 @@ const mainPane = css({
 						<div class={sidebarSectionHeader}>{section.title}</div>
 						{#each section.links as link (link.href)}
 							{@const Icon = link.icon}
-							<a href={link.href} class="{sidebarLink} {isActive(link.href) ? sidebarLinkActive : ''}">
+							<a href={link.href} class={cx(sidebarLink, isActive(link.href) ? sidebarLinkActive : '')}>
 								<span class={iconWrap}><Icon size={12} /></span>
 								{link.label}
 								{#if link.count}
-									<span class="{countBadge} {link.alert ? countAlert : ''}">{link.count}</span>
+									<span class={cx(countBadge, link.alert ? countAlert : '')}>{link.count}</span>
 								{/if}
 							</a>
 						{/each}

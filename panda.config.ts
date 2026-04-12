@@ -105,9 +105,14 @@ export default defineConfig({
 						btnSecondaryHover: { value: '#6c8a9e' },
 						btnSecondaryHoverEnd: { value: '#4d6a7e' },
 						header: { value: '#1b2838' },
+						headerGradientEnd: { value: '#182636' },
 						sidebar: { value: '#15202e' },
 						tooltip: { value: '#c2c2c2' },
-						chrome: { value: '#101318' }
+						chrome: { value: '#101318' },
+						avatarStart: { value: '#2a6591' },
+						avatarEnd: { value: '#1b4a6b' },
+						appAvatarStart: { value: '#2a475e' },
+						appAvatarEnd: { value: '#1b2838' }
 					},
 					text: {
 						bright: { value: '#ffffff' },
@@ -128,7 +133,10 @@ export default defineConfig({
 						purple: { value: '#9c72b5' },
 						greenText: { value: '#6dcf4a' },
 						redText: { value: '#e07070' },
-						goldText: { value: '#e8c44e' }
+						goldText: { value: '#e8c44e' },
+						greenDark: { value: '#3c7022' },
+						redDark: { value: '#843030' },
+						goldDark: { value: '#8a6810' }
 					},
 					border: {
 						DEFAULT: { value: '#2a475e' },
@@ -232,6 +240,7 @@ export default defineConfig({
 						glow: { value: 'rgba(0, 120, 215, 0.18)' },
 						subtle: { value: 'rgba(0, 120, 215, 0.06)' },
 						red: { value: '#e81123' },
+						redSubtle: { value: '#fff0f0' },
 						green: { value: '#107c10' }
 					},
 					border: {
@@ -288,78 +297,6 @@ export default defineConfig({
 			'--color-surface-200': '#1b2838',
 			'--color-surface-300': '#2a475e',
 			'--color-surface-content': '#c7d5e0'
-		},
-
-		/*
-		 * Backward-compat alias bridge: maps old var(--X) names to Panda's var(--category-X) names.
-		 * Unmigrated pages still reference var(--accent), var(--text-muted), etc.
-		 * Remove each alias as its consuming pages are migrated to css().
-		 */
-		'[data-panda-theme]': {
-			/* Colors — surface */
-			'--surface-root': 'var(--colors-surface-root)',
-			'--surface-base': 'var(--colors-surface-base)',
-			'--surface-panel': 'var(--colors-surface-panel)',
-			'--surface-elevated': 'var(--colors-surface-elevated)',
-			'--surface-card': 'var(--colors-surface-card)',
-			'--surface-card-hover': 'var(--colors-surface-card-hover)',
-			'--surface-input': 'var(--colors-surface-input)',
-			'--surface-sidebar': 'var(--colors-surface-sidebar)',
-			'--surface-section-head': 'var(--colors-surface-section-head)',
-			'--surface-ribbon': 'var(--colors-surface-ribbon)',
-			'--surface-qa': 'var(--colors-surface-qa)',
-			'--surface-qa-hover': 'var(--colors-surface-qa-hover)',
-			'--surface-qa-active': 'var(--colors-surface-qa-active)',
-			'--surface-qa-active-hover': 'var(--colors-surface-qa-active-hover)',
-			/* Colors — surface (steam-modern specific camelCase → kebab) */
-			'--surface-row-hover': 'var(--colors-surface-row-hover)',
-
-			/* Colors — text */
-			'--text-bright': 'var(--colors-text-bright)',
-			'--text-primary': 'var(--colors-text-primary)',
-			'--text-secondary': 'var(--colors-text-secondary)',
-			'--text-muted': 'var(--colors-text-muted)',
-			'--text-dim': 'var(--colors-text-dim)',
-			'--text-disabled': 'var(--colors-text-disabled)',
-			'--text-rank': 'var(--colors-text-rank)',
-
-			/* Colors — accent */
-			'--accent': 'var(--colors-accent)',
-			'--accent-hover': 'var(--colors-accent-hover)',
-			'--accent-dim': 'var(--colors-accent-dim)',
-			'--accent-glow': 'var(--colors-accent-glow)',
-			'--accent-gold': 'var(--colors-accent-gold)',
-			'--accent-green': 'var(--colors-accent-green)',
-			'--accent-red': 'var(--colors-accent-red)',
-			'--accent-link': 'var(--colors-accent-link)',
-			'--accent-price': 'var(--colors-accent-price)',
-
-			/* Colors — border */
-			'--border': 'var(--colors-border)',
-			'--border-light': 'var(--colors-border-light)',
-			'--border-medium': 'var(--colors-border-medium)',
-			'--border-input': 'var(--colors-border-input)',
-			'--border-input-hover': 'var(--colors-border-input-hover)',
-
-			/* Colors — misc */
-			'--divider': 'var(--colors-divider)',
-			'--card-accent': 'var(--colors-border-accent)',
-
-			/* Typography */
-			'--font-ui': 'var(--fonts-ui)',
-			'--font-size-xs': 'var(--font-sizes-xs)',
-			'--font-size-sm': 'var(--font-sizes-sm)',
-			'--font-size-base': 'var(--font-sizes-base)',
-			'--font-size-md': 'var(--font-sizes-md)',
-
-			/* Radii */
-			'--radius': 'var(--radii)',
-			'--radius-sm': 'var(--radii-sm)',
-
-			/* Transitions (composite — references transitions token group) */
-			'--transition': 'var(--transitions)',
-			'--transition-fast': 'var(--transitions-fast)',
-			'--transition-color': 'var(--transitions-color)'
 		}
 	}
 });

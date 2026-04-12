@@ -119,7 +119,7 @@ Each era is a PandaCSS theme defined in `panda.config.ts` → `themes`. Layouts 
 
 **Token references in `css()`:** `color: 'text.muted'`, `background: 'surface.panel'`, `fontFamily: 'ui'`, `fontSize: 'sm'`, `borderRadius: 'DEFAULT'`.
 
-**Alias bridge:** `panda.config.ts` → `globalCss` maps old `var(--accent)` names to Panda's `var(--colors-accent)` for unmigrated pages. Remove aliases as pages migrate to `css()`.
+**No alias bridge needed** — all eras are fully migrated to `css()`/`cva()`/`sva()`. The `globalCss` in `panda.config.ts` only contains the LayerChart `:root` surface tokens.
 
 **Rule:** Never hardcode era-specific values in components. Always use Panda token references. If a token doesn't exist, add it to the era's theme in `panda.config.ts`.
 
