@@ -1,6 +1,6 @@
 import type { EraId, PageMeta } from './types';
 
-const SITE_NAME = 'retro-tens';
+export const SITE_NAME = 'retro-tens';
 
 function meta(title: string, description: string, era?: EraId): PageMeta {
 	return { title: `${title} — ${SITE_NAME}`, description, era };

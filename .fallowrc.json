@@ -26,6 +26,16 @@
 		{
 			"file": "src/lib/meta.ts",
 			"exports": ["routeMeta"]
+		},
+		// reason: SvelteKit consumes `prerender` exports from +server.ts files at
+		// build time via its own module loader, not via static JS imports.
+		{
+			"file": "src/routes/sitemap.xml/+server.ts",
+			"exports": ["prerender"]
+		},
+		{
+			"file": "src/routes/robots.txt/+server.ts",
+			"exports": ["prerender"]
 		}
 	],
 
