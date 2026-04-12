@@ -10,39 +10,45 @@ export const btn = cva({
 		display: 'inline-flex',
 		alignItems: 'center',
 		gap: '6px',
-		padding: '6px 14px',
-		fontSize: 'sm',
-		fontWeight: '600',
-		borderRadius: 'DEFAULT',
+		/* sourced: .btn_small font-size/line-height/padding */
+		padding: '0 15px',
+		fontSize: '12px',
+		lineHeight: '26px',
+		fontWeight: '400',
+		/* sourced: all buttons border-radius: 2px */
+		borderRadius: 'sm',
 		cursor: 'pointer',
 		border: 'none',
 		transition: 'token(transitions.DEFAULT)',
-		textTransform: 'uppercase',
-		letterSpacing: '0.05em',
 		fontFamily: 'ui'
 	},
 	variants: {
 		visual: {
 			primary: {
-				background:
-					'linear-gradient(180deg, token(colors.surface.btnPrimary) 0%, token(colors.surface.btnPrimaryMid) 50%, token(colors.surface.btnPrimaryEnd) 100%)',
-				color: '#fff',
-				border: '1px solid token(colors.border.btnPrimary)',
-				textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)',
+				/* sourced: .btnv6_blue_blue_innerfade */
+				background: 'linear-gradient(180deg, rgba(47, 137, 188, 1), rgba(23, 67, 92, 1))',
+				color: '#A4D7F5',
 				_hover: {
-					background:
-						'linear-gradient(180deg, token(colors.surface.btnPrimaryHover) 0%, token(colors.surface.btnPrimaryHoverMid) 50%, token(colors.surface.btnPrimaryHoverEnd) 100%)'
+					color: '#fff',
+					background: 'linear-gradient(180deg, rgba(102, 192, 244, 1), rgba(47, 137, 188, 1))'
 				}
 			},
 			secondary: {
-				background:
-					'linear-gradient(180deg, token(colors.surface.btnSecondary) 0%, token(colors.surface.btnSecondaryEnd) 100%)',
-				color: 'text.primary',
-				border: '1px solid token(colors.border)',
-				textShadow: '0 1px 1px rgba(0, 0, 0, 0.3)',
+				/* sourced: .btnv6_white_transparent */
+				background: 'transparent',
+				color: '#fff',
+				border: '1px solid rgba(255, 255, 255, 0.4)',
 				_hover: {
-					background:
-						'linear-gradient(180deg, token(colors.surface.btnSecondaryHover) 0%, token(colors.surface.btnSecondaryHoverEnd) 100%)'
+					border: '1px solid rgba(255, 255, 255, 1)'
+				}
+			},
+			green: {
+				/* sourced: .btnv6_green_white_innerfade */
+				background: 'linear-gradient(180deg, rgba(121, 153, 5, 1), rgba(83, 105, 4, 1))',
+				color: '#D2E885',
+				_hover: {
+					color: '#fff',
+					background: 'linear-gradient(180deg, rgba(164, 208, 7, 1), rgba(107, 135, 5, 1))'
 				}
 			}
 		}
@@ -105,7 +111,8 @@ export const panel = sva({
 			alignItems: 'center',
 			justifyContent: 'space-between',
 			padding: '10px 14px',
-			background: 'rgba(0, 0, 0, 0.15)',
+			/* sourced: styled after store sidebar section headers */
+			background: 'linear-gradient(90deg, rgba(42, 71, 94, 0.6) 0%, rgba(0, 0, 0, 0.15) 100%)',
 			borderBottom: '1px solid token(colors.border)',
 			fontSize: 'sm',
 			fontWeight: '700',
@@ -122,7 +129,9 @@ export const panel = sva({
 export const dataTable = css({
 	width: '100%',
 	borderCollapse: 'collapse',
-	fontSize: '12.5px',
+	/* sourced: body.v6 font-size: 12px */
+	fontSize: '12px',
+	fontFamily: 'ui',
 	'& th': {
 		textAlign: 'left',
 		padding: '8px 12px',
@@ -130,21 +139,26 @@ export const dataTable = css({
 		fontWeight: '700',
 		letterSpacing: '0.1em',
 		textTransform: 'uppercase',
-		color: 'text.muted',
+		/* sourced: --gpSystemLightGrey */
+		color: '#8B929A',
 		borderBottom: '1px solid token(colors.border)',
+		/* sourced: .tab_item background */
 		background: 'rgba(0, 0, 0, 0.2)',
 		whiteSpace: 'nowrap'
 	},
 	'& td': {
 		padding: '7px 12px',
-		borderBottom: '1px solid rgba(0, 0, 0, 0.2)',
-		color: 'text.primary'
+		/* sourced: .search_suggest .match border-top */
+		borderBottom: '1px solid #13242e',
+		/* sourced: body.v6 color */
+		color: '#c6d4df'
 	},
 	'& tr:last-child td': {
 		borderBottom: 'none'
 	},
 	'& tbody tr:hover': {
-		background: 'surface.rowHover'
+		/* sourced: .search_suggest .match:hover background */
+		background: '#212d3d'
 	}
 });
 
@@ -176,16 +190,25 @@ export const searchBar = sva({
 		input: {
 			flex: '1',
 			minWidth: '200px',
+			/* sourced: .searchbox background-color */
 			background: 'surface.input',
-			border: '1px solid token(colors.border)',
-			color: 'text.primary',
+			/* sourced: .searchbox border */
+			border: '1px solid rgba(0, 0, 0, 0.3)',
+			/* sourced: .searchbox input color */
+			color: '#eeeeee',
 			padding: '5px 10px 5px 30px',
 			fontSize: 'sm',
-			borderRadius: 'DEFAULT',
+			borderRadius: 'sm',
 			fontFamily: 'ui',
 			outline: 'none',
+			fontStyle: 'italic',
 			_focus: {
+				fontStyle: 'normal',
 				borderColor: 'token(colors.accent.dim)'
+			},
+			'&::placeholder': {
+				/* sourced: .searchbox input.default color */
+				color: 'text.placeholder'
 			}
 		}
 	}
@@ -299,8 +322,8 @@ export const pageHeader = sva({
 	slots: ['root', 'title', 'subtitle', 'actions'],
 	base: {
 		root: {
-			background:
-				'linear-gradient(180deg, token(colors.surface.card) 0%, token(colors.surface.headerGradientEnd) 100%)',
+			/* sourced: styled after --gpGradient-StoreBackground (lighter for headers) */
+			background: 'linear-gradient(180deg, rgba(42, 71, 94, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%)',
 			borderBottom: '1px solid token(colors.divider)',
 			padding: '16px 24px 14px',
 			display: 'flex',
@@ -308,10 +331,12 @@ export const pageHeader = sva({
 			justifyContent: 'space-between'
 		},
 		title: {
-			fontSize: '20px',
+			/* sourced: body.v6 h2 font-family/weight, headingLg size */
+			fontSize: 'headingLg',
 			fontWeight: '300',
 			color: 'text.bright',
-			letterSpacing: '0.02em'
+			letterSpacing: '0.02em',
+			fontFamily: 'ui'
 		},
 		subtitle: {
 			fontSize: 'sm',

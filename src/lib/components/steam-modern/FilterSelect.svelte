@@ -33,12 +33,15 @@ const triggerClass = css({
 	display: 'inline-flex',
 	alignItems: 'center',
 	gap: '4px',
+	/* sourced: .searchbox background-color */
 	background: 'surface.input',
-	border: '1px solid token(colors.border)',
-	color: 'text.secondary',
+	/* sourced: .searchbox border */
+	border: '1px solid rgba(0, 0, 0, 0.3)',
+	/* sourced: .searchbox input color */
+	color: '#eeeeee',
 	padding: '5px 8px',
 	fontSize: 'sm',
-	borderRadius: 'DEFAULT',
+	borderRadius: 'sm',
 	fontFamily: 'ui',
 	cursor: 'pointer',
 	outline: 'none',
@@ -47,14 +50,16 @@ const triggerClass = css({
 });
 
 const contentClass = css({
-	background: 'surface.panel',
-	border: '1px solid token(colors.border)',
-	borderRadius: 'DEFAULT',
+	/* sourced: .popup_body.search_v2 background */
+	background: '#3D4450',
+	border: '1px solid rgba(0, 0, 0, 0.3)',
+	borderRadius: 'sm',
 	padding: '2px 0',
 	minWidth: 'var(--reference-width)',
 	maxHeight: '200px',
 	overflowY: 'auto',
-	boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+	/* sourced: --gpShadow-Medium */
+	boxShadow: '0px 3px 6px #0000003D',
 	zIndex: '50',
 	outline: 'none'
 });
@@ -66,14 +71,16 @@ const itemClass = css({
 	padding: '5px 10px',
 	fontSize: 'sm',
 	fontFamily: 'ui',
-	color: 'text.secondary',
+	color: '#c6d4df',
 	cursor: 'pointer',
 	_highlighted: {
-		background: 'accent.glow',
-		color: 'text.primary'
+		/* sourced: .search_suggest .match:hover */
+		background: '#212d3d',
+		color: '#ffffff'
 	},
 	_checked: {
-		color: 'accent',
+		/* sourced: --gpColor-ChalkyBlue */
+		color: '#66c0f4',
 		fontWeight: '600'
 	}
 });

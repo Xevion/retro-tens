@@ -18,6 +18,26 @@ Non-goals:
 - Covering every era of web design
 - Mobile responsiveness (these UIs were desktop-only)
 
+### Faithful shell, fictional content
+
+Each era has two layers:
+
+1. **Faithful recreations** — pages that directly recreate real UI from the source application. These match sourced CSS values exactly and reproduce real layouts, navigation, and component patterns. Examples: Steam Store browse page, Windows 10 Action Center, Steam Legacy store front.
+
+2. **Fictional content** — pages that don't exist in the original product but live inside the faithful shell. These use the same sourced token palette, typography, shadows, and component patterns — but their layout and content are invented. Examples: Steam admin dashboard, Windows 10 resume builder.
+
+The faithful layer establishes visual credibility and provides the sourced style guide. The fictional layer lets the project explore richer interactions (dashboards, forms, builders, data tables) that wouldn't exist in the original product.
+
+**Key principle:** Fiction gets leeway in *structure* (what content appears, how it's organized), not in *styling* (colors, fonts, spacing, component patterns). A fictional admin page should look like it was built by the same team that built the real product, using the same design system.
+
+**Route organization:** Faithful and fictional pages are separated in the route hierarchy. Each area gets its own layout shell appropriate to its content — faithful pages reproduce the real chrome (store header, desktop taskbar), while fictional pages may use their own navigation (admin sidebar) styled with the same visual vocabulary.
+
+| Era | Faithful | Fictional |
+|---|---|---|
+| steam-modern | Store pages (`/store/*`), Community (`/community/*`) | Admin console (`/admin/*`) |
+| windows10 | Desktop, Action Center, window chrome | Resume builder app |
+| steam-legacy | Store front | Library, Community hub |
+
 ---
 
 ## Eras
@@ -62,6 +82,17 @@ Each era is a named, versioned slice of a specific application's design history.
 **Era identification:** Resolved. The palette matches Steam's "v6" store redesign, stable from ~2016 through 2022+. CSS custom properties use a `--gp` prefix convention (`--gpStore*`, `--gpColor-*`, `--gpShadow-*`). Full token extraction in `docs/sources/steam-modern/steam-store-v6-tokens.md`.
 
 **Style guide role:** The Steam Store v6 design is the canonical style reference for this era. Faithful store pages (browse, homepage) recreate real Steam UI. Fictional admin pages (dashboard, users, games, reports) reuse the same component patterns (buttons, tags, tables, capsule cards) in an invented context.
+
+**Route structure:**
+- `/steam-modern/` — store homepage (faithful)
+- `/steam-modern/store/search` — store browse (faithful)
+- `/steam-modern/community/` — community hub (faithful, stub)
+- `/steam-modern/admin/` — admin dashboard (fictional)
+- `/steam-modern/admin/users` — user management (fictional)
+- `/steam-modern/admin/games` — game management (fictional)
+- `/steam-modern/admin/reports` — analytics (fictional)
+
+**Layout architecture:** A shared outer layout provides the chrome bar and Steam store-style top nav (`STORE | COMMUNITY | ADMIN`). Each area has its own inner layout: store pages are full-width with no sidebar, admin pages have a sidebar + content pane, community has a minimal wrapper.
 
 **Archive sources:**
 - `store.akamai.steamstatic.com/public/css/v6/store.css` — store-specific rules
@@ -369,5 +400,4 @@ When adding a new link to the index, create the page stub first — even if it's
 These are unresolved decisions. When a decision is made, move it to the relevant section above.
 
 - **archive.org automated fetching:** Is there a structured way to snapshot styles at a known URL + date? Or is manual devtools extraction the only path? Wayback Machine CDX API may help.
-- **Playwright a11y testing:** `@axe-core/playwright` is installed but not wired to any test. Add a baseline test per page that runs axe and reports violations — not a hard gate yet, but a visibility mechanism.
 - **Windows 10 dark file manager sub-era vs new era:** Does the dark mode file manager get its own era slug (`windows10-dark`) or does it share the `windows10` token layer with overrides? Decide when sourcing begins.

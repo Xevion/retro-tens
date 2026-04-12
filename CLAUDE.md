@@ -89,7 +89,10 @@ src/
   routes/
     +page.svelte              # era index — source of truth for all routes
     steam-legacy/             # 2010–2013 era
-    steam-modern/             # 2018–2023 era
+    steam-modern/             # 2018–2023 era (store + admin + community areas)
+      admin/                  # fictional admin console (sidebar layout)
+      store/                  # faithful store pages (full-width)
+      community/              # faithful community pages (stub)
     windows10/                # 2015–2021 era
   lib/
     recipes/                  # shared PandaCSS recipes (cva/sva) per era

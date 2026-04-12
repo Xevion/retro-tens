@@ -21,20 +21,19 @@ const themes = [
 	},
 	{
 		id: 'steam-modern',
-		name: 'Steam Admin',
+		name: 'Steam Modern',
 		era: '2018 – 2023',
 		description:
-			'Deep navy blue with Motiva Sans. CSS custom properties, glow effects, and a dense data-heavy admin console.',
+			'Deep navy blue with Motiva Sans. Store pages faithful to Steam v6 CSS, admin console with store-derived styling.',
 		font: 'Motiva Sans',
 		accent: '#66c0f4',
 		bg: '#1b2838',
 		text: '#c7d5e0',
 		routes: [
-			{ label: 'Store', href: '/steam-modern/store/search' },
-			{ label: 'Dashboard', href: '/steam-modern' },
-			{ label: 'Users', href: '/steam-modern/users' },
-			{ label: 'Games', href: '/steam-modern/games' },
-			{ label: 'Reports', href: '/steam-modern/reports' }
+			{ label: 'Store', href: '/steam-modern' },
+			{ label: 'Browse', href: '/steam-modern/store/search' },
+			{ label: 'Community', href: '/steam-modern/community' },
+			{ label: 'Admin', href: '/steam-modern/admin' }
 		]
 	},
 	{

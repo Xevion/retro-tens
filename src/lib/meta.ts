@@ -31,28 +31,38 @@ export const routeMeta: Record<string, PageMeta> = {
 
 	// Steam Modern (2018–2023)
 	'/steam-modern': meta(
-		'Steam Modern',
-		'Steam admin console circa 2018: deep navy blue with Motiva Sans, glow effects, and dense data-heavy panels.',
-		'steam-modern'
-	),
-	'/steam-modern/games': meta(
-		'Games — Steam Modern',
-		'Application and game management console with review queues and catalog search.',
-		'steam-modern'
-	),
-	'/steam-modern/reports': meta(
-		'Reports — Steam Modern',
-		'Platform analytics dashboard with CCU metrics, ban rates, and regional breakdowns.',
-		'steam-modern'
-	),
-	'/steam-modern/users': meta(
-		'Users — Steam Modern',
-		'User management panel with account search, status filtering, and admin tools.',
+		'Store — Steam Modern',
+		'Steam Store homepage with featured games, specials, and category browsing.',
 		'steam-modern'
 	),
 	'/steam-modern/store/search': meta(
 		'Store Browse — Steam Modern',
 		'Steam Store browse and search results with game capsules, tag filtering, and price columns.',
+		'steam-modern'
+	),
+	'/steam-modern/community': meta(
+		'Community — Steam Modern',
+		'Steam Community hub with activity feeds and community content.',
+		'steam-modern'
+	),
+	'/steam-modern/admin': meta(
+		'Admin Dashboard — Steam Modern',
+		'Steam admin console with platform metrics, activity feeds, and server health.',
+		'steam-modern'
+	),
+	'/steam-modern/admin/users': meta(
+		'Users — Steam Modern',
+		'User management panel with account search, status filtering, and admin tools.',
+		'steam-modern'
+	),
+	'/steam-modern/admin/games': meta(
+		'Games — Steam Modern',
+		'Application and game management console with review queues and catalog search.',
+		'steam-modern'
+	),
+	'/steam-modern/admin/reports': meta(
+		'Reports — Steam Modern',
+		'Platform analytics dashboard with CCU metrics, ban rates, and regional breakdowns.',
 		'steam-modern'
 	),
 
