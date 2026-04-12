@@ -252,6 +252,7 @@ const grouped = $derived(
 		font-family: var(--font-ui);
 	}
 	.notif-card:hover .notif-dismiss { opacity: 1; }
+	/* stylelint-disable-next-line no-descending-specificity -- reason: grouped with .notif-dismiss base rule for readability */
 	.notif-dismiss:hover { color: var(--text-secondary); }
 
 	.divider { height: 1px; background: var(--divider); margin: 8px 10px; }

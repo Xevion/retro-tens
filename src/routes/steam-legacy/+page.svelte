@@ -401,6 +401,7 @@ let activeSubTab = $state('Featured');
 		position: relative;
 		overflow: hidden;
 	}
+	/* stylelint-disable-next-line no-descending-specificity -- reason: grouped with .game-img visual layer; reorder would hurt readability */
 	.game-overlay {
 		position: absolute;
 		inset: 0;

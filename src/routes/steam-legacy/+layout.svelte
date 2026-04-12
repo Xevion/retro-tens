@@ -11,17 +11,48 @@ const navLinks = [
 ];
 
 const friends = [
-	{ initials: 'KR', name: 'krazykat99', game: 'Borderlands 2', bg: '#2a5a10', dotColor: 'var(--status-ingame)' },
-	{ initials: 'NX', name: 'n3xus_zero', status: 'Online', bg: '#1a2a5a', dotColor: 'var(--status-online)' },
-	{ initials: 'FX', name: 'foxbyte', game: 'Team Fortress 2', bg: '#4a2a10', dotColor: 'var(--status-ingame)' },
-	{ initials: 'ZP', name: 'zipcode', status: 'Away', bg: '#3a3a10', dotColor: 'var(--status-away)' },
-	{ initials: 'MV', name: 'maverick_x', status: 'Last on 2 days ago', bg: '#2a2a2a', dotColor: 'var(--status-offline)', statusColor: '#555' },
+	{
+		initials: 'KR',
+		name: 'krazykat99',
+		game: 'Borderlands 2',
+		bg: '#2a5a10',
+		dotColor: 'var(--status-ingame)'
+	},
+	{
+		initials: 'NX',
+		name: 'n3xus_zero',
+		status: 'Online',
+		bg: '#1a2a5a',
+		dotColor: 'var(--status-online)'
+	},
+	{
+		initials: 'FX',
+		name: 'foxbyte',
+		game: 'Team Fortress 2',
+		bg: '#4a2a10',
+		dotColor: 'var(--status-ingame)'
+	},
+	{
+		initials: 'ZP',
+		name: 'zipcode',
+		status: 'Away',
+		bg: '#3a3a10',
+		dotColor: 'var(--status-away)'
+	},
+	{
+		initials: 'MV',
+		name: 'maverick_x',
+		status: 'Last on 2 days ago',
+		bg: '#2a2a2a',
+		dotColor: 'var(--status-offline)',
+		statusColor: '#555'
+	}
 ];
 
 const news = [
 	{ date: 'Nov 12, 2012', title: 'Steam Big Picture Mode now available for all users' },
 	{ date: 'Nov 10, 2012', title: 'Autumn Sale starts Friday — thousands of games discounted' },
-	{ date: 'Nov 8, 2012', title: 'Greenlight selects 10 new titles for distribution' },
+	{ date: 'Nov 8, 2012', title: 'Greenlight selects 10 new titles for distribution' }
 ];
 
 function isActive(href: string) {

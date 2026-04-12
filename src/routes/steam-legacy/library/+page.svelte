@@ -258,6 +258,7 @@ const filtered = $derived(
 	.game-card { background: var(--surface-card); cursor: pointer; position: relative; overflow: hidden; }
 	.game-card:hover .game-overlay { opacity: 1; }
 	.game-img { height: 70px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+	/* stylelint-disable-next-line no-descending-specificity -- reason: grouped with .game-img visual layer; reorder would hurt readability */
 	.game-overlay { position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.1s; border: 1px solid var(--accent); }
 	.game-icon { font-size: 22px; opacity: 0.6; position: relative; z-index: 1; }
 	.hours-badge { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.7); color: var(--accent-link); font-size: 9px; font-weight: bold; padding: 1px 4px; border-radius: var(--radius-sm); z-index: 1; }

@@ -23,7 +23,6 @@ $effect(() => {
 	const interval = setInterval(updateClock, 10000);
 	return () => clearInterval(interval);
 });
-
 </script>
 
 <div class="theme-windows10">

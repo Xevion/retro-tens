@@ -458,8 +458,7 @@ function isActive(href: string) {
 	/* Main pane */
 	.main-pane {
 		flex: 1;
-		overflow-y: auto;
-		overflow-x: hidden;
+		overflow: hidden auto;
 		background: var(--surface-base);
 	}
 </style>
