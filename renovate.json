@@ -1,0 +1,68 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:recommended",
+		":dependencyDashboard",
+		":semanticCommits",
+		":semanticCommitTypeAll(chore)",
+		":prHourlyLimit2",
+		":prConcurrentLimit10"
+	],
+	"labels": ["dependencies"],
+	"rangeStrategy": "bump",
+	"lockFileMaintenance": {
+		"enabled": true,
+		"schedule": ["before 6am on Monday"]
+	},
+	"packageRules": [
+		{
+			"groupName": "ark-ui",
+			"matchPackageNames": ["@ark-ui/**"]
+		},
+		{
+			"groupName": "lucide",
+			"matchPackageNames": ["lucide-**", "@lucide/**"]
+		},
+		{
+			"groupName": "biome",
+			"matchPackageNames": ["@biomejs/**"]
+		},
+		{
+			"groupName": "eslint",
+			"matchPackageNames": ["eslint", "@eslint/**", "eslint-**", "typescript-eslint"]
+		},
+		{
+			"groupName": "stylelint",
+			"matchPackageNames": ["stylelint", "stylelint-**"]
+		},
+		{
+			"groupName": "sveltekit",
+			"matchPackageNames": ["svelte", "svelte-**", "@sveltejs/**"]
+		},
+		{
+			"groupName": "commitlint",
+			"matchPackageNames": ["@commitlint/**"]
+		},
+		{
+			"groupName": "types",
+			"matchPackageNames": ["@types/**"]
+		},
+		{
+			"groupName": "d3",
+			"matchPackageNames": ["d3-**", "@types/d3-**"]
+		},
+		{
+			"groupName": "playwright",
+			"matchPackageNames": ["@playwright/**", "@axe-core/playwright"]
+		},
+		{
+			"matchDepTypes": ["devDependencies"],
+			"matchUpdateTypes": ["patch", "minor"],
+			"automerge": false
+		},
+		{
+			"matchPackageNames": ["node"],
+			"enabled": false
+		}
+	]
+}

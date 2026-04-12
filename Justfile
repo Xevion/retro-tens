@@ -12,6 +12,10 @@ fix:
 dev:
     bun run dev
 
-# Crawl the running dev server with Lighthouse. Start `just dev` first.
+# Start the Vite server in preview mode.
+preview:
+	bun run build && bun run preview
+
+# Crawl the preview build with Lighthouse. Start `just preview` (port 4173) first.
 lighthouse:
     bun run lighthouse

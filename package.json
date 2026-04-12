@@ -19,7 +19,7 @@
 		"links": "lychee --offline docs README.md",
 		"audit": "bun audit",
 		"just:check": "just --fmt --check --unstable",
-		"lighthouse": "unlighthouse --site http://localhost:5173",
+		"lighthouse": "unlighthouse",
 		"check": "bun run typecheck && bun run lint:js && bun run lint:css && bun run lint:biome && bun run lint:actions && bun run format && bun run spell && bun run analyze && bun run links && bun run audit && bun run just:check",
 		"fix": "biome format --write . && eslint . --fix"
 	},
@@ -47,6 +47,7 @@
 		"svelte-check": "^4.4.6",
 		"typescript": "^6.0.2",
 		"typescript-eslint": "^8.58.1",
+		"unlighthouse": "^0.17.7",
 		"vite": "^8.0.7"
 	},
 	"dependencies": {

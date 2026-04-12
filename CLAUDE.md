@@ -20,6 +20,8 @@ A SvelteKit retro UI playground. Three historically faithful software eras, each
 - **Runtime tool manager:** `mise` (`mise.toml` pins `actionlint`, `typos`, `lychee`, `lefthook`)
 - **Git hooks:** `lefthook` (`lefthook.yml`) — pre-commit format + spell, commit-msg commitlint
 - **Commit convention:** `@commitlint/config-conventional` via `commitlint.config.js`
+- **Perf/a11y crawler:** `unlighthouse` (`unlighthouse.config.ts` — targets `http://localhost:4173`)
+- **Dependency updates:** Renovate (`renovate.json`) — config:recommended with groupings
 - **Icons:** lucide-svelte
 - **Charts:** LayerChart (requires Tailwind shim in `app.css` — do not remove)
 - **Primitives:** Ark UI (`@ark-ui/svelte`) — bits-ui removed
@@ -35,7 +37,7 @@ just            # alias for `just check`
 just check      # typecheck + all linters + analyzers + audit + formatter check
 just fix        # biome format --write + eslint --fix
 just dev        # vite dev
-just lighthouse # unlighthouse crawl — start `just dev` in another terminal first
+just lighthouse # unlighthouse crawl — start `bun run preview` first (port 4173)
 ```
 
 `bun run check` runs, in order: `typecheck`, `lint:js`, `lint:css`, `lint:biome`, `lint:actions`, `format`, `spell`, `analyze`, `links`, `audit`, `just:check`. Fails fast on first error.
@@ -194,12 +196,21 @@ Every `href` in the route arrays in `src/routes/+page.svelte` must have a `+page
 
 ## CI
 
-`.github/workflows/ci.yml` runs on push to `master` and on every PR. Three parallel jobs:
+`.github/workflows/ci.yml` runs on push to `master` and on every PR. Four parallel jobs:
 
+- **commits** (PR only) — `commitlint --from base --to head` so contributors without local hooks still get caught
 - **check** — installs mise tools + fallow (via `cargo install`), then runs the same `bun run` steps as `just check` minus `links` and `audit`
 - **links** — `lycheeverse/lychee-action` without `--offline`, so external links are actually validated
 - **audit** — `bun audit` isolated so a new CVE doesn't block the rest of CI
 
 The `check` job deliberately splits each `bun run <script>` into its own step so GitHub's job log shows which stage failed without having to grep a 10-command `&&` chain.
 
-Unlighthouse is **not** in CI — run it locally via `just lighthouse` when you want perf/a11y crawls.
+Unlighthouse is **not** in CI — run it locally via `just lighthouse` when you want perf/a11y crawls. It needs a preview server and Chromium, which makes it a poor fit for per-PR gating.
+
+## Dependency updates
+
+Renovate is configured via `renovate.json` with `config:recommended`. Updates are grouped so related packages land together: `ark-ui`, `lucide`, `biome`, `eslint`, `stylelint`, `sveltekit`, `commitlint`, `types`, `d3`, `playwright`. Lockfile maintenance runs weekly (Monday before 6am).
+
+Renovate requires the GitHub App to be installed on the repo — configuring `renovate.json` alone does nothing until the app has access. Install at https://github.com/apps/renovate.
+
+Semantic commits are enforced: Renovate prefixes all PRs with `chore(deps):` so they pass commitlint.
