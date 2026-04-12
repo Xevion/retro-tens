@@ -45,26 +45,32 @@ Each era is a named, versioned slice of a specific application's design history.
 
 ---
 
-### Steam Modern — era TBD
+### Steam Modern — ~2018 (v6 Store Era)
 
-| Property | Value |
-|---|---|
-| Theme attr | `data-panda-theme="steamModern"` |
-| Token config | `panda.config.ts` → `themes.steamModern` |
-| Primary font | Source Sans 3 (Google Fonts) |
-| Accent | `#66c0f4` |
-| Background | `#171a21` |
-| Border radius | 3px |
+| Property | Value | Source |
+|---|---|---|
+| Theme attr | `data-panda-theme="steamModern"` | — |
+| Token config | `panda.config.ts` → `themes.steamModern` | — |
+| Primary font | Motiva Sans (headings), Arial (body) | `motiva_sans.css`, `store.css body.v6` |
+| Accent | `#66c0f4` (`--gpColor-ChalkyBlue`) | `shared_global.css` |
+| Background | `#1b2838` (`--gpStoreDarkerGrey`) | `shared_global.css` |
+| Footer bg | `#171a21` | `store.css #footer` |
+| Border radius | 1px / 2px / 3px (`--gpCorner-*`) | `shared_global.css` |
 
-**Defining characteristics:** Deep navy blue. Brighter cyan-blue accent. Data-dense admin console aesthetic (fictional context). Tab underline nav (active: solid accent bottom border). Source Sans 3 everywhere. Subtle glow effects on accented elements. Charts and tables as primary content. Header gradient from `#2a3f54` to `#1b2838`.
+**Defining characteristics:** Deep navy blue (`--gpStoreDarkerGrey: #1b2838`). Cyan-blue accent (`--gpColor-ChalkyBlue: #66c0f4`). Store-derived design language applied to both faithful store pages and fictional admin context. Motiva Sans for headings (300/700), Arial 12px for body text. Buttons use inner-span gradients with 2px radius. Tag pills (`#384959`, `#b0aeac` text, 1px box-shadow). Nav gradient: `linear-gradient(90deg, rgba(62,103,150,0.919), rgba(58,120,177,0.8), rgb(15,33,110))`. Discount badges: `#beee11` on `#4c6b22`. Search box: `#316282` background.
 
-> **Era identification needed.** The fictional context is an internal admin console, but the palette (`#171a21`, `#1b2838`, `#66c0f4`) may accurately represent a specific real Steam era. The year range "2018–2023" is an estimate. Use archive.org to identify when Steam adopted this exact navy/cyan palette and update the range accordingly. Until resolved, treat the year label as approximate.
+**Era identification:** Resolved. The palette matches Steam's "v6" store redesign, stable from ~2016 through 2022+. CSS custom properties use a `--gp` prefix convention (`--gpStore*`, `--gpColor-*`, `--gpShadow-*`). Full token extraction in `docs/sources/steam-modern/steam-store-v6-tokens.md`.
+
+**Style guide role:** The Steam Store v6 design is the canonical style reference for this era. Faithful store pages (browse, homepage) recreate real Steam UI. Fictional admin pages (dashboard, users, games, reports) reuse the same component patterns (buttons, tags, tables, capsule cards) in an invented context.
 
 **Archive sources:**
-- `https://web.archive.org/web/2020*/https://store.steampowered.com/`
-- Steamworks partner dashboard (sparse Wayback coverage — supplement with screenshots if available)
+- `store.akamai.steamstatic.com/public/css/v6/store.css` — store-specific rules
+- `store.akamai.steamstatic.com/public/shared/css/shared_global.css` — CSS custom properties
+- `store.akamai.steamstatic.com/public/shared/css/buttons.css` — button system
+- `community.akamai.steamstatic.com/public/shared/css/motiva_sans.css` — font declarations
+- `https://web.archive.org/web/2018*/https://store.steampowered.com/` — page captures
 
-**What to extract:** Nav tab active state styles, stat card pattern, table row hover, sidebar link group, badge/status pill design. Confirm exact year palette was introduced.
+**What to extract:** Capsule card dimensions (231×87 search, 920×430 header), search result row layout, tag pill styling, button gradient variants (green/blue/ghost), nav tab states, discount badge pattern, store homepage carousel structure.
 
 ---
 
@@ -151,7 +157,7 @@ These deviations require a comment in the source:
 ### Font sourcing
 
 - **Arial/Tahoma/Segoe UI:** System fonts — use CSS font stacks, no download needed
-- **Source Sans 3:** Load from Google Fonts via `<svelte:head>` in the era layout
+- **Motiva Sans:** Self-hosted from Steam CDN (`community.akamai.steamstatic.com/public/shared/fonts/`). Font files in `static/fonts/motiva-sans/`, CSS in `motiva-sans.css`. Commercial font by Rodrigo Saiani / Plau Design — self-hosted for research purposes only. Weights: Light (300), Regular (400), Regular Italic (400i), Medium (500), Bold (700), Black (900).
 - Document the exact font weight and size scales you verified from source captures
 
 ### Color verification
@@ -362,7 +368,6 @@ When adding a new link to the index, create the page stub first — even if it's
 
 These are unresolved decisions. When a decision is made, move it to the relevant section above.
 
-- **steam-modern era identification:** The current palette (`#171a21`, `#1b2838`, `#66c0f4`) is accurate to some era of Steam, but which one? Use archive.org to identify the specific year range. Until resolved, the "2018–2023" label is approximate.
 - **archive.org automated fetching:** Is there a structured way to snapshot styles at a known URL + date? Or is manual devtools extraction the only path? Wayback Machine CDX API may help.
 - **Playwright a11y testing:** `@axe-core/playwright` is installed but not wired to any test. Add a baseline test per page that runs axe and reports violations — not a hard gate yet, but a visibility mechanism.
 - **Windows 10 dark file manager sub-era vs new era:** Does the dark mode file manager get its own era slug (`windows10-dark`) or does it share the `windows10` token layer with overrides? Decide when sourcing begins.

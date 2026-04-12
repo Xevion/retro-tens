@@ -24,8 +24,8 @@ const themes = [
 		name: 'Steam Admin',
 		era: '2018 – 2023',
 		description:
-			'Deep navy blue with Source Sans 3. CSS custom properties, glow effects, and a dense data-heavy admin console.',
-		font: 'Source Sans 3',
+			'Deep navy blue with Motiva Sans. CSS custom properties, glow effects, and a dense data-heavy admin console.',
+		font: 'Motiva Sans',
 		accent: '#66c0f4',
 		bg: '#1b2838',
 		text: '#c7d5e0',

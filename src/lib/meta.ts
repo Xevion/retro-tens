@@ -32,7 +32,7 @@ export const routeMeta: Record<string, PageMeta> = {
 	// Steam Modern (2018–2023)
 	'/steam-modern': meta(
 		'Steam Modern',
-		'Steam admin console circa 2018–2023: deep navy blue with Source Sans 3, glow effects, and dense data-heavy panels.',
+		'Steam admin console circa 2018: deep navy blue with Motiva Sans, glow effects, and dense data-heavy panels.',
 		'steam-modern'
 	),
 	'/steam-modern/games': meta(

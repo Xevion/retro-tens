@@ -1,6 +1,4 @@
 <script lang="ts">
-import '@fontsource-variable/source-sans-3';
-import '@fontsource-variable/source-sans-3/wght-italic.css';
 import { resolve } from '$app/paths';
 import { page } from '$app/state';
 import type { Pathname } from '$app/types';
@@ -393,6 +391,10 @@ const mainPane = css({
 	background: 'surface.base'
 });
 </script>
+
+<svelte:head>
+	<link rel="stylesheet" href="/fonts/motiva-sans/motiva-sans.css" />
+</svelte:head>
 
 <div data-panda-theme="steamModern" class={shell}>
 	<div class={appShell}>

@@ -133,7 +133,7 @@ The three active eras and their authoritative sources:
 | Era | Year range | Font | Accent |
 |---|---|---|---|
 | steam-legacy | 2010–2013 | Arial | `#75b022` |
-| steam-modern | ~2018–2023 (TBD — see DESIGN.md) | Source Sans 3 | `#66c0f4` |
+| steam-modern | ~2018 (v6 store era) | Motiva Sans | `#66c0f4` |
 | windows10 | 2015–2021 | Segoe UI | `#0078d7` |
 
 Color values must come from archive.org stylesheet captures or direct devtools inspection. If you deviate from a sourced value, leave a comment explaining why.

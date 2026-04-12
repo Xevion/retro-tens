@@ -85,83 +85,183 @@ export default defineConfig({
 			tokens: {
 				colors: {
 					surface: {
-						root: { value: '#0e1219' },
+						/* --gpSystemDarkestGrey */
+						root: { value: '#0e141b' },
+						/* footer background — store.css #footer */
 						base: { value: '#171a21' },
+						/* --gpStoreDarkerGrey — primary page bg, body.v6 */
 						panel: { value: '#1b2838' },
+						/* --gpStoreDarkGrey */
 						elevated: { value: '#2a475e' },
 						card: { value: '#213347' },
+						/* capsule card bg — .store_capsule radial-gradient center */
+						capsule: { value: '#283645' },
+						capsuleHover: { value: '#3b4955' },
 						row: { value: '#1b2838' },
 						rowAlt: { value: '#1e2d3f' },
 						rowHover: { value: '#24405a' },
-						input: { value: '#101922' },
-						btnPrimary: { value: '#76b4d6' },
-						btnPrimaryMid: { value: '#4a88aa' },
-						btnPrimaryEnd: { value: '#3c7493' },
-						btnPrimaryHover: { value: '#8ac4e4' },
-						btnPrimaryHoverMid: { value: '#5a98ba' },
-						btnPrimaryHoverEnd: { value: '#4c84a3' },
-						btnSecondary: { value: '#5c7a8e' },
-						btnSecondaryEnd: { value: '#3d5a6e' },
-						btnSecondaryHover: { value: '#6c8a9e' },
-						btnSecondaryHoverEnd: { value: '#4d6a7e' },
+						/* search box — .searchbox */
+						input: { value: '#316282' },
+						/* blue action btn — .btnv6_blue_blue_innerfade gradient */
+						btnPrimary: { value: 'rgba(47, 137, 188, 1)' },
+						btnPrimaryEnd: { value: 'rgba(23, 67, 92, 1)' },
+						btnPrimaryHover: { value: 'rgba(102, 192, 244, 1)' },
+						btnPrimaryHoverEnd: { value: 'rgba(47, 137, 188, 1)' },
+						/* green "add to cart" btn — .btnv6_green_white_innerfade */
+						btnGreen: { value: 'rgba(121, 153, 5, 1)' },
+						btnGreenEnd: { value: 'rgba(83, 105, 4, 1)' },
+						btnGreenHover: { value: 'rgba(164, 208, 7, 1)' },
+						btnGreenHoverEnd: { value: 'rgba(107, 135, 5, 1)' },
+						/* ghost btn border handled via border tokens */
 						header: { value: '#1b2838' },
-						headerGradientEnd: { value: '#182636' },
+						/* store header bar — div#store_header */
+						headerBar: { value: '#3b3938' },
 						sidebar: { value: '#15202e' },
+						/* --gpSystemDarkGrey — search suggest dropdown */
+						dropdown: { value: '#3d4450' },
+						dropdownHover: { value: '#212d3d' },
 						tooltip: { value: '#c2c2c2' },
 						chrome: { value: '#101318' },
 						avatarStart: { value: '#2a6591' },
 						avatarEnd: { value: '#1b4a6b' },
 						appAvatarStart: { value: '#2a475e' },
-						appAvatarEnd: { value: '#1b2838' }
+						appAvatarEnd: { value: '#1b2838' },
+						/* tag pill bg — .app_tag */
+						tag: { value: '#384959' },
+						tagHover: { value: 'rgba(38, 54, 69, 0.6)' },
+						/* discount badge bg — .discount_pct */
+						discountBadge: { value: '#4c6b22' }
 					},
 					text: {
 						bright: { value: '#ffffff' },
-						primary: { value: '#c7d5e0' },
-						secondary: { value: '#8ba3b7' },
-						muted: { value: '#556b7d' },
-						disabled: { value: '#3a5068' }
+						/* body.v6 color */
+						primary: { value: '#c6d4df' },
+						/* --gpStoreLightGrey / .breadcrumbs a */
+						secondary: { value: '#8f98a0' },
+						/* --gpStoreGrey */
+						muted: { value: '#4e697d' },
+						disabled: { value: '#3a5068' },
+						/* nav tab text — .store_nav .tab > span */
+						nav: { value: '#e5e5e5' },
+						/* tag pill text — .app_tag */
+						tag: { value: '#b0aeac' },
+						tagHover: { value: 'rgba(227, 234, 239, 1)' },
+						/* green btn text — .btnv6_green_white_innerfade */
+						btnGreen: { value: '#d2e885' },
+						/* blue btn text — .btnv6_blue_blue_innerfade */
+						btnBlue: { value: '#a4d7f5' },
+						/* breadcrumb text */
+						breadcrumb: { value: '#56707f' },
+						/* discount price — .discount_final_price */
+						discount: { value: '#beee11' },
+						/* original price strikethrough — .discount_original_price */
+						priceOriginal: { value: '#738895' },
+						/* search placeholder — .searchbox input.default */
+						placeholder: { value: '#305d8a' },
+						/* footer links text */
+						footer: { value: '#61686d' }
 					},
 					accent: {
+						/* --gpColor-ChalkyBlue — classic 2018 link/accent */
 						DEFAULT: { value: '#66c0f4' },
-						dim: { value: '#4a9fc8' },
-						bright: { value: '#84cef8' },
+						/* --gpColor-DustyBlue */
+						dim: { value: '#417a9b' },
+						/* --gpColor-LightBlue */
+						bright: { value: '#b3dfff' },
+						/* --gpColor-Blue — newer interactive blue */
+						blue: { value: '#1a9fff' },
+						blueHi: { value: '#00bbff' },
 						glow: { value: 'rgba(102, 192, 244, 0.15)' },
-						gold: { value: '#d5a51b' },
-						green: { value: '#4fa832' },
-						red: { value: '#c94040' },
-						orange: { value: '#d8832a' },
+						/* --gpColor-Yellow */
+						gold: { value: '#ffc82c' },
+						/* --gpColor-Green */
+						green: { value: '#5ba32b' },
+						greenHi: { value: '#59bf40' },
+						/* --gpColor-Red */
+						red: { value: '#d94126' },
+						redHi: { value: '#ee563b' },
+						/* --gpColor-Orange */
+						orange: { value: '#e35e1c' },
 						purple: { value: '#9c72b5' },
-						greenText: { value: '#6dcf4a' },
-						redText: { value: '#e07070' },
-						goldText: { value: '#e8c44e' },
+						/* lighter text variants for delta indicators / progress fills */
+						greenText: { value: '#59bf40' },
+						redText: { value: '#ee563b' },
+						goldText: { value: '#ffc82c' },
+						/* darker variants for gradient endpoints */
 						greenDark: { value: '#3c7022' },
 						redDark: { value: '#843030' },
-						goldDark: { value: '#8a6810' }
+						goldDark: { value: '#8a6810' },
+						/* status colors */
+						online: { value: '#57cbde' },
+						ingame: { value: '#90ba3c' },
+						golden: { value: '#e4ca63' },
+						offline: { value: '#898989' }
 					},
 					border: {
+						/* --gpStoreDarkGrey */
 						DEFAULT: { value: '#2a475e' },
 						light: { value: '#3c6080' },
-						btnPrimary: { value: '#2a5f7e' }
+						/* ghost btn border — .btnv6_white_transparent span */
+						ghost: { value: 'rgba(255, 255, 255, 0.4)' },
+						ghostHover: { value: 'rgba(255, 255, 255, 1)' },
+						/* search box border */
+						input: { value: 'rgba(0, 0, 0, 0.3)' },
+						/* footer rule — #footer .rule */
+						footer: { value: '#363c44' },
+						/* search suggest match — .search_suggest .match */
+						suggest: { value: '#13242e' }
 					},
-					divider: { value: '#1a2d40' }
+					divider: { value: '#1a2d40' },
+					shadow: {
+						/* --gpShadow-* */
+						sm: { value: '0px 2px 2px #0000003d' },
+						md: { value: '0px 3px 6px #0000003d' },
+						lg: { value: '0px 12px 16px #0000003d' },
+						xl: { value: '0px 24px 32px #0000003d' },
+						/* tag pill shadow — .app_tag box-shadow */
+						tag: { value: '1px 1px 0 0 #000000' }
+					}
 				},
 				radii: {
+					/* --gpCorner-Large */
 					DEFAULT: { value: '3px' },
-					sm: { value: '2px' }
+					/* --gpCorner-Medium — buttons */
+					sm: { value: '2px' },
+					/* --gpCorner-Small */
+					xs: { value: '1px' }
 				},
 				fonts: {
+					/* Steam uses Motiva Sans, not Source Sans. Body fallback is Arial. */
 					ui: {
-						value: '"Source Sans 3 Variable", "Source Sans 3", Arial, sans-serif'
+						value: '"Motiva Sans", Arial, Helvetica, sans-serif'
 					}
 				},
 				fontSizes: {
 					xs: { value: '11px' },
 					sm: { value: '12px' },
-					base: { value: '13px' }
+					base: { value: '13px' },
+					md: { value: '14px' },
+					lg: { value: '15px' },
+					/* --gpText-HeadingSmall */
+					heading: { value: '18px' },
+					/* --gpText-HeadingMedium */
+					headingMd: { value: '22px' },
+					/* --gpText-HeadingLarge / h2.pageheader */
+					headingLg: { value: '26px' }
 				},
 				sizes: {
-					navHeight: { value: '36px' },
-					sidebarW: { value: '200px' }
+					navHeight: { value: '35px' },
+					/* div#store_header */
+					headerHeight: { value: '66px' },
+					sidebarW: { value: '200px' },
+					/* .page_content */
+					contentMaxW: { value: '940px' }
+				},
+				spacing: {
+					/* --gpSpace-Gutter */
+					gutter: { value: '24px' },
+					/* --gpSpace-Gap */
+					gap: { value: '12px' }
 				},
 				durations: {
 					DEFAULT: { value: '0.15s' },
@@ -179,7 +279,7 @@ export default defineConfig({
 						surface100: { value: '#213347' },
 						surface200: { value: '#1b2838' },
 						surface300: { value: '#2a475e' },
-						surfaceContent: { value: '#c7d5e0' }
+						surfaceContent: { value: '#c6d4df' }
 					}
 				}
 			}

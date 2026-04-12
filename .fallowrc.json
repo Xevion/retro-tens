@@ -62,6 +62,10 @@
 	// customSyntax value. It is never statically imported from any JS/TS file,
 	// so fallow correctly flags it as unused. The package is still required at
 	// runtime for stylelint to parse .svelte files.
+	// reason: static font files loaded via <link> in +layout.svelte, not via JS import.
+	// fallow's reachability graph cannot trace runtime <link href="..."> references.
+	"ignorePatterns": ["static/fonts/**"],
+
 	"ignoreDependencies": ["postcss-html"],
 
 	// Stricter than fallow's defaults (20 cyclomatic / 15 cognitive). This is a

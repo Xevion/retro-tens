@@ -1,0 +1,52 @@
+/* Motiva Sans — sourced from Steam CDN (community.akamai.steamstatic.com)
+   Original designer: Rodrigo Saiani / Plau Design
+   Licensed by Valve via YouWorkForThem for Steam platform use.
+   Self-hosted here for research/recreation purposes only. */
+
+@font-face {
+	font-family: "Motiva Sans";
+	src: url("/fonts/motiva-sans/MotivaSans-Light.ttf") format("truetype");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Motiva Sans";
+	src: url("/fonts/motiva-sans/MotivaSans-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Motiva Sans";
+	src: url("/fonts/motiva-sans/MotivaSans-RegularItalic.ttf") format("truetype");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Motiva Sans";
+	src: url("/fonts/motiva-sans/MotivaSans-Medium.ttf") format("truetype");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Motiva Sans";
+	src: url("/fonts/motiva-sans/MotivaSans-Bold.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Motiva Sans";
+	src: url("/fonts/motiva-sans/MotivaSans-Black.ttf") format("truetype");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
