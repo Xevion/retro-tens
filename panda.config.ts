@@ -181,7 +181,9 @@ export default defineConfig({
 			tokens: {
 				colors: {
 					desktop: {
-						bg: { value: '#2d7ab8' }
+						bg: { value: '#2d7ab8' },
+						gradientStart: { value: '#1a6eb0' },
+						gradientEnd: { value: '#0f4e8a' }
 					},
 					surface: {
 						base: { value: '#ffffff' },
@@ -192,11 +194,22 @@ export default defineConfig({
 						ribbon: { value: '#f2f2f2' },
 						sidebar: { value: '#f7f7f7' },
 						statusBar: { value: '#f2f2f2' },
+						card: { value: '#fafafa' },
+						chip: { value: '#e3f0fb' },
+						notifCard: { value: '#ffffff' },
 						taskbar: { value: 'rgba(0, 0, 0, 0.78)' },
+						taskbarHover: { value: 'rgba(255, 255, 255, 0.12)' },
+						taskbarIconHover: { value: 'rgba(255, 255, 255, 0.1)' },
+						taskbarActiveNotif: { value: 'rgba(0, 120, 215, 0.3)' },
+						desktopIconHover: { value: 'rgba(255, 255, 255, 0.18)' },
+						appTile: { value: 'rgba(255, 255, 255, 0.15)' },
+						appTileHover: { value: 'rgba(255, 255, 255, 0.25)' },
+						launcher: { value: 'rgba(255, 255, 255, 0.12)' },
 						qa: { value: 'rgba(0, 0, 0, 0.07)' },
 						qaHover: { value: 'rgba(0, 0, 0, 0.12)' },
 						qaActive: { value: 'rgba(0, 120, 215, 0.18)' },
-						qaActiveHover: { value: 'rgba(0, 120, 215, 0.26)' }
+						qaActiveHover: { value: 'rgba(0, 120, 215, 0.26)' },
+						qaArea: { value: 'rgba(235, 235, 235, 0.8)' }
 					},
 					text: {
 						bright: { value: '#ffffff' },
@@ -204,14 +217,20 @@ export default defineConfig({
 						secondary: { value: '#444444' },
 						muted: { value: '#666666' },
 						disabled: { value: '#888888' },
+						heading: { value: '#111111' },
+						desktopIcon: { value: '#ffffff' },
 						taskbar: { value: 'rgba(255, 255, 255, 0.85)' },
-						taskbarMuted: { value: 'rgba(255, 255, 255, 0.5)' }
+						taskbarBright: { value: 'rgba(255, 255, 255, 0.9)' },
+						taskbarSubtle: { value: 'rgba(255, 255, 255, 0.75)' },
+						taskbarMuted: { value: 'rgba(255, 255, 255, 0.5)' },
+						taskbarDim: { value: 'rgba(255, 255, 255, 0.7)' }
 					},
 					accent: {
 						DEFAULT: { value: '#0078d7' },
 						hover: { value: '#106ebe' },
 						dim: { value: '#005a9e' },
 						glow: { value: 'rgba(0, 120, 215, 0.18)' },
+						subtle: { value: 'rgba(0, 120, 215, 0.06)' },
 						red: { value: '#e81123' },
 						green: { value: '#107c10' }
 					},
@@ -220,9 +239,18 @@ export default defineConfig({
 						medium: { value: 'rgba(0, 0, 0, 0.12)' },
 						light: { value: '#e0e0e0' },
 						input: { value: '#ababab' },
-						inputHover: { value: '#767676' }
+						inputHover: { value: '#767676' },
+						chip: { value: '#b8d8f5' },
+						launcher: { value: 'rgba(255, 255, 255, 0.2)' },
+						window: { value: '#aaaaaa' },
+						section: { value: '#e8e8e8' },
+						dashed: { value: '#ababab' }
 					},
-					divider: { value: 'rgba(0, 0, 0, 0.07)' }
+					divider: { value: 'rgba(0, 0, 0, 0.07)' },
+					shadow: {
+						window: { value: 'rgba(0, 0, 0, 0.18)' },
+						desktopIcon: { value: 'rgba(0, 0, 0, 0.6)' }
+					}
 				},
 				radii: {
 					DEFAULT: { value: '0px' }

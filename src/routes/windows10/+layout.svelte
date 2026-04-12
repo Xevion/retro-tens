@@ -48,7 +48,8 @@ const desktopArea = css({
 const desktopBg = css({
 	position: 'absolute',
 	inset: '0',
-	background: 'linear-gradient(135deg, #1a6eb0 0%, #2d7ab8 40%, #0f4e8a 100%)',
+	background:
+		'linear-gradient(135deg, token(colors.desktop.gradientStart) 0%, token(colors.desktop.bg) 40%, token(colors.desktop.gradientEnd) 100%)',
 	zIndex: '0'
 });
 
@@ -84,9 +85,9 @@ const startBtn = css({
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
-	color: 'rgba(255, 255, 255, 0.9)',
+	color: 'text.taskbarBright',
 	transition: 'background token(durations.fast) ease',
-	_hover: { background: 'rgba(255, 255, 255, 0.12)' }
+	_hover: { background: 'surface.taskbarHover' }
 });
 
 const taskbarSearch = css({
@@ -95,9 +96,9 @@ const taskbarSearch = css({
 	display: 'flex',
 	alignItems: 'center',
 	gap: '6px',
-	color: 'rgba(255, 255, 255, 0.5)',
+	color: 'text.taskbarMuted',
 	fontSize: 'md',
-	border: '1px solid rgba(255, 255, 255, 0.12)',
+	border: '1px solid token(colors.surface.taskbarHover)',
 	cursor: 'text',
 	minWidth: '180px'
 });
@@ -109,13 +110,13 @@ const taskbarIcon = css({
 	alignItems: 'center',
 	justifyContent: 'center',
 	cursor: 'pointer',
-	color: 'rgba(255, 255, 255, 0.75)',
+	color: 'text.taskbarSubtle',
 	transition: 'background token(durations.fast) ease',
-	_hover: { background: 'rgba(255, 255, 255, 0.1)' }
+	_hover: { background: 'surface.taskbarIconHover' }
 });
 
 const taskbarIconActive = css({
-	color: '#fff',
+	color: 'text.bright',
 	boxShadow: '0 -2px 0 token(colors.accent) inset'
 });
 
@@ -131,7 +132,7 @@ const sysTray = css({
 	padding: '0 8px',
 	gap: '8px',
 	height: '100%',
-	color: 'rgba(255, 255, 255, 0.85)',
+	color: 'text.taskbar',
 	cursor: 'default'
 });
 
@@ -145,12 +146,12 @@ const clock = css({
 
 const clockTime = css({
 	fontSize: 'md',
-	color: 'rgba(255, 255, 255, 0.9)'
+	color: 'text.taskbarBright'
 });
 
 const clockDate = css({
 	fontSize: 'sm',
-	color: 'rgba(255, 255, 255, 0.7)'
+	color: 'text.taskbarDim'
 });
 
 const notifBtn = css({
@@ -161,14 +162,14 @@ const notifBtn = css({
 	justifyContent: 'center',
 	cursor: 'pointer',
 	background: 'none',
-	color: '#fff',
+	color: 'text.bright',
 	position: 'relative',
 	transition: 'background token(durations.fast) ease',
-	_hover: { background: 'rgba(255, 255, 255, 0.1)' }
+	_hover: { background: 'surface.taskbarIconHover' }
 });
 
 const notifBtnLit = css({
-	background: 'rgba(0, 120, 215, 0.3)'
+	background: 'surface.taskbarActiveNotif'
 });
 
 const notifBadge = css({
@@ -180,7 +181,7 @@ const notifBadge = css({
 	background: 'accent',
 	borderRadius: 'full',
 	fontSize: '9px',
-	color: '#fff',
+	color: 'text.bright',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',

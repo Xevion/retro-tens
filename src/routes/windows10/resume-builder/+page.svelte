@@ -1,6 +1,16 @@
 <script lang="ts">
 import { Tabs } from '@ark-ui/svelte/tabs';
 import { Minus, Square, X, Plus } from 'lucide-svelte';
+import { css, cx } from 'styled-system/css';
+import {
+	btn,
+	input as inputRecipe,
+	textarea as textareaRecipe,
+	label as labelRecipe,
+	titleBar as titleBarSva,
+	experienceCard as experienceCardSva,
+	addEntryBtn
+} from '$lib/recipes/windows10';
 
 const sectionNames = [
 	'Personal Information',
@@ -13,7 +23,6 @@ let currentSection = $state(0);
 let ribbonTab = $state<string | null>('form');
 const previewOpen = $derived(ribbonTab === 'preview');
 
-// Form data
 let fname = $state('');
 let lname = $state('');
 let jobTitle = $state('');
@@ -44,71 +53,435 @@ function navigate(dir: number) {
 function goToSection(idx: number) {
 	currentSection = idx;
 }
+
+const tb = titleBarSva();
+const expCard = experienceCardSva();
+
+const appWindow = css({
+	background: 'surface.base',
+	border: '1px solid token(colors.border.window)',
+	display: 'flex',
+	flexDirection: 'column',
+	minHeight: '560px',
+	width: '680px',
+	boxShadow: '0 4px 20px token(colors.shadow.window)',
+	margin: '16px auto 0'
+});
+
+const ribbonRoot = css({ display: 'contents' });
+
+const ribbonList = css({
+	background: 'surface.ribbon',
+	borderBottom: '1px solid #d4d4d4',
+	display: 'flex',
+	alignItems: 'flex-end',
+	padding: '0 0 0 4px',
+	flexShrink: '0',
+	height: '38px'
+});
+
+const ribbonTrigger = css({
+	height: '38px',
+	padding: '0 18px',
+	fontSize: 'sm',
+	color: 'text.secondary',
+	border: 'none',
+	background: 'none',
+	cursor: 'pointer',
+	borderBottom: '3px solid transparent',
+	fontFamily: 'ui',
+	display: 'flex',
+	alignItems: 'center',
+	transition: 'color token(durations.fast) ease, border-color token(durations.fast) ease',
+	letterSpacing: '0.01em',
+	_hover: { color: 'accent', background: 'accent.subtle' },
+	_selected: {
+		color: 'accent',
+		borderBottomColor: 'accent',
+		fontWeight: '600',
+		background: 'surface.base'
+	}
+});
+
+const progressBar = css({
+	height: '3px',
+	background: 'border.light'
+});
+
+const progressFill = css({
+	height: '3px',
+	background: 'accent',
+	transition: 'width 0.3s'
+});
+
+const content = css({
+	display: 'flex',
+	flex: '1',
+	overflow: 'hidden'
+});
+
+const sidebar = css({
+	width: '190px',
+	background: 'surface.sidebar',
+	borderRight: '1px solid token(colors.border.light)',
+	flexShrink: '0',
+	display: 'flex',
+	flexDirection: 'column',
+	overflowY: 'auto'
+});
+
+const sidebarSection = css({ padding: '10px 0' });
+
+const sidebarHeader = css({
+	fontSize: 'xs',
+	fontWeight: '700',
+	letterSpacing: '0.08em',
+	color: 'text.disabled',
+	padding: '4px 14px 6px',
+	textTransform: 'uppercase'
+});
+
+const sidebarItem = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '9px',
+	padding: '8px 14px',
+	cursor: 'pointer',
+	fontSize: 'base',
+	color: 'text.secondary',
+	transition: 'background token(durations.fast) ease',
+	borderLeft: '3px solid transparent',
+	background: 'none',
+	borderTop: 'none',
+	borderRight: 'none',
+	borderBottom: 'none',
+	width: '100%',
+	textAlign: 'left',
+	fontFamily: 'ui',
+	_hover: { background: 'accent.glow', color: 'accent' }
+});
+
+const sidebarItemActive = css({
+	background: 'accent.glow',
+	color: 'accent',
+	borderLeftColor: 'accent',
+	fontWeight: '600'
+});
+
+const sDot = css({
+	width: '7px',
+	height: '7px',
+	borderRadius: 'full',
+	border: '1.5px solid #ccc',
+	flexShrink: '0'
+});
+
+const sDotFilled = css({
+	background: 'accent',
+	borderColor: 'accent'
+});
+
+const templateDot = css({
+	width: '7px',
+	height: '7px',
+	flexShrink: '0',
+	display: 'inline-block',
+	marginRight: '2px',
+	borderRadius: '1px'
+});
+
+const templateDotActive = css({
+	background: 'accent'
+});
+
+const templateDotInactive = css({
+	background: 'border.light',
+	border: '1px solid #ccc'
+});
+
+const main = css({
+	flex: '1',
+	display: 'flex',
+	flexDirection: 'column',
+	overflow: 'hidden'
+});
+
+const sectionHeader = css({
+	padding: '14px 20px 10px',
+	borderBottom: '1px solid token(colors.border.section)',
+	background: 'surface.notifCard',
+	flexShrink: '0'
+});
+
+const sectionTitle = css({
+	fontSize: '16px',
+	fontWeight: '600',
+	color: 'text.primary'
+});
+
+const sectionSubtitle = css({
+	fontSize: 'sm',
+	color: 'text.muted',
+	marginTop: '2px'
+});
+
+const formArea = css({
+	flex: '1',
+	overflowY: 'auto',
+	padding: '16px 20px 20px'
+});
+
+const fieldGroup = css({ marginBottom: '14px' });
+
+const fieldRow = css({
+	display: 'grid',
+	gap: '12px',
+	marginBottom: '14px'
+});
+
+const fieldRow2 = cx(fieldRow, css({ gridTemplateColumns: '1fr 1fr' }));
+const fieldRow3 = cx(fieldRow, css({ gridTemplateColumns: '1fr 1fr 1fr' }));
+
+const reqMark = css({
+	color: 'accent.red',
+	marginLeft: '2px'
+});
+
+const chipContainer = css({
+	display: 'flex',
+	flexWrap: 'wrap',
+	gap: '5px',
+	padding: '6px',
+	border: '1px solid token(colors.border.input)',
+	minHeight: '34px',
+	background: 'surface.notifCard',
+	_focusWithin: {
+		borderColor: 'accent',
+		boxShadow: '0 0 0 1px token(colors.accent)'
+	}
+});
+
+const chip = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '4px',
+	background: 'surface.chip',
+	color: 'accent',
+	fontSize: 'sm',
+	padding: '2px 6px 2px 8px',
+	border: '1px solid token(colors.border.chip)'
+});
+
+const chipX = css({
+	background: 'none',
+	border: 'none',
+	cursor: 'pointer',
+	color: 'accent',
+	fontSize: '13px',
+	lineHeight: '1',
+	padding: '0 1px',
+	fontFamily: 'ui',
+	_hover: { color: 'accent.red' }
+});
+
+const chipInput = css({
+	border: 'none',
+	outline: 'none',
+	fontFamily: 'ui',
+	fontSize: 'sm',
+	minWidth: '80px',
+	flex: '1',
+	padding: '1px 2px'
+});
+
+const sectionDivider = css({
+	border: 'none',
+	borderTop: '1px solid #eaeaea',
+	margin: '12px 0'
+});
+
+const proficiencyHeading = css({
+	marginBottom: '10px',
+	fontSize: 'sm',
+	color: 'text.muted',
+	fontWeight: '600'
+});
+
+const ratingRow = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '8px',
+	marginBottom: '6px'
+});
+
+const ratingLabel = css({
+	fontSize: 'sm',
+	color: 'text.secondary',
+	minWidth: '110px'
+});
+
+const ratingDots = css({
+	display: 'flex',
+	gap: '3px'
+});
+
+const ratingDot = css({
+	width: '14px',
+	height: '14px',
+	border: '1.5px solid token(colors.border.input)',
+	background: 'surface.notifCard',
+	cursor: 'pointer',
+	borderRadius: 'DEFAULT',
+	transition: 'all token(durations.fast) ease'
+});
+
+const ratingDotFilled = css({
+	background: 'accent',
+	borderColor: 'accent'
+});
+
+const previewPane = css({
+	width: '240px',
+	borderLeft: '1px solid token(colors.border.light)',
+	display: 'flex',
+	flexDirection: 'column',
+	flexShrink: '0'
+});
+
+const previewHeader = css({
+	padding: '10px 12px',
+	borderBottom: '1px solid token(colors.border.section)',
+	fontSize: 'sm',
+	fontWeight: '700',
+	color: 'text.muted',
+	textTransform: 'uppercase',
+	letterSpacing: '0.07em',
+	background: 'surface.sidebar'
+});
+
+const previewBody = css({
+	flex: '1',
+	overflowY: 'auto',
+	padding: '14px 12px',
+	fontSize: 'sm',
+	color: 'text.secondary',
+	lineHeight: '1.6'
+});
+
+const previewName = css({
+	fontSize: '15px',
+	fontWeight: '700',
+	color: 'accent',
+	marginBottom: '2px'
+});
+
+const previewContact = css({
+	fontSize: 'xs',
+	color: 'text.muted',
+	marginBottom: '10px',
+	borderBottom: '2px solid token(colors.accent)',
+	paddingBottom: '8px'
+});
+
+const previewSectionTitle = css({
+	fontSize: 'xs',
+	fontWeight: '700',
+	textTransform: 'uppercase',
+	letterSpacing: '0.1em',
+	color: 'accent',
+	margin: '8px 0 4px'
+});
+
+const previewPlaceholder = css({
+	color: 'text.disabled',
+	fontSize: 'sm',
+	textAlign: 'center',
+	paddingTop: '30px'
+});
+
+const statusBar = css({
+	height: '28px',
+	background: 'surface.ribbon',
+	borderTop: '1px solid #d4d4d4',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	padding: '0 14px',
+	flexShrink: '0'
+});
+
+const statusText = css({
+	fontSize: 'sm',
+	color: 'text.muted'
+});
+
+const statusActions = css({
+	display: 'flex',
+	gap: '6px'
+});
 </script>
 
 <!-- App window -->
-<div class="app-window">
+<div class={appWindow}>
 	<!-- Title bar -->
-	<div class="title-bar">
-		<div class="title-bar-left">
+	<div class={tb.root}>
+		<div class={tb.left}>
 			<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 				<rect x="1" y="2" width="14" height="10" rx="0.8" stroke="#fff" stroke-width="1.1" fill="none" />
 				<path d="M1 5h14" stroke="#fff" stroke-width="0.9" opacity="0.6" />
 				<path d="M5 14h6" stroke="#fff" stroke-width="1.1" stroke-linecap="round" />
 				<path d="M8 12v2" stroke="#fff" stroke-width="1.1" />
 			</svg>
-			<span class="title-text">Resume Builder — Microsoft Office Style</span>
+			<span class={tb.text}>Resume Builder — Microsoft Office Style</span>
 		</div>
-		<div class="title-controls">
-			<button type="button" class="tb-btn" aria-label="Minimize">
+		<div class={tb.controls}>
+			<button type="button" class={tb.btn} aria-label="Minimize">
 				<Minus size={10} color="#fff" strokeWidth={1.5} />
 			</button>
-			<button type="button" class="tb-btn" aria-label="Maximize">
+			<button type="button" class={tb.btn} aria-label="Maximize">
 				<Square size={10} color="#fff" strokeWidth={1.5} />
 			</button>
-			<button type="button" class="tb-btn close-btn" aria-label="Close">
+			<button type="button" class={tb.closeBtn} aria-label="Close">
 				<X size={10} color="#fff" strokeWidth={1.5} />
 			</button>
 		</div>
 	</div>
 
 	<!-- Ribbon -->
-	<Tabs.Root bind:value={ribbonTab} class="ribbon-tabs">
-		<Tabs.List class="ribbon">
-			<Tabs.Trigger class="ribbon-tab" value="form">FORM VIEW</Tabs.Trigger>
-			<Tabs.Trigger class="ribbon-tab" value="preview">LIVE PREVIEW</Tabs.Trigger>
+	<Tabs.Root bind:value={ribbonTab} class={ribbonRoot}>
+		<Tabs.List class={ribbonList}>
+			<Tabs.Trigger class={ribbonTrigger} value="form">FORM VIEW</Tabs.Trigger>
+			<Tabs.Trigger class={ribbonTrigger} value="preview">LIVE PREVIEW</Tabs.Trigger>
 		</Tabs.List>
 	</Tabs.Root>
 
 	<!-- Progress bar -->
-	<div class="progress-bar">
-		<div class="progress-fill" style="width:{progress}%"></div>
+	<div class={progressBar}>
+		<div class={progressFill} style="width:{progress}%"></div>
 	</div>
 
 	<!-- Content -->
-	<div class="content">
+	<div class={content}>
 		<!-- Sidebar -->
-		<div class="sidebar">
-			<div class="sidebar-section">
-				<div class="sidebar-header">Sections</div>
+		<div class={sidebar}>
+			<div class={sidebarSection}>
+				<div class={sidebarHeader}>Sections</div>
 				{#each sectionNames as name, i (name)}
 					<button
 						type="button"
-						class="sidebar-item"
-						class:active={currentSection === i}
-						class:done={i < currentSection}
+						class={cx(sidebarItem, currentSection === i ? sidebarItemActive : '')}
 						onclick={() => goToSection(i)}
 					>
-						<span class="s-dot" class:filled={i <= currentSection}></span>
+						<span class={cx(sDot, i <= currentSection ? sDotFilled : '')}></span>
 						{name}
 					</button>
 				{/each}
 			</div>
-			<div class="sidebar-section" style="border-top:1px solid var(--border-light);padding-top:10px">
-				<div class="sidebar-header">Templates</div>
+			<div class={cx(sidebarSection, css({ borderTop: '1px solid token(colors.border.light)', paddingTop: '10px' }))}>
+				<div class={sidebarHeader}>Templates</div>
 				{#each [['Technical', true], ['Minimal', false], ['Executive', false]] as [name, sel] (name)}
-					<button type="button" class="sidebar-item" style="font-size:11.5px">
-						<span style="width:7px;height:7px;{sel?'background:var(--accent);border-radius:1px':'background:#e8e8e8;border:1px solid #ccc;border-radius:1px'};flex-shrink:0;display:inline-block;margin-right:2px"></span>
+					<button type="button" class={cx(sidebarItem, css({ fontSize: 'sm' }))}>
+						<span class={cx(templateDot, sel ? templateDotActive : templateDotInactive)}></span>
 						{name}
 					</button>
 				{/each}
@@ -116,58 +489,58 @@ function goToSection(idx: number) {
 		</div>
 
 		<!-- Main form area -->
-		<div class="main">
+		<div class={main}>
 			<!-- Section 0: Personal Info -->
 			{#if currentSection === 0}
-				<div class="section-header">
-					<div class="section-title">Personal Information</div>
-					<div class="section-subtitle">Your basic contact details and professional summary</div>
+				<div class={sectionHeader}>
+					<div class={sectionTitle}>Personal Information</div>
+					<div class={sectionSubtitle}>Your basic contact details and professional summary</div>
 				</div>
-				<div class="form-area">
-					<div class="field-row cols2">
-						<div><label for="fname">First Name <span class="req">*</span></label><input id="fname" type="text" placeholder="e.g. Alex" bind:value={fname} /></div>
-						<div><label for="lname">Last Name <span class="req">*</span></label><input id="lname" type="text" placeholder="e.g. Rivera" bind:value={lname} /></div>
+				<div class={formArea}>
+					<div class={fieldRow2}>
+						<div><label for="fname" class={labelRecipe}>First Name <span class={reqMark}>*</span></label><input id="fname" type="text" class={inputRecipe} placeholder="e.g. Alex" bind:value={fname} /></div>
+						<div><label for="lname" class={labelRecipe}>Last Name <span class={reqMark}>*</span></label><input id="lname" type="text" class={inputRecipe} placeholder="e.g. Rivera" bind:value={lname} /></div>
 					</div>
-					<div class="field-row cols2">
-						<div><label for="job-title">Professional Title <span class="req">*</span></label><input id="job-title" type="text" placeholder="e.g. Senior Software Engineer" bind:value={jobTitle} /></div>
-						<div><label for="location">Location</label><input id="location" type="text" placeholder="e.g. San Antonio, TX" bind:value={location} /></div>
+					<div class={fieldRow2}>
+						<div><label for="job-title" class={labelRecipe}>Professional Title <span class={reqMark}>*</span></label><input id="job-title" type="text" class={inputRecipe} placeholder="e.g. Senior Software Engineer" bind:value={jobTitle} /></div>
+						<div><label for="location" class={labelRecipe}>Location</label><input id="location" type="text" class={inputRecipe} placeholder="e.g. San Antonio, TX" bind:value={location} /></div>
 					</div>
-					<div class="field-row cols2">
-						<div><label for="email">Email Address <span class="req">*</span></label><input id="email" type="email" placeholder="alex@example.com" bind:value={email} /></div>
-						<div><label for="phone">Phone Number</label><input id="phone" type="tel" placeholder="(555) 000-0000" bind:value={phone} /></div>
+					<div class={fieldRow2}>
+						<div><label for="email" class={labelRecipe}>Email Address <span class={reqMark}>*</span></label><input id="email" type="email" class={inputRecipe} placeholder="alex@example.com" bind:value={email} /></div>
+						<div><label for="phone" class={labelRecipe}>Phone Number</label><input id="phone" type="tel" class={inputRecipe} placeholder="(555) 000-0000" bind:value={phone} /></div>
 					</div>
-					<div class="field-group">
-						<label for="summary">Professional Summary</label>
-						<textarea id="summary" placeholder="Write 2-3 sentences describing your experience, expertise, and career goals..." bind:value={summary}></textarea>
+					<div class={fieldGroup}>
+						<label for="summary" class={labelRecipe}>Professional Summary</label>
+						<textarea id="summary" class={textareaRecipe} placeholder="Write 2-3 sentences describing your experience, expertise, and career goals..." bind:value={summary}></textarea>
 					</div>
 				</div>
 			{/if}
 
 			<!-- Section 1: Work Experience -->
 			{#if currentSection === 1}
-				<div class="section-header">
-					<div class="section-title">Work Experience</div>
-					<div class="section-subtitle">Add your professional history, most recent first</div>
+				<div class={sectionHeader}>
+					<div class={sectionTitle}>Work Experience</div>
+					<div class={sectionSubtitle}>Add your professional history, most recent first</div>
 				</div>
-				<div class="form-area">
-					<div class="experience-card">
-						<div class="exp-card-header">
-							<span class="exp-num">Experience #1</span>
-							<button type="button" class="btn-remove">Remove</button>
+				<div class={formArea}>
+					<div class={expCard.root}>
+						<div class={expCard.header}>
+							<span class={expCard.num}>Experience #1</span>
+							<button type="button" class={expCard.removeBtn}>Remove</button>
 						</div>
-						<div class="field-row cols2">
-							<div><label for="exp-jobtitle">Job Title <span class="req">*</span></label><input id="exp-jobtitle" type="text" placeholder="e.g. Software Engineer" /></div>
-							<div><label for="exp-company">Company <span class="req">*</span></label><input id="exp-company" type="text" placeholder="e.g. USAA" /></div>
+						<div class={fieldRow2}>
+							<div><label for="exp-jobtitle" class={labelRecipe}>Job Title <span class={reqMark}>*</span></label><input id="exp-jobtitle" type="text" class={inputRecipe} placeholder="e.g. Software Engineer" /></div>
+							<div><label for="exp-company" class={labelRecipe}>Company <span class={reqMark}>*</span></label><input id="exp-company" type="text" class={inputRecipe} placeholder="e.g. USAA" /></div>
 						</div>
-						<div class="field-row cols3">
-							<div><label for="exp-start">Start Date</label><input id="exp-start" type="text" placeholder="Jan 2022" /></div>
-							<div><label for="exp-end">End Date</label><input id="exp-end" type="text" placeholder="Present" /></div>
-							<div><label for="exp-location">Location</label><input id="exp-location" type="text" placeholder="San Antonio, TX" /></div>
+						<div class={fieldRow3}>
+							<div><label for="exp-start" class={labelRecipe}>Start Date</label><input id="exp-start" type="text" class={inputRecipe} placeholder="Jan 2022" /></div>
+							<div><label for="exp-end" class={labelRecipe}>End Date</label><input id="exp-end" type="text" class={inputRecipe} placeholder="Present" /></div>
+							<div><label for="exp-location" class={labelRecipe}>Location</label><input id="exp-location" type="text" class={inputRecipe} placeholder="San Antonio, TX" /></div>
 						</div>
-						<div><label for="exp-desc">Key Responsibilities &amp; Achievements</label>
-						<textarea id="exp-desc" placeholder="• Describe your impact with measurable outcomes&#10;• Technologies used and problems solved"></textarea></div>
+						<div><label for="exp-desc" class={labelRecipe}>Key Responsibilities &amp; Achievements</label>
+						<textarea id="exp-desc" class={textareaRecipe} placeholder="• Describe your impact with measurable outcomes&#10;• Technologies used and problems solved"></textarea></div>
 					</div>
-					<button type="button" class="add-entry-btn">
+					<button type="button" class={addEntryBtn}>
 						<Plus size={13} strokeWidth={1.5} />
 						Add Work Experience
 					</button>
@@ -176,27 +549,27 @@ function goToSection(idx: number) {
 
 			<!-- Section 2: Education -->
 			{#if currentSection === 2}
-				<div class="section-header">
-					<div class="section-title">Education</div>
-					<div class="section-subtitle">Degrees, certifications, and relevant coursework</div>
+				<div class={sectionHeader}>
+					<div class={sectionTitle}>Education</div>
+					<div class={sectionSubtitle}>Degrees, certifications, and relevant coursework</div>
 				</div>
-				<div class="form-area">
-					<div class="experience-card">
-						<div class="exp-card-header">
-							<span class="exp-num">Education #1</span>
-							<button type="button" class="btn-remove">Remove</button>
+				<div class={formArea}>
+					<div class={expCard.root}>
+						<div class={expCard.header}>
+							<span class={expCard.num}>Education #1</span>
+							<button type="button" class={expCard.removeBtn}>Remove</button>
 						</div>
-						<div class="field-row cols2">
-							<div><label for="edu-degree">Degree / Certificate <span class="req">*</span></label><input id="edu-degree" type="text" placeholder="B.S. Computer Science" /></div>
-							<div><label for="edu-institution">Institution <span class="req">*</span></label><input id="edu-institution" type="text" placeholder="University of Texas at San Antonio" /></div>
+						<div class={fieldRow2}>
+							<div><label for="edu-degree" class={labelRecipe}>Degree / Certificate <span class={reqMark}>*</span></label><input id="edu-degree" type="text" class={inputRecipe} placeholder="B.S. Computer Science" /></div>
+							<div><label for="edu-institution" class={labelRecipe}>Institution <span class={reqMark}>*</span></label><input id="edu-institution" type="text" class={inputRecipe} placeholder="University of Texas at San Antonio" /></div>
 						</div>
-						<div class="field-row cols3">
-							<div><label for="edu-year">Graduation Year</label><input id="edu-year" type="text" placeholder="2026" /></div>
-							<div><label for="edu-gpa">GPA</label><input id="edu-gpa" type="text" placeholder="3.8 / 4.0" /></div>
-							<div><label for="edu-field">Field of Study</label><input id="edu-field" type="text" placeholder="Computer Science" /></div>
+						<div class={fieldRow3}>
+							<div><label for="edu-year" class={labelRecipe}>Graduation Year</label><input id="edu-year" type="text" class={inputRecipe} placeholder="2026" /></div>
+							<div><label for="edu-gpa" class={labelRecipe}>GPA</label><input id="edu-gpa" type="text" class={inputRecipe} placeholder="3.8 / 4.0" /></div>
+							<div><label for="edu-field" class={labelRecipe}>Field of Study</label><input id="edu-field" type="text" class={inputRecipe} placeholder="Computer Science" /></div>
 						</div>
 					</div>
-					<button type="button" class="add-entry-btn">
+					<button type="button" class={addEntryBtn}>
 						<Plus size={13} strokeWidth={1.5} />
 						Add Education
 					</button>
@@ -205,28 +578,28 @@ function goToSection(idx: number) {
 
 			<!-- Section 3: Skills -->
 			{#if currentSection === 3}
-				<div class="section-header">
-					<div class="section-title">Skills &amp; Technologies</div>
-					<div class="section-subtitle">Technical skills, tools, and languages</div>
+				<div class={sectionHeader}>
+					<div class={sectionTitle}>Skills &amp; Technologies</div>
+					<div class={sectionSubtitle}>Technical skills, tools, and languages</div>
 				</div>
-				<div class="form-area">
-					<div class="field-group">
-						<label for="chip-input">Technical Skills <span style="font-weight:400;color:#888">(type and press Enter)</span></label>
-						<div class="chip-container">
-							{#each ['Rust', 'TypeScript', 'Python'] as chip (chip)}
-								<div class="chip">{chip} <button type="button" class="chip-x" aria-label="Remove {chip}">×</button></div>
+				<div class={formArea}>
+					<div class={fieldGroup}>
+						<label for="chip-input" class={labelRecipe}>Technical Skills <span class={css({ fontWeight: '400', color: 'text.disabled' })}>(type and press Enter)</span></label>
+						<div class={chipContainer}>
+							{#each ['Rust', 'TypeScript', 'Python'] as chipName (chipName)}
+								<div class={chip}>{chipName} <button type="button" class={chipX} aria-label="Remove {chipName}">×</button></div>
 							{/each}
-							<input id="chip-input" class="chip-input" placeholder="e.g. React, Go…" />
+							<input id="chip-input" class={chipInput} placeholder="e.g. React, Go…" />
 						</div>
 					</div>
-					<hr class="section-divider" />
-					<p class="proficiency-heading">Proficiency Levels</p>
+					<hr class={sectionDivider} />
+					<p class={proficiencyHeading}>Proficiency Levels</p>
 					{#each skills as skill, si (skill.name)}
-						<div class="rating-row">
-							<span class="rating-label">{skill.name}</span>
-							<div class="rating-dots">
-								{#each [1,2,3,4,5] as n (n)}
-									<button type="button" class="rating-dot" class:filled={n <= skill.val} onclick={() => setRating(si, n)} aria-label="{skill.name}, {n} of 5"></button>
+						<div class={ratingRow}>
+							<span class={ratingLabel}>{skill.name}</span>
+							<div class={ratingDots}>
+								{#each [1, 2, 3, 4, 5] as n (n)}
+									<button type="button" class={cx(ratingDot, n <= skill.val ? ratingDotFilled : '')} onclick={() => setRating(si, n)} aria-label="{skill.name}, {n} of 5"></button>
 								{/each}
 							</div>
 						</div>
@@ -236,27 +609,27 @@ function goToSection(idx: number) {
 
 			<!-- Section 4: Projects -->
 			{#if currentSection === 4}
-				<div class="section-header">
-					<div class="section-title">Projects &amp; Portfolio</div>
-					<div class="section-subtitle">Highlight your most impressive personal or professional projects</div>
+				<div class={sectionHeader}>
+					<div class={sectionTitle}>Projects &amp; Portfolio</div>
+					<div class={sectionSubtitle}>Highlight your most impressive personal or professional projects</div>
 				</div>
-				<div class="form-area">
-					<div class="experience-card">
-						<div class="exp-card-header">
-							<span class="exp-num">Project #1</span>
-							<button type="button" class="btn-remove">Remove</button>
+				<div class={formArea}>
+					<div class={expCard.root}>
+						<div class={expCard.header}>
+							<span class={expCard.num}>Project #1</span>
+							<button type="button" class={expCard.removeBtn}>Remove</button>
 						</div>
-						<div class="field-row cols2">
-							<div><label for="proj-name">Project Name <span class="req">*</span></label><input id="proj-name" type="text" placeholder="e.g. Maestro" /></div>
-							<div><label for="proj-stack">Tech Stack</label><input id="proj-stack" type="text" placeholder="e.g. Rust, Kotlin, WebSocket" /></div>
+						<div class={fieldRow2}>
+							<div><label for="proj-name" class={labelRecipe}>Project Name <span class={reqMark}>*</span></label><input id="proj-name" type="text" class={inputRecipe} placeholder="e.g. Maestro" /></div>
+							<div><label for="proj-stack" class={labelRecipe}>Tech Stack</label><input id="proj-stack" type="text" class={inputRecipe} placeholder="e.g. Rust, Kotlin, WebSocket" /></div>
 						</div>
-						<div class="field-row cols2">
-							<div><label for="proj-repo">Repository / Link</label><input id="proj-repo" type="url" placeholder="github.com/…" /></div>
-							<div><label for="proj-demo">Live Demo</label><input id="proj-demo" type="url" placeholder="https://…" /></div>
+						<div class={fieldRow2}>
+							<div><label for="proj-repo" class={labelRecipe}>Repository / Link</label><input id="proj-repo" type="url" class={inputRecipe} placeholder="github.com/…" /></div>
+							<div><label for="proj-demo" class={labelRecipe}>Live Demo</label><input id="proj-demo" type="url" class={inputRecipe} placeholder="https://…" /></div>
 						</div>
-						<div><label for="proj-desc">Description &amp; Impact</label><textarea id="proj-desc" placeholder="What does the project do? What was technically challenging?"></textarea></div>
+						<div><label for="proj-desc" class={labelRecipe}>Description &amp; Impact</label><textarea id="proj-desc" class={textareaRecipe} placeholder="What does the project do? What was technically challenging?"></textarea></div>
 					</div>
-					<button type="button" class="add-entry-btn">
+					<button type="button" class={addEntryBtn}>
 						<Plus size={13} strokeWidth={1.5} />
 						Add Project
 					</button>
@@ -266,22 +639,22 @@ function goToSection(idx: number) {
 
 		<!-- Live preview pane -->
 		{#if previewOpen}
-			<div class="preview-pane">
-				<div class="preview-header">Live Preview</div>
-				<div class="preview-body">
+			<div class={previewPane}>
+				<div class={previewHeader}>Live Preview</div>
+				<div class={previewBody}>
 					{#if fname || lname}
-						<div class="preview-name">{fname} {lname}</div>
-						<div class="preview-contact">
+						<div class={previewName}>{fname} {lname}</div>
+						<div class={previewContact}>
 							{jobTitle || 'Your Title'}{location ? ' · ' + location : ''}<br />
 							{email}{phone ? ' · ' + phone : ''}
 						</div>
 					{/if}
 					{#if summary}
-						<div class="preview-section-title">Summary</div>
-						<div class="preview-item" style="font-size:10.5px">{summary}</div>
+						<div class={previewSectionTitle}>Summary</div>
+						<div class={css({ fontSize: 'xs' })}>{summary}</div>
 					{/if}
 					{#if !fname && !lname}
-						<div style="color:#aaa;font-size:11px;text-align:center;padding-top:30px">
+						<div class={previewPlaceholder}>
 							Start filling in the form to see your resume preview here.
 						</div>
 					{/if}
@@ -291,215 +664,16 @@ function goToSection(idx: number) {
 	</div>
 
 	<!-- Status bar -->
-	<div class="status-bar">
-		<div class="status-text">Section {currentSection + 1} of {sectionNames.length} — {sectionNames[currentSection]}</div>
-		<div class="status-actions">
+	<div class={statusBar}>
+		<div class={statusText}>Section {currentSection + 1} of {sectionNames.length} — {sectionNames[currentSection]}</div>
+		<div class={statusActions}>
 			{#if currentSection > 0}
-				<button type="button" class="btn" onclick={() => navigate(-1)}>← Back</button>
+				<button type="button" class={btn()} onclick={() => navigate(-1)}>← Back</button>
 			{/if}
-			<button type="button" class="btn">Save Draft</button>
-			<button type="button" class="btn primary" onclick={() => navigate(1)}>
+			<button type="button" class={btn()}>Save Draft</button>
+			<button type="button" class={btn({ visual: 'primary' })} onclick={() => navigate(1)}>
 				{currentSection === sectionNames.length - 1 ? 'Generate Resume →' : 'Next →'}
 			</button>
 		</div>
 	</div>
 </div>
-
-<style>
-	.app-window {
-		background: var(--surface-base);
-		border: 1px solid #aaa;
-		display: flex;
-		flex-direction: column;
-		min-height: 560px;
-		width: 680px;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
-		margin: 16px auto 0;
-	}
-
-	/* Title bar */
-	.title-bar {
-		height: 32px;
-		background: var(--accent);
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0 0 0 12px;
-		user-select: none;
-		flex-shrink: 0;
-	}
-	.title-bar-left { display: flex; align-items: center; gap: 8px; }
-	.title-text { font-size: var(--font-size-sm); color: #fff; font-weight: 400; }
-	.title-controls { display: flex; height: 32px; }
-	.tb-btn {
-		width: 46px;
-		height: 32px;
-		border: none;
-		background: none;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: background var(--transition-fast);
-	}
-	.tb-btn:hover { background: rgba(255, 255, 255, 0.18); }
-	.close-btn:hover { background: var(--accent-red) !important; }
-
-	/* Ribbon (Ark UI Tabs — :global needed for component-rendered elements) */
-	.app-window :global(.ribbon-tabs) { display: contents; }
-	.app-window :global(.ribbon) {
-		background: var(--surface-ribbon);
-		border-bottom: 1px solid #d4d4d4;
-		display: flex;
-		align-items: flex-end;
-		padding: 0 0 0 4px;
-		flex-shrink: 0;
-		height: 38px;
-	}
-	.app-window :global(.ribbon-tab) {
-		height: 38px;
-		padding: 0 18px;
-		font-size: var(--font-size-sm);
-		color: #444;
-		border: none;
-		background: none;
-		cursor: pointer;
-		border-bottom: 3px solid transparent;
-		font-family: var(--font-ui);
-		display: flex;
-		align-items: center;
-		transition: color var(--transition-fast), border-color var(--transition-fast);
-		letter-spacing: 0.01em;
-	}
-	.app-window :global(.ribbon-tab:hover) { color: var(--accent); background: rgba(0, 120, 215, 0.06); }
-	.app-window :global(.ribbon-tab[data-selected]) { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; background: #fff; }
-
-	/* Progress */
-	.progress-bar { height: 3px; background: #e0e0e0; }
-	.progress-fill { height: 3px; background: var(--accent); transition: width 0.3s; }
-
-	/* Content */
-	.content { display: flex; flex: 1; overflow: hidden; }
-
-	/* Sidebar */
-	.sidebar {
-		width: 190px;
-		background: var(--surface-sidebar);
-		border-right: 1px solid var(--border-light);
-		flex-shrink: 0;
-		display: flex;
-		flex-direction: column;
-		overflow-y: auto;
-	}
-	.sidebar-section { padding: 10px 0; }
-	.sidebar-header { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #888; padding: 4px 14px 6px; text-transform: uppercase; }
-	.sidebar-item {
-		display: flex;
-		align-items: center;
-		gap: 9px;
-		padding: 8px 14px;
-		cursor: pointer;
-		font-size: 12.5px;
-		color: #333;
-		transition: background var(--transition-fast);
-		border-left: 3px solid transparent;
-		background: none;
-		border-top: none;
-		border-right: none;
-		border-bottom: none;
-		width: 100%;
-		text-align: left;
-		font-family: var(--font-ui);
-	}
-	.sidebar-item:hover { background: var(--accent-glow); color: var(--accent); }
-	.sidebar-item.active { background: var(--accent-glow); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
-	.s-dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #ccc; flex-shrink: 0; }
-	.s-dot.filled { background: var(--accent); border-color: var(--accent); }
-
-	.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-	.section-header { padding: 14px 20px 10px; border-bottom: 1px solid #e8e8e8; background: #fff; flex-shrink: 0; }
-	.section-title { font-size: 16px; font-weight: 600; color: #1a1a1a; }
-	.section-subtitle { font-size: 11.5px; color: #777; margin-top: 2px; }
-
-	.form-area { flex: 1; overflow-y: auto; padding: 16px 20px 20px; }
-	.field-group { margin-bottom: 14px; }
-	.field-row { display: grid; gap: 12px; margin-bottom: 14px; }
-	.field-row.cols2 { grid-template-columns: 1fr 1fr; }
-	.field-row.cols3 { grid-template-columns: 1fr 1fr 1fr; }
-
-	label { display: block; font-size: 11.5px; color: #555; font-weight: 600; margin-bottom: 4px; }
-	.req { color: var(--accent-red); margin-left: 2px; }
-
-	input[type='text'], input[type='email'], input[type='tel'], input[type='url'], textarea {
-		width: 100%;
-		height: 30px;
-		padding: 0 8px;
-		font-family: var(--font-ui);
-		font-size: 12.5px;
-		border: 1px solid var(--border-input);
-		background: #fff;
-		color: #1a1a1a;
-		outline: none;
-		transition: border-color var(--transition-fast);
-		border-radius: var(--radius);
-		appearance: none;
-	}
-	textarea { height: 72px; resize: vertical; padding: 6px 8px; line-height: 1.5; }
-	input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-	input:hover:not(:focus), textarea:hover:not(:focus) { border-color: var(--border-input-hover); }
-
-	.experience-card { border: 1px solid #e0e0e0; background: #fafafa; padding: 12px 14px; margin-bottom: 10px; }
-	.exp-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-	.exp-num { font-size: 11px; font-weight: 700; color: #888; letter-spacing: 0.06em; text-transform: uppercase; }
-	.btn-remove { background: none; border: 1px solid #d4d4d4; padding: 2px 10px; font-family: var(--font-ui); font-size: 11px; color: #666; cursor: pointer; transition: all var(--transition-fast); }
-	.btn-remove:hover { border-color: var(--accent-red); color: var(--accent-red); background: #fff0f0; }
-
-	.add-entry-btn {
-		display: flex;
-		align-items: center;
-		gap: 7px;
-		background: none;
-		border: 1px dashed #ababab;
-		padding: 8px 14px;
-		font-family: var(--font-ui);
-		font-size: var(--font-size-sm);
-		color: #555;
-		cursor: pointer;
-		width: 100%;
-		transition: all var(--transition-fast);
-		margin-top: 2px;
-	}
-	.add-entry-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(0, 120, 215, 0.04); }
-
-	.chip-container { display: flex; flex-wrap: wrap; gap: 5px; padding: 6px; border: 1px solid var(--border-input); min-height: 34px; background: #fff; }
-	.chip-container:focus-within { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-	.chip { display: flex; align-items: center; gap: 4px; background: #e3f0fb; color: var(--accent); font-size: 11.5px; padding: 2px 6px 2px 8px; border: 1px solid #b8d8f5; }
-	.chip-x { background: none; border: none; cursor: pointer; color: var(--accent); font-size: 13px; line-height: 1; padding: 0 1px; font-family: var(--font-ui); }
-	.chip-x:hover { color: var(--accent-red); }
-	.chip-input { border: none; outline: none; font-family: var(--font-ui); font-size: var(--font-size-sm); min-width: 80px; flex: 1; padding: 1px 2px; }
-
-	.section-divider { border: none; border-top: 1px solid #eaeaea; margin: 12px 0; }
-	.proficiency-heading { margin-bottom: 10px; font-size: 11.5px; color: #555; font-weight: 600; }
-	.rating-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-	.rating-label { font-size: var(--font-size-sm); color: #333; min-width: 110px; }
-	.rating-dots { display: flex; gap: 3px; }
-	.rating-dot { width: 14px; height: 14px; border: 1.5px solid #ababab; background: #fff; cursor: pointer; border-radius: var(--radius); transition: all var(--transition-fast); }
-	.rating-dot.filled { background: var(--accent); border-color: var(--accent); }
-
-	/* Preview pane */
-	.preview-pane { width: 240px; border-left: 1px solid var(--border-light); display: flex; flex-direction: column; flex-shrink: 0; }
-	.preview-header { padding: 10px 12px; border-bottom: 1px solid #e8e8e8; font-size: 11.5px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.07em; background: var(--surface-sidebar); }
-	.preview-body { flex: 1; overflow-y: auto; padding: 14px 12px; font-size: 11px; color: #333; line-height: 1.6; }
-	.preview-name { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
-	.preview-contact { font-size: 10.5px; color: #666; margin-bottom: 10px; border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
-	.preview-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 8px 0 4px; }
-
-	/* Status bar */
-	.status-bar { height: 28px; background: var(--surface-ribbon); border-top: 1px solid #d4d4d4; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; flex-shrink: 0; }
-	.status-text { font-size: 11px; color: #666; }
-	.status-actions { display: flex; gap: 6px; }
-	.btn { height: 26px; padding: 0 14px; border: 1px solid #ababab; background: var(--surface-ribbon); font-family: var(--font-ui); font-size: var(--font-size-sm); color: #333; cursor: pointer; transition: all var(--transition-fast); }
-	.btn:hover { background: #e8e8e8; border-color: var(--border-input-hover); }
-	.btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-	.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-</style>

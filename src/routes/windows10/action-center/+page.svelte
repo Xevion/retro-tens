@@ -13,6 +13,8 @@ import {
 	Settings
 } from 'lucide-svelte';
 import type { ComponentType } from 'svelte';
+import { css, cx } from 'styled-system/css';
+import { grid } from 'styled-system/patterns';
 
 type Notif = {
 	id: string;
@@ -88,7 +90,6 @@ function toggleTile(index: number) {
 	qaTiles = qaTiles.map((t, i) => (i === index ? { ...t, active: !t.active } : t));
 }
 
-// Group notifications by group name
 const grouped = $derived(
 	notifications.reduce<Record<string, Notif[]>>((acc, n) => {
 		if (!acc[n.group]) acc[n.group] = [];
@@ -96,41 +97,248 @@ const grouped = $derived(
 		return acc;
 	}, {})
 );
+
+const panel = css({
+	position: 'relative',
+	zIndex: '2',
+	width: '344px',
+	minHeight: '520px',
+	background: 'surface.panel',
+	borderLeft: '1px solid token(colors.border.medium)',
+	display: 'flex',
+	flexDirection: 'column',
+	fontFamily: 'ui',
+	color: 'text.primary',
+	overflow: 'hidden'
+});
+
+const panelHeader = css({
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	padding: '14px 16px 10px',
+	borderBottom: '1px solid token(colors.border)'
+});
+
+const panelTitle = css({
+	fontSize: '15px',
+	fontWeight: '600',
+	letterSpacing: '0.01em'
+});
+
+const clearAllBtn = css({
+	fontSize: 'sm',
+	color: 'accent',
+	cursor: 'pointer',
+	background: 'none',
+	border: 'none',
+	fontFamily: 'ui',
+	_hover: { textDecoration: 'underline' }
+});
+
+const notificationsArea = css({
+	flex: '1',
+	overflowY: 'auto',
+	padding: '8px 0'
+});
+
+const emptyState = css({
+	textAlign: 'center',
+	padding: '30px 20px',
+	color: 'text.disabled',
+	fontSize: 'md'
+});
+
+const notifGroup = css({ marginBottom: '4px' });
+
+const notifGroupHeader = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '6px',
+	padding: '4px 14px 3px',
+	fontSize: 'sm',
+	color: 'text.muted',
+	fontWeight: '600',
+	letterSpacing: '0.04em',
+	textTransform: 'uppercase'
+});
+
+const groupIcon = css({
+	width: '14px',
+	height: '14px',
+	borderRadius: 'DEFAULT',
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	flexShrink: '0'
+});
+
+const notifCard = css({
+	background: 'surface.notifCard',
+	border: '1px solid token(colors.border)',
+	margin: '2px 10px',
+	padding: '10px 12px',
+	position: 'relative',
+	cursor: 'pointer',
+	transition: 'background token(durations.fast) ease',
+	_hover: {
+		background: 'surface.elevated',
+		'& .notif-dismiss': { opacity: '1' }
+	}
+});
+
+const notifCardTop = css({
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'flex-start',
+	marginBottom: '4px'
+});
+
+const notifTitle = css({
+	fontSize: 'base',
+	fontWeight: '600',
+	color: 'text.heading',
+	flex: '1',
+	paddingRight: '24px'
+});
+
+const notifTime = css({
+	fontSize: 'sm',
+	color: 'text.disabled',
+	whiteSpace: 'nowrap'
+});
+
+const notifBody = css({
+	fontSize: 'sm',
+	color: 'text.secondary',
+	lineHeight: '1.45'
+});
+
+const notifDismiss = css({
+	position: 'absolute',
+	top: '6px',
+	right: '8px',
+	width: '20px',
+	height: '20px',
+	background: 'none',
+	border: 'none',
+	cursor: 'pointer',
+	color: 'text.disabled',
+	fontSize: '13px',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	opacity: '0',
+	transition: 'opacity token(durations.fast) ease',
+	fontFamily: 'ui',
+	_hover: { color: 'text.secondary' }
+});
+
+const divider = css({
+	height: '1px',
+	background: 'divider',
+	margin: '8px 10px'
+});
+
+const quickActions = css({
+	borderTop: '1px solid token(colors.border.medium)',
+	padding: '10px 10px 12px',
+	background: 'surface.qaArea'
+});
+
+const qaTitle = css({
+	fontSize: 'sm',
+	color: 'text.muted',
+	fontWeight: '600',
+	letterSpacing: '0.04em',
+	textTransform: 'uppercase',
+	marginBottom: '8px',
+	padding: '0 2px'
+});
+
+const qaGrid = grid({
+	columns: 4,
+	gap: '5px'
+});
+
+const qaTileBase = css({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	justifyContent: 'center',
+	gap: '5px',
+	padding: '10px 4px 8px',
+	background: 'surface.qa',
+	border: 'none',
+	cursor: 'pointer',
+	fontFamily: 'ui',
+	transition: 'background token(durations.DEFAULT) ease',
+	minHeight: '60px',
+	_hover: { background: 'surface.qaHover' }
+});
+
+const qaTileActive = css({
+	background: 'surface.qaActive',
+	_hover: { background: 'surface.qaActiveHover' }
+});
+
+const qaIcon = css({
+	width: '20px',
+	height: '20px',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	color: 'text.muted'
+});
+
+const qaIconActive = css({ color: 'accent' });
+
+const qaLabel = css({
+	fontSize: 'xs',
+	color: 'text.primary',
+	textAlign: 'center',
+	lineHeight: '1.2'
+});
+
+const qaLabelActive = css({
+	color: 'accent',
+	fontWeight: '600'
+});
 </script>
 
 <!-- Action Center panel -->
-<div class="panel">
-	<div class="panel-header">
-		<span class="panel-title">ACTION CENTER</span>
-		<button type="button" class="clear-all" onclick={clearAll}>Clear all</button>
+<div class={panel}>
+	<div class={panelHeader}>
+		<span class={panelTitle}>ACTION CENTER</span>
+		<button type="button" class={clearAllBtn} onclick={clearAll}>Clear all</button>
 	</div>
 
-	<div class="notifications-area">
+	<div class={notificationsArea}>
 		{#if notifications.length === 0}
-			<div class="empty-state">No new notifications</div>
+			<div class={emptyState}>No new notifications</div>
 		{:else}
 			{#each Object.entries(grouped) as [groupName, groupNotifs], gi (groupName)}
 				{@const GroupIcon = groupNotifs[0].groupIcon}
-				{#if gi > 0}<div class="divider"></div>{/if}
-				<div class="notif-group">
-					<div class="notif-group-header">
-						<div class="group-icon" style="background:{groupNotifs[0].groupColor}">
+				{#if gi > 0}<div class={divider}></div>{/if}
+				<div class={notifGroup}>
+					<div class={notifGroupHeader}>
+						<div class={groupIcon} style="background:{groupNotifs[0].groupColor}">
 							<GroupIcon size={10} color="#fff" strokeWidth={1.5} />
 						</div>
 						{groupName}
 					</div>
 					{#each groupNotifs as notif (notif.id)}
 						<div
-							class="notif-card"
+							class={notifCard}
 							role="button"
 							tabindex="0"
 						>
-							<div class="notif-card-top">
-								<div class="notif-title">{notif.title}</div>
-								<div class="notif-time">{notif.time}</div>
+							<div class={notifCardTop}>
+								<div class={notifTitle}>{notif.title}</div>
+								<div class={notifTime}>{notif.time}</div>
 							</div>
-							<div class="notif-body">{notif.body}</div>
-							<button type="button" class="notif-dismiss" onclick={() => dismiss(notif.id)}>✕</button>
+							<div class={notifBody}>{notif.body}</div>
+							<button type="button" class="{notifDismiss} notif-dismiss" onclick={() => dismiss(notif.id)}>✕</button>
 						</div>
 					{/each}
 				</div>
@@ -139,157 +347,23 @@ const grouped = $derived(
 	</div>
 
 	<!-- Quick actions -->
-	<div class="quick-actions">
-		<div class="qa-title">Quick actions</div>
-		<div class="qa-grid">
+	<div class={quickActions}>
+		<div class={qaTitle}>Quick actions</div>
+		<div class={qaGrid}>
 			{#each qaTiles as tile, i (tile.label)}
 				{@const Icon = tile.icon}
 				<button
 					type="button"
-					class="qa-tile"
-					class:active={tile.active}
+					class={cx(qaTileBase, tile.active ? qaTileActive : '')}
 					onclick={() => toggleTile(i)}
 					title={tile.label}
 				>
-					<div class="qa-icon" style="color:{tile.active ? 'var(--accent)' : '#555'}">
+					<div class={cx(qaIcon, tile.active ? qaIconActive : '')}>
 						<Icon size={20} strokeWidth={1.5} />
 					</div>
-					<span class="qa-label" class:active={tile.active}>{tile.label}</span>
+					<span class={cx(qaLabel, tile.active ? qaLabelActive : '')}>{tile.label}</span>
 				</button>
 			{/each}
 		</div>
 	</div>
 </div>
-
-<style>
-	.panel {
-		position: relative;
-		z-index: 2;
-		width: 344px;
-		min-height: 520px;
-		background: var(--surface-panel);
-		border-left: 1px solid var(--border-medium);
-		display: flex;
-		flex-direction: column;
-		font-family: var(--font-ui);
-		color: var(--text-primary);
-		overflow: hidden;
-	}
-
-	.panel-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 14px 16px 10px;
-		border-bottom: 1px solid var(--border);
-	}
-	.panel-title { font-size: 15px; font-weight: 600; letter-spacing: 0.01em; }
-	.clear-all {
-		font-size: var(--font-size-sm);
-		color: var(--accent);
-		cursor: pointer;
-		background: none;
-		border: none;
-		font-family: var(--font-ui);
-	}
-	.clear-all:hover { text-decoration: underline; }
-
-	.notifications-area { flex: 1; overflow-y: auto; padding: 8px 0; }
-	.empty-state { text-align: center; padding: 30px 20px; color: var(--text-disabled); font-size: var(--font-size-md); }
-
-	.notif-group { margin-bottom: 4px; }
-	.notif-group-header {
-		display: flex;
-		align-items: center;
-		gap: 6px;
-		padding: 4px 14px 3px;
-		font-size: 11px;
-		color: var(--text-muted);
-		font-weight: 600;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-	}
-	.group-icon {
-		width: 14px;
-		height: 14px;
-		border-radius: var(--radius);
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		flex-shrink: 0;
-	}
-
-	.notif-card {
-		background: #fff;
-		border: 1px solid var(--border);
-		margin: 2px 10px;
-		padding: 10px 12px;
-		position: relative;
-		cursor: pointer;
-		transition: background var(--transition-fast);
-	}
-	.notif-card:hover { background: var(--surface-elevated); }
-	.notif-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
-	.notif-title { font-size: 12.5px; font-weight: 600; color: #111; flex: 1; padding-right: 24px; }
-	.notif-time { font-size: 11px; color: var(--text-disabled); white-space: nowrap; }
-	.notif-body { font-size: var(--font-size-sm); color: var(--text-secondary); line-height: 1.45; }
-	.notif-dismiss {
-		position: absolute;
-		top: 6px;
-		right: 8px;
-		width: 20px;
-		height: 20px;
-		background: none;
-		border: none;
-		cursor: pointer;
-		color: var(--text-disabled);
-		font-size: 13px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		opacity: 0;
-		transition: opacity var(--transition-fast);
-		font-family: var(--font-ui);
-	}
-	.notif-card:hover .notif-dismiss { opacity: 1; }
-	/* stylelint-disable-next-line no-descending-specificity -- reason: grouped with .notif-dismiss base rule for readability */
-	.notif-dismiss:hover { color: var(--text-secondary); }
-
-	.divider { height: 1px; background: var(--divider); margin: 8px 10px; }
-
-	.quick-actions {
-		border-top: 1px solid var(--border-medium);
-		padding: 10px 10px 12px;
-		background: rgba(235, 235, 235, 0.8);
-	}
-	.qa-title {
-		font-size: 11px;
-		color: var(--text-muted);
-		font-weight: 600;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		margin-bottom: 8px;
-		padding: 0 2px;
-	}
-	.qa-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-	.qa-tile {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 5px;
-		padding: 10px 4px 8px;
-		background: var(--surface-qa);
-		border: none;
-		cursor: pointer;
-		font-family: var(--font-ui);
-		transition: background var(--transition);
-		min-height: 60px;
-	}
-	.qa-tile:hover { background: var(--surface-qa-hover); }
-	.qa-tile.active { background: var(--surface-qa-active); }
-	.qa-tile.active:hover { background: var(--surface-qa-active-hover); }
-	.qa-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
-	.qa-label { font-size: var(--font-size-xs); color: var(--text-primary); text-align: center; line-height: 1.2; }
-	.qa-label.active { color: var(--accent); font-weight: 600; }
-</style>
