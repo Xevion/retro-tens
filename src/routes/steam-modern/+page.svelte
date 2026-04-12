@@ -20,11 +20,10 @@ import {
 	entityName,
 	dataRow
 } from '$lib/recipes/steam-modern';
+import RevenueChart from '$lib/components/steam-modern/RevenueChart.svelte';
 import type { DashboardStat } from '$lib/data/steam-modern/dashboard';
 
 const { data } = $props();
-
-const RevenueChartModule = import('$lib/components/steam-modern/RevenueChart.svelte');
 
 // Page-specific styles inlined to work around fallow's .svelte import-graph bug
 // (fallow-rs/fallow#TBD: dead-code analysis fails to credit .svelte → .ts imports
@@ -124,10 +123,7 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 
 <!-- Two column panels -->
 <div class={twoCol}>
-	<!-- Revenue chart (lazy-loaded to keep d3/LayerChart off the critical path) -->
-	{#await RevenueChartModule then { default: RevenueChart }}
-		<RevenueChart revenueData={data.revenueData} />
-	{/await}
+	<RevenueChart revenueData={data.revenueData} />
 
 	<!-- Activity feed -->
 	<div class={panelStyles.root}>
