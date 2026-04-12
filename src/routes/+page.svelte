@@ -1,4 +1,5 @@
 <script lang="ts">
+import { resolve } from '$app/paths';
 import { css, cx } from 'styled-system/css';
 
 const themes = [
@@ -51,7 +52,7 @@ const themes = [
 			{ label: 'Resume Builder', href: '/windows10/resume-builder' }
 		]
 	}
-];
+] as const;
 
 const pageStyle = css({
 	minHeight: '100vh',
@@ -557,7 +558,7 @@ const pw10Taskbar = css({ height: '16px', background: 'rgba(0,0,0,0.78)' });
 					</div>
 					<div class={cardLinks}>
 						{#each theme.routes as route (route.href)}
-							<a href={route.href} class={routeLink}>{route.label} →</a>
+							<a href={resolve(route.href)} class={routeLink}>{route.label} →</a>
 						{/each}
 					</div>
 				</div>

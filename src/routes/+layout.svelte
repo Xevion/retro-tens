@@ -9,9 +9,9 @@ let { children } = $props();
 
 const meta = $derived(getRouteMeta(page.url.pathname));
 const canonicalUrl = $derived.by(() => {
-	const base = PUBLIC_SITE_URL.replace(/\/+$/, '');
+	const siteUrl = PUBLIC_SITE_URL.replace(/\/+$/, '');
 	const path = page.url.pathname === '/' ? '' : page.url.pathname;
-	return `${base}${path}`;
+	return `${siteUrl}${path}`;
 });
 </script>
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+import { resolve } from '$app/paths';
 import { page } from '$app/state';
 import { css, cx } from 'styled-system/css';
 import { flex, hstack, vstack } from 'styled-system/patterns';
@@ -10,7 +11,7 @@ const navLinks = [
 	{ label: 'Store', href: '/steam-legacy' },
 	{ label: 'Library', href: '/steam-legacy/library' },
 	{ label: 'Community', href: '/steam-legacy/community' }
-];
+] as const;
 
 const friends = [
 	{
@@ -58,7 +59,7 @@ const news = [
 ];
 
 function isActive(href: string) {
-	if (href === '/steam-legacy') return page.url.pathname === '/steam-legacy';
+	if (href === '/steam-legacy') return page.url.pathname === href;
 	return page.url.pathname.startsWith(href);
 }
 
@@ -513,7 +514,7 @@ const footerLink = css({
 			</div>
 			<nav class={navTabsContainer}>
 				{#each navLinks as link (link.href)}
-					<a href={link.href} class={cx(navTabStyle, isActive(link.href) ? navTabActiveStyle : '')}>
+					<a href={resolve(link.href)} class={cx(navTabStyle, isActive(link.href) ? navTabActiveStyle : '')}>
 						{link.label}
 					</a>
 				{/each}

@@ -1,7 +1,9 @@
 <script lang="ts">
 import '@fontsource-variable/source-sans-3';
 import '@fontsource-variable/source-sans-3/wght-italic.css';
+import { resolve } from '$app/paths';
 import { page } from '$app/state';
+import type { Pathname } from '$app/types';
 import type { ComponentType } from 'svelte';
 import { css, cx } from 'styled-system/css';
 import { flex, hstack, vstack } from 'styled-system/patterns';
@@ -30,21 +32,21 @@ let { children } = $props();
 type SidebarLink = {
 	icon: ComponentType;
 	label: string;
-	href: string;
+	href?: Pathname;
 	count?: string;
 	alert?: boolean;
 };
 type SidebarSection = { title: string; links: SidebarLink[] };
-type NavTab = { label: string; icon: ComponentType; href: string; badge?: boolean };
+type NavTab = { label: string; icon: ComponentType; href?: Pathname; badge?: boolean };
 
 const navTabs: NavTab[] = [
 	{ label: 'Dashboard', icon: LayoutDashboard, href: '/steam-modern' },
 	{ label: 'Users', icon: Users, href: '/steam-modern/users' },
 	{ label: 'Games', icon: Gamepad2, href: '/steam-modern/games' },
-	{ label: 'Store', icon: ShoppingCart, href: '/steam-modern/store' },
-	{ label: 'Community', icon: MessageSquare, href: '/steam-modern/community', badge: true },
+	{ label: 'Store', icon: ShoppingCart },
+	{ label: 'Community', icon: MessageSquare, badge: true },
 	{ label: 'Reports', icon: BarChart2, href: '/steam-modern/reports' },
-	{ label: 'Settings', icon: Settings, href: '/steam-modern/settings' }
+	{ label: 'Settings', icon: Settings }
 ];
 
 const sidebarSections: SidebarSection[] = [
@@ -55,11 +57,10 @@ const sidebarSections: SidebarSection[] = [
 			{
 				icon: AlertTriangle,
 				label: 'Alerts',
-				href: '/steam-modern/alerts',
 				count: '3',
 				alert: true
 			},
-			{ icon: Activity, label: 'Activity Log', href: '/steam-modern/activity' }
+			{ icon: Activity, label: 'Activity Log' }
 		]
 	},
 	{
@@ -69,19 +70,18 @@ const sidebarSections: SidebarSection[] = [
 			{
 				icon: Ban,
 				label: 'Banned',
-				href: '/steam-modern/users/banned',
 				count: '2,841',
 				alert: true
 			},
-			{ icon: Mail, label: 'Pending Review', href: '/steam-modern/users/pending', count: '128' }
+			{ icon: Mail, label: 'Pending Review', count: '128' }
 		]
 	},
 	{
 		title: 'Content',
 		links: [
 			{ icon: Gamepad2, label: 'Apps & Games', href: '/steam-modern/games', count: '68k' },
-			{ icon: PenLine, label: 'Awaiting Review', href: '/steam-modern/games/review', count: '34' },
-			{ icon: ShoppingBag, label: 'Store Mgmt', href: '/steam-modern/store' }
+			{ icon: PenLine, label: 'Awaiting Review', count: '34' },
+			{ icon: ShoppingBag, label: 'Store Mgmt' }
 		]
 	},
 	{
@@ -90,25 +90,25 @@ const sidebarSections: SidebarSection[] = [
 			{
 				icon: Flag,
 				label: 'Report Queue',
-				href: '/steam-modern/community',
 				count: '9',
 				alert: true
 			},
-			{ icon: MessageCircle, label: 'Reviews', href: '/steam-modern/community/reviews' },
-			{ icon: ImageIcon, label: 'Artwork', href: '/steam-modern/community/artwork' }
+			{ icon: MessageCircle, label: 'Reviews' },
+			{ icon: ImageIcon, label: 'Artwork' }
 		]
 	},
 	{
 		title: 'Infrastructure',
 		links: [
 			{ icon: BarChart2, label: 'Analytics', href: '/steam-modern/reports' },
-			{ icon: Server, label: 'CDN Status', href: '/steam-modern/reports/cdn' },
-			{ icon: Settings, label: 'Config', href: '/steam-modern/settings' }
+			{ icon: Server, label: 'CDN Status' },
+			{ icon: Settings, label: 'Config' }
 		]
 	}
 ];
 
-function isActive(href: string) {
+function isActive(href: string | undefined) {
+	if (!href) return false;
 	if (href === '/steam-modern') return page.url.pathname === '/steam-modern';
 	return page.url.pathname.startsWith(href);
 }
@@ -439,13 +439,14 @@ const mainPane = css({
 
 		<!-- Nav tabs -->
 		<nav class={navTabsBar}>
-			{#each navTabs as tab (tab.href)}
+			{#each navTabs as tab (tab.label)}
 				{@const Icon = tab.icon}
-				<a href={tab.href} class={cx(navTab, isActive(tab.href) ? navTabActive : '')}>
+				{@const tag = tab.href ? 'a' : 'button'}
+				<svelte:element this={tag} {...tab.href ? { href: resolve(tab.href) } : {}} type={tab.href ? null : 'button'} class={cx(navTab, isActive(tab.href) ? navTabActive : '')}>
 					<span class={tabIcon}><Icon size={14} /></span>
 					{tab.label}
 					{#if tab.badge}<span class={tabBadge}></span>{/if}
-				</a>
+				</svelte:element>
 			{/each}
 		</nav>
 
@@ -456,15 +457,16 @@ const mainPane = css({
 				{#each sidebarSections as section (section.title)}
 					<div class={sidebarSection}>
 						<div class={sidebarSectionHeader}>{section.title}</div>
-						{#each section.links as link (link.href)}
+						{#each section.links as link (link.label)}
 							{@const Icon = link.icon}
-							<a href={link.href} class={cx(sidebarLink, isActive(link.href) ? sidebarLinkActive : '')}>
+							{@const tag = link.href ? 'a' : 'button'}
+							<svelte:element this={tag} {...link.href ? { href: resolve(link.href) } : {}} type={link.href ? null : 'button'} class={cx(sidebarLink, isActive(link.href) ? sidebarLinkActive : '')}>
 								<span class={iconWrap}><Icon size={12} /></span>
 								{link.label}
 								{#if link.count}
 									<span class={cx(countBadge, link.alert ? countAlert : '')}>{link.count}</span>
 								{/if}
-							</a>
+							</svelte:element>
 						{/each}
 					</div>
 				{/each}

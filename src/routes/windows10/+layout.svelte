@@ -1,4 +1,5 @@
 <script lang="ts">
+import { resolve } from '$app/paths';
 import { page } from '$app/state';
 import { Search, Wifi, Battery } from 'lucide-svelte';
 import { css, cx } from 'styled-system/css';
@@ -203,7 +204,7 @@ const notifBadge = css({
 		<div class={taskbar}>
 			<div class={taskbarLeft}>
 				<!-- Start button -->
-				<a href="/windows10" class={startBtn} title="Start">
+				<a href={resolve('/windows10')} class={startBtn} title="Start">
 					<svg width="17" height="17" viewBox="0 0 17 17" fill="none">
 						<rect x="0" y="0" width="8" height="8" fill="#F25022" />
 						<rect x="9" y="0" width="8" height="8" fill="#7FBA00" />
@@ -220,7 +221,7 @@ const notifBadge = css({
 
 				<!-- Pinned apps -->
 				<a
-					href="/windows10/action-center"
+					href={resolve('/windows10/action-center')}
 					class={cx(taskbarIcon, page.url.pathname.startsWith('/windows10/action-center') ? taskbarIconActive : '')}
 					title="Action Center"
 				>
@@ -232,7 +233,7 @@ const notifBadge = css({
 					</svg>
 				</a>
 				<a
-					href="/windows10/resume-builder"
+					href={resolve('/windows10/resume-builder')}
 					class={cx(taskbarIcon, page.url.pathname.startsWith('/windows10/resume-builder') ? taskbarIconActive : '')}
 					title="Resume Builder"
 				>
@@ -259,7 +260,7 @@ const notifBadge = css({
 
 				<!-- Notification button -->
 				<a
-					href="/windows10/action-center"
+					href={resolve('/windows10/action-center')}
 					class={cx(notifBtn, page.url.pathname.startsWith('/windows10/action-center') ? notifBtnLit : '')}
 					title="Action Center"
 				>

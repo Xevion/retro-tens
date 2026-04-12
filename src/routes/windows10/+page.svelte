@@ -1,4 +1,5 @@
 <script lang="ts">
+import { resolve } from '$app/paths';
 import { css } from 'styled-system/css';
 
 const apps = [
@@ -12,7 +13,7 @@ const apps = [
 		href: '/windows10/resume-builder',
 		icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M6 5h28v30H6z" fill="#d8e3f0" stroke="#b0c2d8" stroke-width="1"/><path d="M6 5h28v6H6z" fill="#0078D7"/><rect x="10" y="14" width="20" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="18" width="15" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="22" width="18" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="26" width="12" height="1.5" rx="0.5" fill="#8fa8c0"/></svg>`
 	}
-];
+] as const;
 
 const desktopIcons = css({
 	position: 'absolute',
@@ -129,7 +130,7 @@ const appTileName = css({
 	<div class={launcherTitle}>Open an App</div>
 	<div class={launcherGrid}>
 		{#each apps as app (app.href)}
-			<a href={app.href} class={appTile}>
+			<a href={resolve(app.href)} class={appTile}>
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -- reason: hardcoded SVG strings, no user input -->
 				<div>{@html app.icon}</div>
 				<div class={appTileName}>{app.name}</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+import { resolve } from '$app/paths';
 import { RefreshCw, Download } from 'lucide-svelte';
 import { css, cx } from 'styled-system/css';
 import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
@@ -166,7 +167,7 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 	<div class={panelStyles.root}>
 		<div class={panelStyles.header}>
 			Recent Registrations
-			<a href="/steam-modern/users" class={actionLink()} style="font-size:11px">View all &#8594;</a>
+			<a href={resolve('/steam-modern/users')} class={actionLink()} style="font-size:11px">View all &#8594;</a>
 		</div>
 		<table class={dataTable}>
 			<thead>
