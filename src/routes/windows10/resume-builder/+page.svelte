@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Minus, Square, X, Plus } from 'lucide-svelte';
+
 	const sectionNames = ['Personal Information', 'Work Experience', 'Education', 'Skills & Technologies', 'Projects & Portfolio'];
 	let currentSection = $state(0);
 	let previewOpen = $state(false);
@@ -52,13 +54,13 @@
 		</div>
 		<div class="title-controls">
 			<button class="tb-btn" aria-label="Minimize">
-				<svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1="0.5" x2="10" y2="0.5" stroke="#fff" stroke-width="1.2" /></svg>
+				<Minus size={10} color="#fff" strokeWidth={1.5} />
 			</button>
 			<button class="tb-btn" aria-label="Maximize">
-				<svg width="10" height="10" viewBox="0 0 10 10"><rect x="0.6" y="0.6" width="8.8" height="8.8" stroke="#fff" stroke-width="1.1" fill="none" /></svg>
+				<Square size={10} color="#fff" strokeWidth={1.5} />
 			</button>
 			<button class="tb-btn close-btn" aria-label="Close">
-				<svg width="10" height="10" viewBox="0 0 10 10"><line x1="0" y1="0" x2="10" y2="10" stroke="#fff" stroke-width="1.3" /><line x1="10" y1="0" x2="0" y2="10" stroke="#fff" stroke-width="1.3" /></svg>
+				<X size={10} color="#fff" strokeWidth={1.5} />
 			</button>
 		</div>
 	</div>
@@ -160,7 +162,7 @@
 						<textarea id="exp-desc" placeholder="• Describe your impact with measurable outcomes&#10;• Technologies used and problems solved"></textarea></div>
 					</div>
 					<button class="add-entry-btn">
-						<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><line x1="6.5" y1="0" x2="6.5" y2="13" stroke="#555" stroke-width="1.4"/><line x1="0" y1="6.5" x2="13" y2="6.5" stroke="#555" stroke-width="1.4"/></svg>
+						<Plus size={13} strokeWidth={1.5} />
 						Add Work Experience
 					</button>
 				</div>
@@ -189,7 +191,7 @@
 						</div>
 					</div>
 					<button class="add-entry-btn">
-						<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><line x1="6.5" y1="0" x2="6.5" y2="13" stroke="#555" stroke-width="1.4"/><line x1="0" y1="6.5" x2="13" y2="6.5" stroke="#555" stroke-width="1.4"/></svg>
+						<Plus size={13} strokeWidth={1.5} />
 						Add Education
 					</button>
 				</div>
@@ -249,7 +251,7 @@
 						<div><label for="proj-desc">Description &amp; Impact</label><textarea id="proj-desc" placeholder="What does the project do? What was technically challenging?"></textarea></div>
 					</div>
 					<button class="add-entry-btn">
-						<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><line x1="6.5" y1="0" x2="6.5" y2="13" stroke="#555" stroke-width="1.4"/><line x1="0" y1="6.5" x2="13" y2="6.5" stroke="#555" stroke-width="1.4"/></svg>
+						<Plus size={13} strokeWidth={1.5} />
 						Add Project
 					</button>
 				</div>

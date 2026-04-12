@@ -1,63 +1,85 @@
 <script lang="ts">
 	import '$lib/themes/steam-modern/tokens.css';
+	import '$lib/themes/steam-modern/shared.css';
 	import { page } from '$app/state';
+	import type { Component } from 'svelte';
+	import {
+		LayoutDashboard,
+		AlertTriangle,
+		Activity,
+		Users,
+		Ban,
+		Mail,
+		Gamepad2,
+		PenLine,
+		ShoppingBag,
+		Flag,
+		MessageCircle,
+		Image as ImageIcon,
+		BarChart2,
+		Server,
+		Settings,
+		ShoppingCart,
+		MessageSquare
+	} from 'lucide-svelte';
 
 	let { children } = $props();
 
-	type SidebarLink = { icon: string; label: string; href: string; count?: string; alert?: boolean };
+	type SidebarLink = { icon: Component; label: string; href: string; count?: string; alert?: boolean };
 	type SidebarSection = { title: string; links: SidebarLink[] };
+	type NavTab = { label: string; icon: Component; href: string; badge?: boolean };
 
-	const navTabs = [
-		{ label: 'Dashboard', icon: '◼', href: '/steam-modern' },
-		{ label: 'Users', icon: '👥', href: '/steam-modern/users' },
-		{ label: 'Games', icon: '🎮', href: '/steam-modern/games' },
-		{ label: 'Store', icon: '🛒', href: '/steam-modern/store' },
-		{ label: 'Community', icon: '💬', href: '/steam-modern/community', badge: true },
-		{ label: 'Reports', icon: '📊', href: '/steam-modern/reports' },
-		{ label: 'Settings', icon: '⚙', href: '/steam-modern/settings' },
+	const navTabs: NavTab[] = [
+		{ label: 'Dashboard', icon: LayoutDashboard, href: '/steam-modern' },
+		{ label: 'Users', icon: Users, href: '/steam-modern/users' },
+		{ label: 'Games', icon: Gamepad2, href: '/steam-modern/games' },
+		{ label: 'Store', icon: ShoppingCart, href: '/steam-modern/store' },
+		{ label: 'Community', icon: MessageSquare, href: '/steam-modern/community', badge: true },
+		{ label: 'Reports', icon: BarChart2, href: '/steam-modern/reports' },
+		{ label: 'Settings', icon: Settings, href: '/steam-modern/settings' }
 	];
 
 	const sidebarSections: SidebarSection[] = [
 		{
 			title: 'Overview',
 			links: [
-				{ icon: '◼', label: 'Dashboard', href: '/steam-modern' },
-				{ icon: '⚠', label: 'Alerts', href: '/steam-modern/alerts', count: '3', alert: true },
-				{ icon: '◫', label: 'Activity Log', href: '/steam-modern/activity' },
-			],
+				{ icon: LayoutDashboard, label: 'Dashboard', href: '/steam-modern' },
+				{ icon: AlertTriangle, label: 'Alerts', href: '/steam-modern/alerts', count: '3', alert: true },
+				{ icon: Activity, label: 'Activity Log', href: '/steam-modern/activity' }
+			]
 		},
 		{
 			title: 'Users',
 			links: [
-				{ icon: '👥', label: 'All Users', href: '/steam-modern/users', count: '147M' },
-				{ icon: '🚫', label: 'Banned', href: '/steam-modern/users/banned', count: '2,841', alert: true },
-				{ icon: '✉', label: 'Pending Review', href: '/steam-modern/users/pending', count: '128' },
-			],
+				{ icon: Users, label: 'All Users', href: '/steam-modern/users', count: '147M' },
+				{ icon: Ban, label: 'Banned', href: '/steam-modern/users/banned', count: '2,841', alert: true },
+				{ icon: Mail, label: 'Pending Review', href: '/steam-modern/users/pending', count: '128' }
+			]
 		},
 		{
 			title: 'Content',
 			links: [
-				{ icon: '🎮', label: 'Apps & Games', href: '/steam-modern/games', count: '68k' },
-				{ icon: '✏', label: 'Awaiting Review', href: '/steam-modern/games/review', count: '34' },
-				{ icon: '🛒', label: 'Store Mgmt', href: '/steam-modern/store' },
-			],
+				{ icon: Gamepad2, label: 'Apps & Games', href: '/steam-modern/games', count: '68k' },
+				{ icon: PenLine, label: 'Awaiting Review', href: '/steam-modern/games/review', count: '34' },
+				{ icon: ShoppingBag, label: 'Store Mgmt', href: '/steam-modern/store' }
+			]
 		},
 		{
 			title: 'Community',
 			links: [
-				{ icon: '🚩', label: 'Report Queue', href: '/steam-modern/community', count: '9', alert: true },
-				{ icon: '💬', label: 'Reviews', href: '/steam-modern/community/reviews' },
-				{ icon: '🖼', label: 'Artwork', href: '/steam-modern/community/artwork' },
-			],
+				{ icon: Flag, label: 'Report Queue', href: '/steam-modern/community', count: '9', alert: true },
+				{ icon: MessageCircle, label: 'Reviews', href: '/steam-modern/community/reviews' },
+				{ icon: ImageIcon, label: 'Artwork', href: '/steam-modern/community/artwork' }
+			]
 		},
 		{
 			title: 'Infrastructure',
 			links: [
-				{ icon: '📊', label: 'Analytics', href: '/steam-modern/reports' },
-				{ icon: '●', label: 'CDN Status', href: '/steam-modern/reports/cdn' },
-				{ icon: '⚙', label: 'Config', href: '/steam-modern/settings' },
-			],
-		},
+				{ icon: BarChart2, label: 'Analytics', href: '/steam-modern/reports' },
+				{ icon: Server, label: 'CDN Status', href: '/steam-modern/reports/cdn' },
+				{ icon: Settings, label: 'Config', href: '/steam-modern/settings' }
+			]
+		}
 	];
 
 	function isActive(href: string) {
@@ -121,12 +143,9 @@
 		<!-- Nav tabs -->
 		<nav class="nav-tabs">
 			{#each navTabs as tab}
-				<a
-					href={tab.href}
-					class="nav-tab"
-					class:active={isActive(tab.href)}
-				>
-					<span class="tab-icon">{tab.icon}</span>
+				{@const Icon = tab.icon}
+				<a href={tab.href} class="nav-tab" class:active={isActive(tab.href)}>
+					<span class="tab-icon"><Icon size={14} /></span>
 					{tab.label}
 					{#if tab.badge}<span class="tab-badge"></span>{/if}
 				</a>
@@ -141,12 +160,9 @@
 					<div class="sidebar-section">
 						<div class="sidebar-section-header">{section.title}</div>
 						{#each section.links as link}
-							<a
-								href={link.href}
-								class="sidebar-link"
-								class:active={isActive(link.href)}
-							>
-								<span class="icon">{link.icon}</span>
+							{@const Icon = link.icon}
+							<a href={link.href} class="sidebar-link" class:active={isActive(link.href)}>
+								<span class="icon"><Icon size={12} /></span>
 								{link.label}
 								{#if link.count}
 									<span class="count" class:alert={link.alert}>{link.count}</span>
@@ -335,7 +351,11 @@
 		border-bottom-color: var(--accent);
 		background: var(--accent-glow);
 	}
-	.tab-icon { margin-right: 7px; font-size: 13px; }
+	.tab-icon {
+		display: inline-flex;
+		align-items: center;
+		margin-right: 7px;
+	}
 	.tab-badge {
 		position: absolute;
 		top: 6px;
@@ -394,7 +414,13 @@
 		background: rgba(102, 192, 244, 0.1);
 		border-left-color: var(--accent);
 	}
-	.icon { font-size: 12px; width: 14px; text-align: center; }
+	.icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 14px;
+		flex-shrink: 0;
+	}
 	.count {
 		margin-left: auto;
 		background: var(--surface-elevated);

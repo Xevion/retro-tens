@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { Chart, Svg, Axis, Area, Highlight, Tooltip, Bars } from 'layerchart';
-	import { scaleBand, scaleLinear, scaleTime } from 'd3-scale';
+	import { Chart, Svg, Axis, Area, Highlight, Tooltip } from 'layerchart';
+	import { scaleLinear, scaleTime } from 'd3-scale';
 	import { curveMonotoneX } from 'd3-shape';
+	import { RefreshCw, Download } from 'lucide-svelte';
+	import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+	import StatusBadge from '$lib/components/steam-modern/StatusBadge.svelte';
 
 	const stats = [
 		{
@@ -42,7 +45,6 @@
 		},
 	];
 
-	// Revenue data: store + market + dlc breakdown per day
 	const revenueData = [
 		{ date: new Date('2012-07-24'), store: 920, market: 310, dlc: 180 },
 		{ date: new Date('2012-07-25'), store: 1140, market: 380, dlc: 210 },
@@ -88,24 +90,17 @@
 	];
 
 	const recentUsers = [
-		{ id: '#44821930', name: 'darkw4ve_99', status: 'banned', statusLabel: 'Banned', country: 'RU', games: 0, joined: 'Nov 12, 2012' },
-		{ id: '#44820481', name: 'steamfan2012', status: 'online', statusLabel: 'Online', country: 'US', games: 47, joined: 'Nov 12, 2012' },
-		{ id: '#44819004', name: 'gamerbro_x', status: 'away', statusLabel: 'Away', country: 'DE', games: 12, joined: 'Nov 11, 2012' },
-		{ id: '#44817223', name: 'pixelwitch', status: 'offline', statusLabel: 'Offline', country: 'GB', games: 103, joined: 'Nov 11, 2012' },
+		{ id: '#44821930', name: 'darkw4ve_99', status: 'banned', country: 'RU', games: 0, joined: 'Nov 12, 2012' },
+		{ id: '#44820481', name: 'steamfan2012', status: 'online', country: 'US', games: 47, joined: 'Nov 12, 2012' },
+		{ id: '#44819004', name: 'gamerbro_x', status: 'away', country: 'DE', games: 12, joined: 'Nov 11, 2012' },
+		{ id: '#44817223', name: 'pixelwitch', status: 'offline', country: 'GB', games: 103, joined: 'Nov 11, 2012' },
 	];
 </script>
 
-<!-- Page header -->
-<div class="page-header">
-	<div>
-		<div class="page-title">Administrator Dashboard</div>
-		<div class="page-subtitle">Steam Platform Control · Last refreshed 2 minutes ago</div>
-	</div>
-	<div class="page-actions">
-		<button class="btn btn-secondary">↻ Refresh</button>
-		<button class="btn btn-primary">⬇ Export Report</button>
-	</div>
-</div>
+<PageHeader title="Administrator Dashboard" subtitle="Steam Platform Control · Last refreshed 2 minutes ago">
+	<button class="btn btn-secondary"><RefreshCw size={13} /> Refresh</button>
+	<button class="btn btn-primary"><Download size={13} /> Export Report</button>
+</PageHeader>
 
 <!-- Stats row -->
 <div class="stats-grid">
@@ -134,81 +129,81 @@
 			</div>
 		</div>
 		<div class="chart-container">
-				<Chart
-					data={revenueData}
-					x="date"
-					xScale={scaleTime()}
-					y={(d: (typeof revenueData)[number]) => d.store + d.market + d.dlc}
-					yScale={scaleLinear()}
-					yNice
-					yDomain={[0, null]}
-					padding={{ top: 10, bottom: 28, left: 48, right: 10 }}
-					tooltip={{ mode: 'bisect-x' }}
-				>
-					<Svg>
-						<Axis
-							placement="left"
-							grid={{ style: 'stroke: rgba(42,71,94,0.6)' }}
-							rule={false}
-							format={(v) => `$${(v / 1000).toFixed(0)}k`}
-							classes={{ tickLabel: 'rev-tick-label' }}
-						/>
-						<Axis
-							placement="bottom"
-							format={fmtRevDate}
-							rule={false}
-							classes={{ tickLabel: 'rev-tick-label' }}
-							ticks={7}
-						/>
-						<Area
-							y1={(d) => d.store}
-							fill="#66c0f4"
-							fillOpacity={0.15}
-							curve={curveMonotoneX}
-							line={{ fill: 'none', stroke: '#4a9fc8', strokeWidth: 1.5 }}
-						/>
-						<Area
-							y0={(d) => d.store}
-							y1={(d) => d.store + d.market}
-							fill="#d5a51b"
-							fillOpacity={0.2}
-							curve={curveMonotoneX}
-							line={{ fill: 'none', stroke: '#d5a51b', strokeWidth: 1 }}
-						/>
-						<Area
-							y0={(d) => d.store + d.market}
-							y1={(d) => d.store + d.market + d.dlc}
-							fill="#4fa832"
-							fillOpacity={0.25}
-							curve={curveMonotoneX}
-							line={{ fill: 'none', stroke: '#4fa832', strokeWidth: 1 }}
-						/>
-						<Highlight lines={{ stroke: 'rgba(102,192,244,0.4)', strokeWidth: 1 }} />
-					</Svg>
-					<Tooltip.Root let:data classes={{ root: 'rev-tooltip' }} variant="none">
-						{@const d = data as (typeof revenueData)[number]}
-						<div class="rev-tooltip-inner">
-							<p class="rev-tooltip-date">{fmtRevTooltipDate(d.date)}</p>
-							<div class="rev-tooltip-row">
-								<span><span class="rev-dot rev-dot-blue"></span>Store</span>
-								<span>${d.store.toLocaleString()}</span>
-							</div>
-							<div class="rev-tooltip-row">
-								<span><span class="rev-dot rev-dot-gold"></span>Market</span>
-								<span>${d.market.toLocaleString()}</span>
-							</div>
-							<div class="rev-tooltip-row">
-								<span><span class="rev-dot rev-dot-green"></span>DLC</span>
-								<span>${d.dlc.toLocaleString()}</span>
-							</div>
-							<div class="rev-tooltip-total">
-								<span>Total</span>
-								<span>${(d.store + d.market + d.dlc).toLocaleString()}</span>
-							</div>
+			<Chart
+				data={revenueData}
+				x="date"
+				xScale={scaleTime()}
+				y={(d: (typeof revenueData)[number]) => d.store + d.market + d.dlc}
+				yScale={scaleLinear()}
+				yNice
+				yDomain={[0, null]}
+				padding={{ top: 10, bottom: 28, left: 48, right: 10 }}
+				tooltip={{ mode: 'bisect-x' }}
+			>
+				<Svg>
+					<Axis
+						placement="left"
+						grid={{ style: 'stroke: rgba(42,71,94,0.6)' }}
+						rule={false}
+						format={(v) => `$${(v / 1000).toFixed(0)}k`}
+						classes={{ tickLabel: 'rev-tick-label' }}
+					/>
+					<Axis
+						placement="bottom"
+						format={fmtRevDate}
+						rule={false}
+						classes={{ tickLabel: 'rev-tick-label' }}
+						ticks={7}
+					/>
+					<Area
+						y1={(d) => d.store}
+						fill="#66c0f4"
+						fillOpacity={0.15}
+						curve={curveMonotoneX}
+						line={{ fill: 'none', stroke: '#4a9fc8', strokeWidth: 1.5 }}
+					/>
+					<Area
+						y0={(d) => d.store}
+						y1={(d) => d.store + d.market}
+						fill="#d5a51b"
+						fillOpacity={0.2}
+						curve={curveMonotoneX}
+						line={{ fill: 'none', stroke: '#d5a51b', strokeWidth: 1 }}
+					/>
+					<Area
+						y0={(d) => d.store + d.market}
+						y1={(d) => d.store + d.market + d.dlc}
+						fill="#4fa832"
+						fillOpacity={0.25}
+						curve={curveMonotoneX}
+						line={{ fill: 'none', stroke: '#4fa832', strokeWidth: 1 }}
+					/>
+					<Highlight lines={{ stroke: 'rgba(102,192,244,0.4)', strokeWidth: 1 }} />
+				</Svg>
+				<Tooltip.Root let:data classes={{ root: 'rev-tooltip' }} variant="none">
+					{@const d = data as (typeof revenueData)[number]}
+					<div class="rev-tooltip-inner">
+						<p class="rev-tooltip-date">{fmtRevTooltipDate(d.date)}</p>
+						<div class="rev-tooltip-row">
+							<span><span class="rev-dot rev-dot-blue"></span>Store</span>
+							<span>${d.store.toLocaleString()}</span>
 						</div>
-					</Tooltip.Root>
-				</Chart>
-			</div>
+						<div class="rev-tooltip-row">
+							<span><span class="rev-dot rev-dot-gold"></span>Market</span>
+							<span>${d.market.toLocaleString()}</span>
+						</div>
+						<div class="rev-tooltip-row">
+							<span><span class="rev-dot rev-dot-green"></span>DLC</span>
+							<span>${d.dlc.toLocaleString()}</span>
+						</div>
+						<div class="rev-tooltip-total">
+							<span>Total</span>
+							<span>${(d.store + d.market + d.dlc).toLocaleString()}</span>
+						</div>
+					</div>
+				</Tooltip.Root>
+			</Chart>
+		</div>
 	</div>
 
 	<!-- Activity feed -->
@@ -267,12 +262,7 @@
 							<span style="font-size:12px">{u.name}</span>
 							<span style="color:var(--text-muted);font-size:10px;margin-left:4px">{u.id}</span>
 						</td>
-						<td>
-							<span class="status-dot {u.status}"></span>
-							<span class="badge" class:badge-green={u.status==='online'} class:badge-red={u.status==='banned'} class:badge-yellow={u.status==='away'} class:badge-gray={u.status==='offline'}>
-								{u.statusLabel}
-							</span>
-						</td>
+						<td><StatusBadge status={u.status as 'online' | 'offline' | 'away' | 'banned'} /></td>
 						<td style="color:var(--text-secondary)">{u.games}</td>
 						<td style="color:var(--text-muted);font-size:11px">{u.joined}</td>
 					</tr>
@@ -283,48 +273,6 @@
 </div>
 
 <style>
-	.page-header {
-		background: linear-gradient(180deg, #1f3348 0%, #182636 100%);
-		border-bottom: 1px solid var(--divider);
-		padding: 16px 24px 14px;
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-	}
-	.page-title { font-size: 20px; font-weight: 300; color: var(--text-bright); letter-spacing: 0.02em; }
-	.page-subtitle { font-size: var(--font-size-sm); color: var(--text-muted); margin-top: 2px; }
-	.page-actions { display: flex; gap: 8px; }
-
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		padding: 6px 14px;
-		font-size: var(--font-size-sm);
-		font-weight: 600;
-		border-radius: var(--radius);
-		cursor: pointer;
-		border: none;
-		transition: all var(--transition);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		font-family: var(--font-ui);
-	}
-	.btn-primary {
-		background: linear-gradient(180deg, #76b4d6 0%, #4a88aa 50%, #3c7493 100%);
-		color: #fff;
-		border: 1px solid #2a5f7e;
-		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-	}
-	.btn-primary:hover { background: linear-gradient(180deg, #8ac4e4 0%, #5a98ba 50%, #4c84a3 100%); }
-	.btn-secondary {
-		background: linear-gradient(180deg, #5c7a8e 0%, #3d5a6e 100%);
-		color: var(--text-primary);
-		border: 1px solid var(--border);
-		text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-	}
-	.btn-secondary:hover { background: linear-gradient(180deg, #6c8a9e 0%, #4d6a7e 100%); }
-
 	.stats-grid {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
@@ -341,40 +289,6 @@
 	.stat-delta.down { color: var(--accent-red); }
 	.stat-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--divider); }
 	.stat-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); transition: width 1s ease; }
-
-	.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 20px; }
-
-	.panel { background: var(--surface-panel); border: 1px solid var(--border); border-radius: var(--radius); }
-	.panel-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 10px 14px;
-		background: rgba(0, 0, 0, 0.15);
-		border-bottom: 1px solid var(--border);
-		font-size: var(--font-size-sm);
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: var(--text-secondary);
-	}
-	.panel-body { padding: 14px; }
-
-	.badge {
-		display: inline-block;
-		padding: 2px 7px;
-		font-size: 10px;
-		font-weight: 700;
-		border-radius: var(--radius);
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		white-space: nowrap;
-	}
-	.badge-green { background: rgba(79,168,50,0.2); color: #6dcf4a; border: 1px solid rgba(79,168,50,0.3); }
-	.badge-red { background: rgba(201,64,64,0.2); color: #e07070; border: 1px solid rgba(201,64,64,0.3); }
-	.badge-yellow { background: rgba(213,165,27,0.2); color: #e8c44e; border: 1px solid rgba(213,165,27,0.3); }
-	.badge-blue { background: rgba(102,192,244,0.15); color: var(--accent); border: 1px solid rgba(102,192,244,0.3); }
-	.badge-gray { background: rgba(85,107,125,0.2); color: var(--text-muted); border: 1px solid rgba(85,107,125,0.3); }
 
 	.chart-panel { display: flex; flex-direction: column; }
 	.chart-container { padding: 8px 14px 14px; flex: 1; min-height: 160px; }
@@ -450,39 +364,4 @@
 	.health-name { width: 110px; color: var(--text-secondary); font-size: var(--font-size-sm); }
 	.health-bar-wrap { flex: 1; }
 	.health-val { width: 40px; text-align: right; color: var(--text-primary); font-size: var(--font-size-sm); font-weight: 600; }
-	.progress-bar { height: 6px; background: rgba(0, 0, 0, 0.3); border-radius: 1px; overflow: hidden; }
-	.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); border-radius: 1px; transition: width 1s ease; }
-	.progress-fill.green { background: linear-gradient(90deg, #3c7022, var(--accent-green)); }
-	.progress-fill.red { background: linear-gradient(90deg, #843030, var(--accent-red)); }
-	.progress-fill.gold { background: linear-gradient(90deg, #8a6810, var(--accent-gold)); }
-
-	.data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-	.data-table th {
-		text-align: left;
-		padding: 8px 12px;
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--text-muted);
-		border-bottom: 1px solid var(--border);
-		background: rgba(0, 0, 0, 0.2);
-		white-space: nowrap;
-	}
-	.data-table td { padding: 7px 12px; border-bottom: 1px solid rgba(0, 0, 0, 0.2); color: var(--text-primary); }
-	.data-table tr:last-child td { border-bottom: none; }
-	.data-table tbody tr:hover { background: var(--surface-row-hover); }
-	.user-avatar {
-		width: 24px; height: 24px; border-radius: var(--radius);
-		display: inline-flex; align-items: center; justify-content: center;
-		font-size: 9px; font-weight: 700; color: #fff;
-		vertical-align: middle; margin-right: 6px;
-	}
-	.status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; }
-	.status-dot.online { background: var(--accent-green); box-shadow: 0 0 4px var(--accent-green); }
-	.status-dot.offline { background: var(--text-disabled); }
-	.status-dot.banned { background: var(--accent-red); }
-	.status-dot.away { background: var(--accent-gold); }
-	.action-link { color: var(--accent); font-size: 11px; cursor: pointer; }
-	.action-link:hover { color: var(--accent-bright); text-decoration: underline; }
 </style>

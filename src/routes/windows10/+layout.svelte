@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '$lib/themes/windows10/tokens.css';
 	import { page } from '$app/state';
+	import { Search, Wifi, Battery } from 'lucide-svelte';
 
 	let { children } = $props();
 
@@ -58,10 +59,7 @@
 
 				<!-- Search box -->
 				<div class="taskbar-search" title="Search Windows">
-					<svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-						<circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" />
-						<path d="M9 9l2.5 2.5" stroke="rgba(255,255,255,0.45)" stroke-width="1.3" stroke-linecap="round" />
-					</svg>
+					<Search size={13} color="rgba(255,255,255,0.45)" strokeWidth={1.3} />
 					<span>Search Windows</span>
 				</div>
 
@@ -96,18 +94,8 @@
 				<!-- System tray -->
 				<div class="sys-tray">
 					<div class="tray-icons">
-						<!-- Wi-Fi -->
-						<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-							<path d="M1 10 Q7 3 13 10" stroke="rgba(255,255,255,0.7)" stroke-width="1.1" fill="none" stroke-linecap="round" />
-							<path d="M3.5 11.5 Q7 7 10.5 11.5" stroke="rgba(255,255,255,0.7)" stroke-width="1.1" fill="none" stroke-linecap="round" />
-							<circle cx="7" cy="13" r="0.9" fill="rgba(255,255,255,0.8)" />
-						</svg>
-						<!-- Battery -->
-						<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-							<rect x="1" y="3.5" width="9" height="5" rx="0.8" stroke="rgba(255,255,255,0.7)" stroke-width="1.1" fill="none" />
-							<rect x="2.5" y="5" width="4" height="2" rx="0.3" fill="rgba(255,255,255,0.65)" />
-							<path d="M10 5.5h2v3h-2" stroke="rgba(255,255,255,0.65)" stroke-width="1" stroke-linecap="round" />
-						</svg>
+						<Wifi size={14} color="rgba(255,255,255,0.7)" strokeWidth={1.3} />
+						<Battery size={14} color="rgba(255,255,255,0.7)" strokeWidth={1.3} />
 					</div>
 					<!-- Clock -->
 					<div class="clock">

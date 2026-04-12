@@ -1,9 +1,26 @@
 <script lang="ts">
+	import {
+		Mail,
+		Calendar,
+		CircleCheck,
+		Wifi,
+		Bluetooth,
+		PlaneTakeoff,
+		Clock,
+		MapPin,
+		BatteryMedium,
+		Tablet,
+		Settings,
+	} from 'lucide-svelte';
+	import type { SvelteComponentTyped } from 'svelte';
+
+	type LucideIcon = new (...args: any[]) => SvelteComponentTyped<any>;
+
 	type Notif = {
 		id: string;
 		group: string;
 		groupColor: string;
-		groupIconSvg: string;
+		groupIcon: LucideIcon;
 		title: string;
 		body: string;
 		time: string;
@@ -11,62 +28,34 @@
 
 	let notifications = $state<Notif[]>([
 		{
-			id: 'n1', group: 'Mail', groupColor: '#0078D7',
-			groupIconSvg: `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="2" width="8" height="6" rx="0.5" stroke="#fff" stroke-width="0.8"/><path d="M1 3l4 3 4-3" stroke="#fff" stroke-width="0.8"/></svg>`,
+			id: 'n1', group: 'Mail', groupColor: '#0078D7', groupIcon: Mail,
 			title: 'Alex Turner', body: 'Re: Q3 Design Review — Updated slides are attached, let me know what you think.', time: '3:42 PM',
 		},
 		{
-			id: 'n2', group: 'Mail', groupColor: '#0078D7',
-			groupIconSvg: `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="2" width="8" height="6" rx="0.5" stroke="#fff" stroke-width="0.8"/><path d="M1 3l4 3 4-3" stroke="#fff" stroke-width="0.8"/></svg>`,
+			id: 'n2', group: 'Mail', groupColor: '#0078D7', groupIcon: Mail,
 			title: 'Microsoft Outlook', body: 'You have a meeting in 15 minutes: Weekly Sync with Design Team', time: '1:15 PM',
 		},
 		{
-			id: 'n3', group: 'Calendar', groupColor: '#E74856',
-			groupIconSvg: `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="2" width="8" height="7" rx="0.5" stroke="#fff" stroke-width="0.8"/><path d="M1 5h8" stroke="#fff" stroke-width="0.8"/><path d="M3 1v2M7 1v2" stroke="#fff" stroke-width="0.8"/></svg>`,
+			id: 'n3', group: 'Calendar', groupColor: '#E74856', groupIcon: Calendar,
 			title: 'Reminder', body: 'Project deadline: UI Handoff — Today at 5:00 PM', time: '12:00 PM',
 		},
 		{
-			id: 'n4', group: 'Windows Update', groupColor: '#107C10',
-			groupIconSvg: `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#fff" stroke-width="0.8"/><path d="M3.5 5l1 1.2 2-2.4" stroke="#fff" stroke-width="0.8" stroke-linecap="round"/></svg>`,
+			id: 'n4', group: 'Windows Update', groupColor: '#107C10', groupIcon: CircleCheck,
 			title: 'Updates available', body: 'Cumulative Update for Windows 10 Version 1607 is ready to install.', time: '9:00 AM',
 		},
 	]);
 
-	type QaTile = { label: string; active: boolean; iconSvg: string };
+	type QaTile = { label: string; active: boolean; icon: LucideIcon };
 
 	let qaTiles = $state<QaTile[]>([
-		{
-			label: 'Wi-Fi', active: true,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 14 Q10 6 18 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M5 16.5 Q10 10 15 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="10" cy="18" r="1.2" fill="currentColor"/></svg>`,
-		},
-		{
-			label: 'Bluetooth', active: false,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 6l6 4-6 4V6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M8 10h6" stroke="currentColor" stroke-width="1.4"/><path d="M14 6l-6 8" stroke="currentColor" stroke-width="1.4"/></svg>`,
-		},
-		{
-			label: 'Airplane mode', active: false,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3c.5 0 1.5.8 1.5 2v5l5 3v1.5l-5-1.5v2.5l1.5 1V18L10 17l-3 1v-1l1.5-1V13.5L3 15v-1.5l5-3V5C8.5 3.8 9.5 3 10 3z" fill="currentColor"/></svg>`,
-		},
-		{
-			label: 'Quiet hours', active: false,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4a6 6 0 100 12A6 6 0 0010 4z" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 7v3l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`,
-		},
-		{
-			label: 'Location', active: true,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3a5 5 0 00-5 5c0 4 5 9 5 9s5-5 5-9a5 5 0 00-5-5z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="8" r="1.8" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>`,
-		},
-		{
-			label: 'Battery saver', active: false,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="6.5" width="13" height="7" rx="1" stroke="currentColor" stroke-width="1.3" fill="none"/><rect x="3.5" y="8" width="5" height="4" rx="0.4" fill="currentColor"/><path d="M15 8.8h2v2.4h-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
-		},
-		{
-			label: 'Tablet mode', active: false,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><circle cx="10" cy="15" r="1" fill="currentColor"/></svg>`,
-		},
-		{
-			label: 'All settings', active: false,
-			iconSvg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.2" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2M5.05 5.05l1.41 1.41M13.54 13.54l1.41 1.41M5.05 14.95l1.41-1.41M13.54 6.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
-		},
+		{ label: 'Wi-Fi',         active: true,  icon: Wifi },
+		{ label: 'Bluetooth',     active: false, icon: Bluetooth },
+		{ label: 'Airplane mode', active: false, icon: PlaneTakeoff },
+		{ label: 'Quiet hours',   active: false, icon: Clock },
+		{ label: 'Location',      active: true,  icon: MapPin },
+		{ label: 'Battery saver', active: false, icon: BatteryMedium },
+		{ label: 'Tablet mode',   active: false, icon: Tablet },
+		{ label: 'All settings',  active: false, icon: Settings },
 	]);
 
 	function dismiss(id: string) {
@@ -103,11 +92,12 @@
 			<div class="empty-state">No new notifications</div>
 		{:else}
 			{#each Object.entries(grouped) as [groupName, groupNotifs], gi}
+				{@const GroupIcon = groupNotifs[0].groupIcon}
 				{#if gi > 0}<div class="divider"></div>{/if}
 				<div class="notif-group">
 					<div class="notif-group-header">
 						<div class="group-icon" style="background:{groupNotifs[0].groupColor}">
-							{@html groupNotifs[0].groupIconSvg}
+							<GroupIcon size={10} color="#fff" strokeWidth={1.5} />
 						</div>
 						{groupName}
 					</div>
@@ -135,6 +125,7 @@
 		<div class="qa-title">Quick actions</div>
 		<div class="qa-grid">
 			{#each qaTiles as tile, i}
+				{@const Icon = tile.icon}
 				<button
 					class="qa-tile"
 					class:active={tile.active}
@@ -142,7 +133,7 @@
 					title={tile.label}
 				>
 					<div class="qa-icon" style="color:{tile.active ? 'var(--accent)' : '#555'}">
-						{@html tile.iconSvg}
+						<Icon size={20} strokeWidth={1.5} />
 					</div>
 					<span class="qa-label" class:active={tile.active}>{tile.label}</span>
 				</button>
@@ -206,7 +197,6 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 10px;
 		flex-shrink: 0;
 	}
 

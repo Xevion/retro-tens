@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { CalendarDays, Download } from 'lucide-svelte';
+	import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+
 	const weeklyData = [
 		{ label: 'Mon', users: 7.2, revenue: 1.8 },
 		{ label: 'Tue', users: 7.8, revenue: 2.1 },
@@ -29,16 +32,10 @@
 	];
 </script>
 
-<div class="page-header">
-	<div>
-		<div class="page-title">Analytics &amp; Reports</div>
-		<div class="page-subtitle">Platform metrics · Week of Nov 5–11, 2012</div>
-	</div>
-	<div class="page-actions">
-		<button class="btn btn-secondary">📅 Date Range</button>
-		<button class="btn btn-primary">⬇ Export PDF</button>
-	</div>
-</div>
+<PageHeader title="Analytics &amp; Reports" subtitle="Platform metrics · Week of Nov 5–11, 2012">
+	<button class="btn btn-secondary"><CalendarDays size={13} /> Date Range</button>
+	<button class="btn btn-primary"><Download size={13} /> Export PDF</button>
+</PageHeader>
 
 <div class="metrics-strip">
 	{#each [
@@ -127,56 +124,36 @@
 </div>
 
 <style>
-	.page-header { background:linear-gradient(180deg,#1f3348,#182636); border-bottom:1px solid var(--divider); padding:16px 24px 14px; display:flex; align-items:flex-end; justify-content:space-between; }
-	.page-title { font-size:20px; font-weight:300; color:var(--text-bright); letter-spacing:0.02em; }
-	.page-subtitle { font-size:var(--font-size-sm); color:var(--text-muted); margin-top:2px; }
-	.page-actions { display:flex; gap:8px; }
-	.btn { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; font-size:var(--font-size-sm); font-weight:600; border-radius:var(--radius); cursor:pointer; border:none; transition:all var(--transition); text-transform:uppercase; letter-spacing:0.05em; font-family:var(--font-ui); }
-	.btn-primary { background:linear-gradient(180deg,#76b4d6,#4a88aa 50%,#3c7493); color:#fff; border:1px solid #2a5f7e; }
-	.btn-secondary { background:linear-gradient(180deg,#5c7a8e,#3d5a6e); color:var(--text-primary); border:1px solid var(--border); }
+	.metrics-strip { display: grid; grid-template-columns: repeat(5,1fr); gap: 1px; background: var(--divider); border-bottom: 1px solid var(--divider); }
+	.metric-card { background: var(--surface-panel); padding: 14px 16px; }
+	.metric-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 6px; }
+	.metric-value { font-size: 22px; font-weight: 300; color: var(--text-bright); line-height: 1; }
+	.metric-delta { margin-top: 4px; font-size: 11px; }
+	.metric-delta.up { color: var(--accent-green); }
+	.metric-delta.down { color: var(--accent-red); }
 
-	.metrics-strip { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--divider); border-bottom:1px solid var(--divider); }
-	.metric-card { background:var(--surface-panel); padding:14px 16px; }
-	.metric-label { font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); font-weight:700; margin-bottom:6px; }
-	.metric-value { font-size:22px; font-weight:300; color:var(--text-bright); line-height:1; }
-	.metric-delta { margin-top:4px; font-size:11px; }
-	.metric-delta.up { color:var(--accent-green); }
-	.metric-delta.down { color:var(--accent-red); }
+	.chart-container { padding: 14px; }
+	.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; border-bottom: 1px solid var(--border); }
+	.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+	.bar-label-val { font-size: 9px; color: var(--text-muted); white-space: nowrap; }
+	.bar-block { width: 100%; background: linear-gradient(180deg, var(--accent-bright), var(--accent-dim)); border-radius: 1px 1px 0 0; min-height: 2px; transition: opacity 0.15s; }
+	.bar-block:hover { opacity: 0.8; }
+	.bar-block.gold { background: linear-gradient(180deg, #e8c44e, var(--accent-gold)); }
+	.bar-label { font-size: 10px; color: var(--text-muted); padding-top: 4px; }
 
-	.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 20px; }
-	.panel { background:var(--surface-panel); border:1px solid var(--border); border-radius:var(--radius); }
-	.panel-header { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:rgba(0,0,0,0.15); border-bottom:1px solid var(--border); font-size:var(--font-size-sm); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); }
-	.panel-body { padding:14px; }
+	.top-game-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--divider); }
+	.top-game-row:last-child { border-bottom: none; }
+	.rank { width: 24px; font-size: 12px; font-weight: 700; color: var(--text-disabled); text-align: center; }
+	.game-name { flex: 1; font-size: 12.5px; color: var(--text-primary); font-weight: 600; }
+	.player-count { font-size: 12px; color: var(--accent); font-weight: 600; width: 50px; text-align: right; }
+	.change { font-size: 11px; width: 40px; text-align: right; }
+	.change.up { color: var(--accent-green); }
+	.change.down { color: var(--accent-red); }
 
-	.badge { display:inline-block; padding:2px 7px; font-size:10px; font-weight:700; border-radius:var(--radius); text-transform:uppercase; letter-spacing:0.04em; }
-	.badge-yellow { background:rgba(213,165,27,0.2); color:#e8c44e; border:1px solid rgba(213,165,27,0.3); }
-	.badge-red { background:rgba(201,64,64,0.2); color:#e07070; border:1px solid rgba(201,64,64,0.3); }
-
-	.chart-container { padding:14px; }
-	.bar-chart { display:flex; align-items:flex-end; gap:8px; height:130px; border-bottom:1px solid var(--border); }
-	.bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
-	.bar-label-val { font-size:9px; color:var(--text-muted); white-space:nowrap; }
-	.bar-block { width:100%; background:linear-gradient(180deg,var(--accent-bright),var(--accent-dim)); border-radius:1px 1px 0 0; min-height:2px; transition:opacity 0.15s; }
-	.bar-block:hover { opacity:0.8; }
-	.bar-block.gold { background:linear-gradient(180deg,#e8c44e,var(--accent-gold)); }
-	.bar-label { font-size:10px; color:var(--text-muted); padding-top:4px; }
-
-	.top-game-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--divider); }
-	.top-game-row:last-child { border-bottom:none; }
-	.rank { width:24px; font-size:12px; font-weight:700; color:var(--text-disabled); text-align:center; }
-	.game-name { flex:1; font-size:12.5px; color:var(--text-primary); font-weight:600; }
-	.player-count { font-size:12px; color:var(--accent); font-weight:600; width:50px; text-align:right; }
-	.change { font-size:11px; width:40px; text-align:right; }
-	.change.up { color:var(--accent-green); }
-	.change.down { color:var(--accent-red); }
-
-	.vac-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--divider); }
-	.vac-row:last-child { border-bottom:none; }
-	.vac-region { width:110px; font-size:12px; color:var(--text-secondary); }
-	.vac-bar-wrap { flex:1; }
-	.progress-bar { height:5px; background:rgba(0,0,0,0.3); border-radius:1px; overflow:hidden; }
-	.progress-fill { height:100%; border-radius:1px; background:linear-gradient(90deg,var(--accent-dim),var(--accent)); transition:width 1s ease; }
-	.progress-fill.red { background:linear-gradient(90deg,#843030,var(--accent-red)); }
-	.vac-count { width:36px; text-align:right; font-size:12px; color:var(--text-primary); font-weight:600; }
-	.vac-rate { width:36px; text-align:right; font-size:11px; color:var(--text-muted); }
+	.vac-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--divider); }
+	.vac-row:last-child { border-bottom: none; }
+	.vac-region { width: 110px; font-size: 12px; color: var(--text-secondary); }
+	.vac-bar-wrap { flex: 1; }
+	.vac-count { width: 36px; text-align: right; font-size: 12px; color: var(--text-primary); font-weight: 600; }
+	.vac-rate { width: 36px; text-align: right; font-size: 11px; color: var(--text-muted); }
 </style>
