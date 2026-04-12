@@ -1,0 +1,78 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commits:
+    name: commits
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Lint PR commits
+        run: bunx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: jdx/mise-action@v2
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: fallow-cli-2.28.2
+
+      - name: Install fallow
+        run: cargo install fallow-cli --version 2.28.2 --locked
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run typecheck
+      - run: bun run lint:js
+      - run: bun run lint:css
+      - run: bun run lint:biome
+      - run: bun run lint:actions
+      - run: bun run format
+      - run: bun run spell
+      - run: bun run analyze
+      - run: bun run just:check
+
+  links:
+    name: links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --verbose docs README.md
+          fail: true
+
+  audit:
+    name: audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun audit
