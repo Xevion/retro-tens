@@ -1,4 +1,5 @@
 <script lang="ts">
+import { Tabs } from '@ark-ui/svelte/tabs';
 import { Minus, Square, X, Plus } from 'lucide-svelte';
 
 const sectionNames = [
@@ -9,8 +10,8 @@ const sectionNames = [
 	'Projects & Portfolio'
 ];
 let currentSection = $state(0);
-let previewOpen = $state(false);
-let activeRibbonTab = $state('form');
+let ribbonTab = $state<string | null>('form');
+const previewOpen = $derived(ribbonTab === 'preview');
 
 // Form data
 let fname = $state('');
@@ -72,14 +73,12 @@ function goToSection(idx: number) {
 	</div>
 
 	<!-- Ribbon -->
-	<div class="ribbon">
-		<button type="button" class="ribbon-tab" class:active={activeRibbonTab === 'form'} onclick={() => { activeRibbonTab = 'form'; previewOpen = false; }}>
-			FORM VIEW
-		</button>
-		<button type="button" class="ribbon-tab" class:active={activeRibbonTab === 'preview'} onclick={() => { activeRibbonTab = 'preview'; previewOpen = true; }}>
-			LIVE PREVIEW
-		</button>
-	</div>
+	<Tabs.Root bind:value={ribbonTab} class="ribbon-tabs">
+		<Tabs.List class="ribbon">
+			<Tabs.Trigger class="ribbon-tab" value="form">FORM VIEW</Tabs.Trigger>
+			<Tabs.Trigger class="ribbon-tab" value="preview">LIVE PREVIEW</Tabs.Trigger>
+		</Tabs.List>
+	</Tabs.Root>
 
 	<!-- Progress bar -->
 	<div class="progress-bar">
@@ -346,8 +345,9 @@ function goToSection(idx: number) {
 	.tb-btn:hover { background: rgba(255, 255, 255, 0.18); }
 	.close-btn:hover { background: var(--accent-red) !important; }
 
-	/* Ribbon */
-	.ribbon {
+	/* Ribbon (Ark UI Tabs — :global needed for component-rendered elements) */
+	.app-window :global(.ribbon-tabs) { display: contents; }
+	.app-window :global(.ribbon) {
 		background: var(--surface-ribbon);
 		border-bottom: 1px solid #d4d4d4;
 		display: flex;
@@ -356,7 +356,7 @@ function goToSection(idx: number) {
 		flex-shrink: 0;
 		height: 38px;
 	}
-	.ribbon-tab {
+	.app-window :global(.ribbon-tab) {
 		height: 38px;
 		padding: 0 18px;
 		font-size: var(--font-size-sm);
@@ -371,8 +371,8 @@ function goToSection(idx: number) {
 		transition: color var(--transition-fast), border-color var(--transition-fast);
 		letter-spacing: 0.01em;
 	}
-	.ribbon-tab:hover { color: var(--accent); background: rgba(0, 120, 215, 0.06); }
-	.ribbon-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; background: #fff; }
+	.app-window :global(.ribbon-tab:hover) { color: var(--accent); background: rgba(0, 120, 215, 0.06); }
+	.app-window :global(.ribbon-tab[data-selected]) { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; background: #fff; }
 
 	/* Progress */
 	.progress-bar { height: 3px; background: #e0e0e0; }
