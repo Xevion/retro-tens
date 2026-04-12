@@ -4,9 +4,11 @@ import { vstack } from 'styled-system/patterns';
 import DesktopWindow from '$lib/components/windows10/DesktopWindow.svelte';
 import Taskbar from '$lib/components/windows10/Taskbar.svelte';
 import ActionCenterDrawer from '$lib/components/windows10/ActionCenterDrawer.svelte';
+import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
 import ResumeBuilderApp from '$lib/components/windows10/apps/ResumeBuilderApp.svelte';
 import FileExplorerApp from '$lib/components/windows10/apps/FileExplorerApp.svelte';
 import SettingsApp from '$lib/components/windows10/apps/SettingsApp.svelte';
+import type { Mdl2IconName } from '$lib/data/windows10/mdl2-icons';
 
 type AppId = 'resume-builder' | 'file-explorer' | 'settings';
 
@@ -84,34 +86,16 @@ const focusedApp = $derived<AppId | null>(
 
 type DesktopIcon = {
 	label: string;
-	icon: string;
+	icon: Mdl2IconName;
 	action?: AppId;
 };
 
 const desktopIcons: DesktopIcon[] = [
-	{
-		label: 'This PC',
-		icon: `<svg width="40" height="40" viewBox="0 0 40 40"><rect x="4" y="4" width="15" height="15" fill="#F25022"/><rect x="21" y="4" width="15" height="15" fill="#7FBA00"/><rect x="4" y="21" width="15" height="15" fill="#00A4EF"/><rect x="21" y="21" width="15" height="15" fill="#FFB900"/></svg>`
-	},
-	{
-		label: 'File Explorer',
-		icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M4 10h14l3 4h15v20H4V10z" fill="#FFB900"/><path d="M4 10h14l3 4h15v2H4z" fill="rgba(0,0,0,0.15)"/></svg>`,
-		action: 'file-explorer'
-	},
-	{
-		label: 'Resume Builder',
-		icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M6 5h28v30H6z" fill="#d8e3f0" stroke="#b0c2d8" stroke-width="1"/><path d="M6 5h28v6H6z" fill="#0078D7"/><rect x="10" y="14" width="20" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="18" width="15" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="22" width="18" height="1.5" rx="0.5" fill="#8fa8c0"/><rect x="10" y="26" width="12" height="1.5" rx="0.5" fill="#8fa8c0"/></svg>`,
-		action: 'resume-builder'
-	},
-	{
-		label: 'Settings',
-		icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="8" stroke="#b0c2d8" stroke-width="2" fill="none"/><circle cx="20" cy="20" r="3" fill="#0078D7"/><path d="M20 6v6M20 28v6M6 20h6M28 20h6M10.3 10.3l4.2 4.2M25.5 25.5l4.2 4.2M10.3 29.7l4.2-4.2M25.5 14.5l4.2-4.2" stroke="#b0c2d8" stroke-width="1.5"/></svg>`,
-		action: 'settings'
-	},
-	{
-		label: 'Recycle Bin',
-		icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M6 8h28v22H6z" fill="#d8e3f0" stroke="#b0c2d8" stroke-width="1"/><path d="M6 8h28v4H6z" fill="#4a90d9"/><circle cx="9" cy="10" r="1.5" fill="#fff" opacity="0.7"/><circle cx="13" cy="10" r="1.5" fill="#fff" opacity="0.7"/><rect x="9" y="15" width="22" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.8"/><rect x="9" y="19" width="16" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.8"/><rect x="9" y="23" width="19" height="1.5" rx="0.5" fill="#8fa8c0" opacity="0.6"/></svg>`
-	}
+	{ label: 'This PC', icon: 'devicePC' },
+	{ label: 'File Explorer', icon: 'fileExplorer', action: 'file-explorer' },
+	{ label: 'Resume Builder', icon: 'page', action: 'resume-builder' },
+	{ label: 'Settings', icon: 'settings', action: 'settings' },
+	{ label: 'Recycle Bin', icon: 'recycleBin' }
 ];
 
 const desktopShell = vstack({
@@ -180,14 +164,12 @@ const desktopIconLabel = css({
 				{#if icon.action}
 					{@const action = icon.action}
 					<button type="button" class={desktopIcon} ondblclick={() => openApp(action)}>
-						<!-- eslint-disable-next-line svelte/no-at-html-tags -- reason: hardcoded SVG strings, no user input -->
-						{@html icon.icon}
+						<Mdl2Icon name={icon.icon} size={40} color="#fff" />
 						<span class={desktopIconLabel}>{icon.label}</span>
 					</button>
 				{:else}
 					<div class={desktopIcon}>
-						<!-- eslint-disable-next-line svelte/no-at-html-tags -- reason: hardcoded SVG strings, no user input -->
-						{@html icon.icon}
+						<Mdl2Icon name={icon.icon} size={40} color="#fff" />
 						<span class={desktopIconLabel}>{icon.label}</span>
 					</div>
 				{/if}
@@ -209,21 +191,11 @@ const desktopIconLabel = css({
 			>
 				{#snippet icon()}
 					{#if def.id === 'resume-builder'}
-						<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-							<rect x="1" y="2" width="14" height="10" rx="0.8" stroke="#fff" stroke-width="1.1" fill="none" />
-							<path d="M1 5h14" stroke="#fff" stroke-width="0.9" opacity="0.6" />
-							<path d="M5 14h6" stroke="#fff" stroke-width="1.1" stroke-linecap="round" />
-							<path d="M8 12v2" stroke="#fff" stroke-width="1.1" />
-						</svg>
+						<Mdl2Icon name="page" size={16} />
 					{:else if def.id === 'file-explorer'}
-						<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-							<path d="M1 4h6l1 2h7v8H1V4z" fill="#FFB900" />
-						</svg>
+						<Mdl2Icon name="fileExplorer" size={16} />
 					{:else if def.id === 'settings'}
-						<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-							<circle cx="8" cy="8" r="3" stroke="#fff" stroke-width="1.2" fill="none" />
-							<circle cx="8" cy="8" r="1" fill="#fff" />
-						</svg>
+						<Mdl2Icon name="settings" size={16} />
 					{/if}
 				{/snippet}
 

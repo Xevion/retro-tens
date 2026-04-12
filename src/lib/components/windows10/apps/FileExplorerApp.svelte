@@ -1,20 +1,8 @@
 <script lang="ts">
 import { SvelteSet } from 'svelte/reactivity';
-import {
-	ChevronLeft,
-	ChevronRight,
-	ChevronUp,
-	LayoutGrid,
-	List,
-	ChevronDown,
-	Folder,
-	Image,
-	FileCode,
-	Archive,
-	File
-} from 'lucide-svelte';
 import { css, cx } from 'styled-system/css';
 import { folderTree, filesByPath, type FileEntry } from '$lib/data/windows10/file-explorer';
+import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
 
 let currentPath = $state('C:\\Users\\User\\Documents');
 let pathHistory = $state<string[]>(['C:\\Users\\User\\Documents']);
@@ -325,19 +313,19 @@ function fileTypeLabel(entry: FileEntry): string {
 	<!-- Toolbar -->
 	<div class={toolbar}>
 		<button type="button" class={navBtn} onclick={goBack} disabled={historyIndex <= 0} aria-label="Back">
-			<ChevronLeft size={16} strokeWidth={1.5} />
+			<Mdl2Icon name="back" size={16} />
 		</button>
 		<button type="button" class={navBtn} onclick={goForward} disabled={historyIndex >= pathHistory.length - 1} aria-label="Forward">
-			<ChevronRight size={16} strokeWidth={1.5} />
+			<Mdl2Icon name="forward" size={16} />
 		</button>
 		<button type="button" class={navBtn} onclick={goUp} aria-label="Up">
-			<ChevronUp size={16} strokeWidth={1.5} />
+			<Mdl2Icon name="up" size={16} />
 		</button>
 
 		<div class={addressBar}>
 			{#each pathSegments as seg, i (i)}
 				{#if i > 0}
-					<ChevronRight size={10} color="#999" strokeWidth={1.5} />
+					<Mdl2Icon name="chevronRight" size={10} color="#999" />
 				{/if}
 				<span class={addressSegment}>{seg}</span>
 			{/each}
@@ -345,10 +333,10 @@ function fileTypeLabel(entry: FileEntry): string {
 
 		<div class={viewToggle}>
 			<button type="button" class={cx(viewBtn, viewMode === 'list' ? viewBtnActive : '')} onclick={() => (viewMode = 'list')} aria-label="List view">
-				<List size={14} strokeWidth={1.5} />
+				<Mdl2Icon name="listView" size={14} />
 			</button>
 			<button type="button" class={cx(viewBtn, viewMode === 'grid' ? viewBtnActive : '')} onclick={() => (viewMode = 'grid')} aria-label="Grid view">
-				<LayoutGrid size={14} strokeWidth={1.5} />
+				<Mdl2Icon name="gridView" size={14} />
 			</button>
 		</div>
 	</div>
@@ -364,12 +352,12 @@ function fileTypeLabel(entry: FileEntry): string {
 					>
 						{#if node.children}
 							<button type="button" class={treeExpandBtn} onclick={() => toggleNode(node.path)}>
-								<ChevronDown size={12} strokeWidth={1.5} style="transform: rotate({expandedNodes.has(node.path) ? '0' : '-90'}deg); transition: transform 0.1s" />
+								<Mdl2Icon name="chevronDown" size={12} class={css({ transform: expandedNodes.has(node.path) ? 'rotate(0)' : 'rotate(-90deg)', transition: 'transform 0.1s' })} />
 							</button>
 						{:else}
 							<span style="width: 16px"></span>
 						{/if}
-						<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(node.path)}><Folder size={14} color="#FFB900" strokeWidth={1.5} /> {node.name}</button>
+						<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(node.path)}><Mdl2Icon name="folder" size={14} color="#FFB900" /> {node.name}</button>
 					</div>
 					{#if node.children && expandedNodes.has(node.path)}
 						<div class={treeChildren}>
@@ -380,12 +368,12 @@ function fileTypeLabel(entry: FileEntry): string {
 									>
 										{#if child.children}
 											<button type="button" class={treeExpandBtn} onclick={() => toggleNode(child.path)}>
-												<ChevronDown size={12} strokeWidth={1.5} style="transform: rotate({expandedNodes.has(child.path) ? '0' : '-90'}deg); transition: transform 0.1s" />
+												<Mdl2Icon name="chevronDown" size={12} class={css({ transform: expandedNodes.has(child.path) ? 'rotate(0)' : 'rotate(-90deg)', transition: 'transform 0.1s' })} />
 											</button>
 										{:else}
 											<span style="width: 16px"></span>
 										{/if}
-										<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(child.path)}><Folder size={14} color="#FFB900" strokeWidth={1.5} /> {child.name}</button>
+										<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(child.path)}><Mdl2Icon name="folder" size={14} color="#FFB900" /> {child.name}</button>
 									</div>
 									{#if child.children && expandedNodes.has(child.path)}
 										<div class={treeChildren}>
@@ -396,7 +384,7 @@ function fileTypeLabel(entry: FileEntry): string {
 													onclick={() => navigateTo(grandchild.path)}
 												>
 													<span style="width: 16px"></span>
-													<Folder size={14} color="#FFB900" strokeWidth={1.5} /> {grandchild.name}
+													<Mdl2Icon name="folder" size={14} color="#FFB900" /> {grandchild.name}
 												</button>
 											{/each}
 										</div>
@@ -430,7 +418,7 @@ function fileTypeLabel(entry: FileEntry): string {
 					>
 						<div class={fileName}>
 							<span class={fileIcon}>
-								{#if entry.type === 'folder'}<Folder size={16} color="#FFB900" strokeWidth={1.5} />{:else if entry.icon === 'image'}<Image size={16} color="#666" strokeWidth={1.5} />{:else if entry.icon === 'code'}<FileCode size={16} color="#666" strokeWidth={1.5} />{:else if entry.icon === 'archive'}<Archive size={16} color="#666" strokeWidth={1.5} />{:else}<File size={16} color="#666" strokeWidth={1.5} />{/if}
+								{#if entry.type === 'folder'}<Mdl2Icon name="folder" size={16} color="#FFB900" />{:else if entry.icon === 'image'}<Mdl2Icon name="photo" size={16} color="#666" />{:else}<Mdl2Icon name="page" size={16} color="#666" />{/if}
 							</span>
 							{entry.name}
 						</div>
@@ -450,7 +438,7 @@ function fileTypeLabel(entry: FileEntry): string {
 							onkeydown={(e) => { if (e.key === 'Enter' && entry.type === 'folder') navigateTo(currentPath + '\\' + entry.name); }}
 						>
 							<span>
-								{#if entry.type === 'folder'}<Folder size={32} color="#FFB900" strokeWidth={1.2} />{:else if entry.icon === 'image'}<Image size={32} color="#666" strokeWidth={1.2} />{:else if entry.icon === 'code'}<FileCode size={32} color="#666" strokeWidth={1.2} />{:else if entry.icon === 'archive'}<Archive size={32} color="#666" strokeWidth={1.2} />{:else}<File size={32} color="#666" strokeWidth={1.2} />{/if}
+								{#if entry.type === 'folder'}<Mdl2Icon name="folder" size={32} color="#FFB900" />{:else if entry.icon === 'image'}<Mdl2Icon name="photo" size={32} color="#666" />{:else}<Mdl2Icon name="page" size={32} color="#666" />{/if}
 							</span>
 							<span class={gridItemLabel}>{entry.name}</span>
 						</div>

@@ -1,27 +1,15 @@
 <script lang="ts">
-import {
-	Mail,
-	Calendar,
-	CircleCheck,
-	Wifi,
-	Bluetooth,
-	PlaneTakeoff,
-	Clock,
-	MapPin,
-	BatteryMedium,
-	Tablet,
-	Settings
-} from 'lucide-svelte';
 import { ToggleGroup } from '@ark-ui/svelte/toggle-group';
-import type { ComponentType } from 'svelte';
 import { css, cx } from 'styled-system/css';
 import { grid } from 'styled-system/patterns';
+import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
+import type { Mdl2IconName } from '$lib/data/windows10/mdl2-icons';
 
 type Notif = {
 	id: string;
 	group: string;
 	groupColor: string;
-	groupIcon: ComponentType;
+	groupIcon: Mdl2IconName;
 	title: string;
 	body: string;
 	time: string;
@@ -32,7 +20,7 @@ let notifications = $state<Notif[]>([
 		id: 'n1',
 		group: 'Mail',
 		groupColor: '#0078D7',
-		groupIcon: Mail,
+		groupIcon: 'mail',
 		title: 'Alex Turner',
 		body: 'Re: Q3 Design Review — Updated slides are attached, let me know what you think.',
 		time: '3:42 PM'
@@ -41,7 +29,7 @@ let notifications = $state<Notif[]>([
 		id: 'n2',
 		group: 'Mail',
 		groupColor: '#0078D7',
-		groupIcon: Mail,
+		groupIcon: 'mail',
 		title: 'Microsoft Outlook',
 		body: 'You have a meeting in 15 minutes: Weekly Sync with Design Team',
 		time: '1:15 PM'
@@ -50,7 +38,7 @@ let notifications = $state<Notif[]>([
 		id: 'n3',
 		group: 'Calendar',
 		groupColor: '#E74856',
-		groupIcon: Calendar,
+		groupIcon: 'calendar',
 		title: 'Reminder',
 		body: 'Project deadline: UI Handoff — Today at 5:00 PM',
 		time: '12:00 PM'
@@ -59,24 +47,24 @@ let notifications = $state<Notif[]>([
 		id: 'n4',
 		group: 'Windows Update',
 		groupColor: '#107C10',
-		groupIcon: CircleCheck,
+		groupIcon: 'checkMark',
 		title: 'Updates available',
 		body: 'Cumulative Update for Windows 10 Version 1607 is ready to install.',
 		time: '9:00 AM'
 	}
 ]);
 
-type QaTile = { label: string; icon: ComponentType };
+type QaTile = { label: string; icon: Mdl2IconName };
 
 const qaTiles: QaTile[] = [
-	{ label: 'Wi-Fi', icon: Wifi },
-	{ label: 'Bluetooth', icon: Bluetooth },
-	{ label: 'Airplane mode', icon: PlaneTakeoff },
-	{ label: 'Quiet hours', icon: Clock },
-	{ label: 'Location', icon: MapPin },
-	{ label: 'Battery saver', icon: BatteryMedium },
-	{ label: 'Tablet mode', icon: Tablet },
-	{ label: 'All settings', icon: Settings }
+	{ label: 'Wi-Fi', icon: 'wifi' },
+	{ label: 'Bluetooth', icon: 'bluetooth' },
+	{ label: 'Airplane mode', icon: 'airplane' },
+	{ label: 'Quiet hours', icon: 'quietHours' },
+	{ label: 'Location', icon: 'mapPin' },
+	{ label: 'Battery saver', icon: 'batterySaver' },
+	{ label: 'Tablet mode', icon: 'tabletMode' },
+	{ label: 'All settings', icon: 'settings' }
 ];
 
 let activeQaTiles = $state<string[]>(['Wi-Fi', 'Location']);
@@ -301,12 +289,11 @@ const qaLabelActive = css({
 		<div class={emptyState}>No new notifications</div>
 	{:else}
 		{#each Object.entries(grouped) as [groupName, groupNotifs], gi (groupName)}
-			{@const GroupIcon = groupNotifs[0].groupIcon}
 			{#if gi > 0}<div class={divider}></div>{/if}
 			<div class={notifGroup}>
 				<div class={notifGroupHeader}>
 					<div class={groupIcon} style="background:{groupNotifs[0].groupColor}">
-						<GroupIcon size={10} color="#fff" strokeWidth={1.5} />
+						<Mdl2Icon name={groupNotifs[0].groupIcon} size={10} color="#fff" />
 					</div>
 					{groupName}
 				</div>
@@ -329,14 +316,13 @@ const qaLabelActive = css({
 	<div class={qaTitle}>Quick actions</div>
 	<ToggleGroup.Root bind:value={activeQaTiles} multiple class={qaGrid}>
 		{#each qaTiles as tile (tile.label)}
-			{@const Icon = tile.icon}
 			{@const active = activeQaTiles.includes(tile.label)}
 			<ToggleGroup.Item
 				value={tile.label}
 				class={cx(qaTileBase, active ? qaTileActive : '')}
 			>
 				<div class={cx(qaIcon, active ? qaIconActive : '')}>
-					<Icon size={20} strokeWidth={1.5} />
+					<Mdl2Icon name={tile.icon} size={20} />
 				</div>
 				<span class={cx(qaLabel, active ? qaLabelActive : '')}>{tile.label}</span>
 			</ToggleGroup.Item>

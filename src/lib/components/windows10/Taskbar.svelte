@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Search, Wifi, Battery } from 'lucide-svelte';
+import Mdl2Icon from './Mdl2Icon.svelte';
 import { cx } from 'styled-system/css';
 import { hstack } from 'styled-system/patterns';
 import { taskbarStyles as tb } from '$lib/recipes/windows10';
@@ -55,7 +55,7 @@ const pinnedApps: { id: AppId; label: string }[] = [
 		</button>
 
 		<div class={tb.searchBox} title="Search Windows">
-			<Search size={13} color="rgba(255,255,255,0.45)" strokeWidth={1.3} />
+			<Mdl2Icon name="search" size={13} color="rgba(255,255,255,0.45)" />
 			<span>Search Windows</span>
 		</div>
 
@@ -67,23 +67,11 @@ const pinnedApps: { id: AppId; label: string }[] = [
 				onclick={() => onOpenApp(app.id)}
 			>
 				{#if app.id === 'file-explorer'}
-					<svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-						<path d="M2 5h7l1 2h6v8H2V5z" fill="#FFB900" />
-						<path d="M2 5h7l1 2h6v1H2z" fill="rgba(0,0,0,0.15)" />
-					</svg>
+					<Mdl2Icon name="fileExplorer" size={18} />
 				{:else if app.id === 'resume-builder'}
-					<svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-						<rect x="2" y="2" width="14" height="10" rx="1" stroke="currentColor" stroke-width="1.2" fill="none" />
-						<path d="M2 5h14" stroke="currentColor" stroke-width="0.9" opacity="0.6" />
-						<path d="M6 15h6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
-						<path d="M9 12v3" stroke="currentColor" stroke-width="1.1" />
-					</svg>
+					<Mdl2Icon name="page" size={18} />
 				{:else if app.id === 'settings'}
-					<svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-						<circle cx="9" cy="9" r="3.5" stroke="currentColor" stroke-width="1.2" fill="none" />
-						<circle cx="9" cy="9" r="1.3" fill="currentColor" />
-						<path d="M9 2v3M9 13v3M2 9h3M13 9h3" stroke="currentColor" stroke-width="1" />
-					</svg>
+					<Mdl2Icon name="settings" size={18} />
 				{/if}
 			</button>
 		{/each}
@@ -92,8 +80,8 @@ const pinnedApps: { id: AppId; label: string }[] = [
 	<div class={tb.right}>
 		<div class={tb.sysTray}>
 			<div class={trayIcons}>
-				<Wifi size={14} color="rgba(255,255,255,0.7)" strokeWidth={1.3} />
-				<Battery size={14} color="rgba(255,255,255,0.7)" strokeWidth={1.3} />
+				<Mdl2Icon name="wifi" size={14} color="rgba(255,255,255,0.7)" />
+				<Mdl2Icon name="batterySaver" size={14} color="rgba(255,255,255,0.7)" />
 			</div>
 			<div class={tb.clock}>
 				<div class={tb.clockTime}>{time}</div>

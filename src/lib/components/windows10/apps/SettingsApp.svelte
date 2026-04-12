@@ -1,19 +1,8 @@
 <script lang="ts">
 import { Switch } from '@ark-ui/svelte/switch';
-import { Monitor, Printer, Globe, Palette, Package, Lock, RefreshCw } from 'lucide-svelte';
-import type { ComponentType } from 'svelte';
 import { css, cx } from 'styled-system/css';
 import { categories } from '$lib/data/windows10/settings';
-
-const iconMap: Record<string, ComponentType> = {
-	monitor: Monitor,
-	printer: Printer,
-	globe: Globe,
-	palette: Palette,
-	package: Package,
-	lock: Lock,
-	'refresh-cw': RefreshCw
-};
+import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
 
 let activeCategory = $state<string>('system');
 
@@ -221,15 +210,12 @@ const searchBar = css({
 	<div class={sidebarStyle}>
 		<input type="text" class={searchBar} placeholder="Find a setting" aria-label="Search settings" />
 		{#each categories as cat (cat.id)}
-			{@const Icon = iconMap[cat.icon]}
 			<button
 				type="button"
 				class={cx(sidebarItem, activeCategory === cat.id ? sidebarItemActive : '')}
 				onclick={() => (activeCategory = cat.id)}
 			>
-				{#if Icon}
-					<Icon size={20} strokeWidth={1.2} />
-				{/if}
+				<Mdl2Icon name={cat.icon} size={20} />
 				{cat.name}
 			</button>
 		{/each}

@@ -1,5 +1,7 @@
 // Seed: 5512 — Windows 10 Settings app
 
+import type { Mdl2IconName } from '$lib/data/windows10/mdl2-icons';
+
 export type SettingType = 'toggle' | 'select' | 'slider' | 'info';
 
 export type SettingDef = {
@@ -15,7 +17,7 @@ export type SettingDef = {
 export type SettingsCategory = {
 	id: string;
 	name: string;
-	icon: string;
+	icon: Mdl2IconName;
 	settings: SettingDef[];
 };
 
@@ -23,7 +25,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'system',
 		name: 'System',
-		icon: 'monitor',
+		icon: 'systemDisplay',
 		settings: [
 			{
 				label: 'Night light',
@@ -55,7 +57,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'devices',
 		name: 'Devices',
-		icon: 'printer',
+		icon: 'devicesCategory',
 		settings: [
 			{
 				label: 'Bluetooth',
@@ -103,7 +105,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'personalization',
 		name: 'Personalization',
-		icon: 'palette',
+		icon: 'personalize',
 		settings: [
 			{
 				label: 'Background',
@@ -131,7 +133,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'apps',
 		name: 'Apps',
-		icon: 'package',
+		icon: 'allApps',
 		settings: [
 			{
 				label: 'Installing apps',
@@ -157,7 +159,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'privacy',
 		name: 'Privacy',
-		icon: 'lock',
+		icon: 'lockIcon',
 		settings: [
 			{
 				label: 'Location',
@@ -194,7 +196,7 @@ export const categories: SettingsCategory[] = [
 	{
 		id: 'update',
 		name: 'Update & Security',
-		icon: 'refresh-cw',
+		icon: 'updateRestore',
 		settings: [
 			{ label: 'Windows Update', type: 'info', value: 'Your device is up to date' },
 			{
