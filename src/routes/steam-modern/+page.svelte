@@ -19,28 +19,10 @@ import {
 	cellMuted,
 	delta as deltaCva,
 	metricCard,
+	metricsGrid,
 	entityName,
 	dataRow
 } from '$lib/recipes/steam-modern';
-import {
-	statsGrid,
-	statBar,
-	chartContainer,
-	revTooltipInner,
-	revTooltipDate,
-	revTooltipRow,
-	revTooltipTotal,
-	revDotBlue,
-	revDotGold,
-	revDotGreen,
-	activityItem,
-	activityTime,
-	activityDotStyles,
-	activityText,
-	healthName,
-	healthBarWrap,
-	healthVal
-} from './page.styles';
 import {
 	stats,
 	revenueData,
@@ -49,6 +31,126 @@ import {
 	recentUsers
 } from '$lib/data/steam-modern/dashboard';
 import type { RevenueDataPoint, DashboardStat } from '$lib/data/steam-modern/dashboard';
+
+// Page-specific styles inlined to work around fallow's .svelte import-graph bug
+// (fallow-rs/fallow#TBD: dead-code analysis fails to credit .svelte → .ts imports
+// even though --trace correctly resolves them). Shared recipes stay in $lib/recipes/.
+const statsGrid = metricsGrid(4);
+
+const statBar = css({
+	position: 'absolute',
+	bottom: '0',
+	left: '0',
+	right: '0',
+	height: '2px',
+	background: 'divider'
+});
+
+const chartContainer = css({
+	padding: '8px 14px 14px',
+	flex: '1',
+	minHeight: '160px'
+});
+
+const revTooltipInner = css({
+	background: 'surface.elevated',
+	border: '1px solid token(colors.border.light)',
+	borderRadius: 'DEFAULT',
+	padding: '8px 10px',
+	fontSize: '11px',
+	minWidth: '130px',
+	boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+});
+
+const revTooltipDate = css({
+	color: 'text.muted',
+	fontSize: '10px',
+	fontWeight: '700',
+	textTransform: 'uppercase',
+	letterSpacing: '0.06em',
+	marginBottom: '6px'
+});
+
+const revTooltipRow = css({
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	gap: '12px',
+	padding: '2px 0',
+	color: 'text.secondary',
+	'& span:last-child': { color: 'text.primary', fontWeight: '600' }
+});
+
+const revTooltipTotal = css({
+	display: 'flex',
+	justifyContent: 'space-between',
+	gap: '12px',
+	marginTop: '5px',
+	paddingTop: '5px',
+	borderTop: '1px solid token(colors.divider)',
+	color: 'text.bright',
+	fontWeight: '700'
+});
+
+const revDotBase = css({
+	display: 'inline-block',
+	width: '6px',
+	height: '6px',
+	borderRadius: 'full',
+	marginRight: '5px',
+	verticalAlign: 'middle'
+});
+
+const revDotBlue = cx(revDotBase, css({ background: 'accent' }));
+const revDotGold = cx(revDotBase, css({ background: 'accent.gold' }));
+const revDotGreen = cx(revDotBase, css({ background: 'accent.green' }));
+
+const activityItem = css({
+	display: 'flex',
+	gap: '10px',
+	padding: '8px 0',
+	borderBottom: '1px solid token(colors.divider)',
+	fontSize: 'sm',
+	'&:last-child': { borderBottom: 'none' },
+	'& strong': { color: 'accent', fontWeight: '600' }
+});
+
+const activityTime = css({
+	color: 'text.muted',
+	whiteSpace: 'nowrap',
+	minWidth: '40px'
+});
+
+const activityDotBase = css({
+	width: '6px',
+	height: '6px',
+	borderRadius: 'full',
+	flexShrink: '0',
+	marginTop: '4px'
+});
+
+const activityDotStyles = {
+	warn: cx(activityDotBase, css({ background: 'accent.gold' })),
+	info: cx(activityDotBase, css({ background: 'accent' })),
+	danger: cx(activityDotBase, css({ background: 'accent.red' })),
+	success: cx(activityDotBase, css({ background: 'accent.green' }))
+};
+
+const activityText = css({
+	color: 'text.secondary',
+	lineHeight: '1.4',
+	flex: '1'
+});
+
+const healthName = css({ width: '110px', color: 'text.secondary', fontSize: 'sm' });
+const healthBarWrap = css({ flex: '1' });
+const healthVal = css({
+	width: '40px',
+	textAlign: 'right',
+	color: 'text.primary',
+	fontSize: 'sm',
+	fontWeight: '600'
+});
 
 function fmtRevDate(d: Date) {
 	return `${d.getMonth() + 1}/${d.getDate()}`;

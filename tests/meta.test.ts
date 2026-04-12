@@ -1,19 +1,8 @@
-import { readdirSync, existsSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { routeMeta } from '../src/lib/meta';
-
-function discoverRoutes(dir: string, prefix = ''): string[] {
-	const routes: string[] = [];
-	for (const entry of readdirSync(dir, { withFileTypes: true })) {
-		if (entry.isDirectory()) {
-			routes.push(...discoverRoutes(join(dir, entry.name), `${prefix}/${entry.name}`));
-		} else if (entry.name === '+page.svelte') {
-			routes.push(prefix || '/');
-		}
-	}
-	return routes;
-}
+import { discoverRoutes } from './discover-routes';
 
 const routesDir = join(import.meta.dirname, '..', 'src', 'routes');
 const fileRoutes = discoverRoutes(routesDir);

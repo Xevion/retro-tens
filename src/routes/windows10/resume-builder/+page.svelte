@@ -12,48 +12,9 @@ import {
 	addEntryBtn
 } from '$lib/recipes/windows10';
 
-const sectionNames = [
-	'Personal Information',
-	'Work Experience',
-	'Education',
-	'Skills & Technologies',
-	'Projects & Portfolio'
-];
-let currentSection = $state(0);
-let ribbonTab = $state<string | null>('form');
-const previewOpen = $derived(ribbonTab === 'preview');
-
-let fname = $state('');
-let lname = $state('');
-let jobTitle = $state('');
-let location = $state('');
-let email = $state('');
-let phone = $state('');
-let summary = $state('');
-
-const progress = $derived(Math.round(((currentSection + 1) / sectionNames.length) * 100));
-
-const skills = $state([
-	{ name: 'Programming', val: 4 },
-	{ name: 'Problem Solving', val: 5 },
-	{ name: 'Communication', val: 3 },
-	{ name: 'System Design', val: 4 },
-	{ name: 'Collaboration', val: 4 }
-]);
-
-function setRating(si: number, val: number) {
-	skills[si].val = val;
-}
-
-function navigate(dir: number) {
-	const next = currentSection + dir;
-	if (next >= 0 && next < sectionNames.length) currentSection = next;
-}
-
-function goToSection(idx: number) {
-	currentSection = idx;
-}
-
+// Page-specific styles inlined to work around fallow's .svelte import-graph bug
+// (fallow-rs/fallow#TBD: dead-code analysis fails to credit .svelte → .ts imports
+// even though --trace correctly resolves them). Shared recipes stay in $lib/recipes/.
 const tb = titleBarSva();
 const expCard = experienceCardSva();
 
@@ -103,22 +64,10 @@ const ribbonTrigger = css({
 	}
 });
 
-const progressBar = css({
-	height: '3px',
-	background: 'border.light'
-});
+const progressBar = css({ height: '3px', background: 'border.light' });
+const progressFill = css({ height: '3px', background: 'accent', transition: 'width 0.3s' });
 
-const progressFill = css({
-	height: '3px',
-	background: 'accent',
-	transition: 'width 0.3s'
-});
-
-const content = css({
-	display: 'flex',
-	flex: '1',
-	overflow: 'hidden'
-});
+const content = css({ display: 'flex', flex: '1', overflow: 'hidden' });
 
 const sidebar = css({
 	width: '190px',
@@ -176,10 +125,7 @@ const sDot = css({
 	flexShrink: '0'
 });
 
-const sDotFilled = css({
-	background: 'accent',
-	borderColor: 'accent'
-});
+const sDotFilled = css({ background: 'accent', borderColor: 'accent' });
 
 const templateDot = css({
 	width: '7px',
@@ -190,21 +136,10 @@ const templateDot = css({
 	borderRadius: '1px'
 });
 
-const templateDotActive = css({
-	background: 'accent'
-});
+const templateDotActive = css({ background: 'accent' });
+const templateDotInactive = css({ background: 'border.light', border: '1px solid #ccc' });
 
-const templateDotInactive = css({
-	background: 'border.light',
-	border: '1px solid #ccc'
-});
-
-const main = css({
-	flex: '1',
-	display: 'flex',
-	flexDirection: 'column',
-	overflow: 'hidden'
-});
+const main = css({ flex: '1', display: 'flex', flexDirection: 'column', overflow: 'hidden' });
 
 const sectionHeader = css({
 	padding: '14px 20px 10px',
@@ -213,39 +148,17 @@ const sectionHeader = css({
 	flexShrink: '0'
 });
 
-const sectionTitle = css({
-	fontSize: '16px',
-	fontWeight: '600',
-	color: 'text.primary'
-});
+const sectionTitle = css({ fontSize: '16px', fontWeight: '600', color: 'text.primary' });
+const sectionSubtitle = css({ fontSize: 'sm', color: 'text.muted', marginTop: '2px' });
 
-const sectionSubtitle = css({
-	fontSize: 'sm',
-	color: 'text.muted',
-	marginTop: '2px'
-});
-
-const formArea = css({
-	flex: '1',
-	overflowY: 'auto',
-	padding: '16px 20px 20px'
-});
-
+const formArea = css({ flex: '1', overflowY: 'auto', padding: '16px 20px 20px' });
 const fieldGroup = css({ marginBottom: '14px' });
 
-const fieldRow = css({
-	display: 'grid',
-	gap: '12px',
-	marginBottom: '14px'
-});
-
+const fieldRow = css({ display: 'grid', gap: '12px', marginBottom: '14px' });
 const fieldRow2 = cx(fieldRow, css({ gridTemplateColumns: '1fr 1fr' }));
 const fieldRow3 = cx(fieldRow, css({ gridTemplateColumns: '1fr 1fr 1fr' }));
 
-const reqMark = css({
-	color: 'accent.red',
-	marginLeft: '2px'
-});
+const reqMark = css({ color: 'accent.red', marginLeft: '2px' });
 
 const chipContainer = css({
 	display: 'flex',
@@ -294,11 +207,7 @@ const chipInput = css({
 	padding: '1px 2px'
 });
 
-const sectionDivider = css({
-	border: 'none',
-	borderTop: '1px solid #eaeaea',
-	margin: '12px 0'
-});
+const sectionDivider = css({ border: 'none', borderTop: '1px solid #eaeaea', margin: '12px 0' });
 
 const proficiencyHeading = css({
 	marginBottom: '10px',
@@ -307,23 +216,9 @@ const proficiencyHeading = css({
 	fontWeight: '600'
 });
 
-const ratingRow = css({
-	display: 'flex',
-	alignItems: 'center',
-	gap: '8px',
-	marginBottom: '6px'
-});
-
-const ratingLabel = css({
-	fontSize: 'sm',
-	color: 'text.secondary',
-	minWidth: '110px'
-});
-
-const ratingDots = css({
-	display: 'flex',
-	gap: '3px'
-});
+const ratingRow = css({ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' });
+const ratingLabel = css({ fontSize: 'sm', color: 'text.secondary', minWidth: '110px' });
+const ratingDots = css({ display: 'flex', gap: '3px' });
 
 const ratingDot = css({
 	width: '14px',
@@ -335,10 +230,7 @@ const ratingDot = css({
 	transition: 'all token(durations.fast) ease'
 });
 
-const ratingDotFilled = css({
-	background: 'accent',
-	borderColor: 'accent'
-});
+const ratingDotFilled = css({ background: 'accent', borderColor: 'accent' });
 
 const previewPane = css({
 	width: '240px',
@@ -410,15 +302,50 @@ const statusBar = css({
 	flexShrink: '0'
 });
 
-const statusText = css({
-	fontSize: 'sm',
-	color: 'text.muted'
-});
+const statusText = css({ fontSize: 'sm', color: 'text.muted' });
+const statusActions = css({ display: 'flex', gap: '6px' });
 
-const statusActions = css({
-	display: 'flex',
-	gap: '6px'
-});
+const sectionNames = [
+	'Personal Information',
+	'Work Experience',
+	'Education',
+	'Skills & Technologies',
+	'Projects & Portfolio'
+];
+let currentSection = $state(0);
+let ribbonTab = $state<string | null>('form');
+const previewOpen = $derived(ribbonTab === 'preview');
+
+let fname = $state('');
+let lname = $state('');
+let jobTitle = $state('');
+let location = $state('');
+let email = $state('');
+let phone = $state('');
+let summary = $state('');
+
+const progress = $derived(Math.round(((currentSection + 1) / sectionNames.length) * 100));
+
+const skills = $state([
+	{ name: 'Programming', val: 4 },
+	{ name: 'Problem Solving', val: 5 },
+	{ name: 'Communication', val: 3 },
+	{ name: 'System Design', val: 4 },
+	{ name: 'Collaboration', val: 4 }
+]);
+
+function setRating(si: number, val: number) {
+	skills[si].val = val;
+}
+
+function navigate(dir: number) {
+	const next = currentSection + dir;
+	if (next >= 0 && next < sectionNames.length) currentSection = next;
+}
+
+function goToSection(idx: number) {
+	currentSection = idx;
+}
 </script>
 
 <!-- App window -->

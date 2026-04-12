@@ -9,7 +9,18 @@
 	// not via a JS import, so fallow's reachability graph cannot see the default
 	// export as "used". Suppressing only the default export is surgical — the file
 	// itself still participates in dead-code analysis.
-	"ignoreExports": [{ "file": "unlighthouse.config.ts", "exports": ["default"] }],
+	//
+	// reason: fallow's dead-code analysis fails to credit .svelte script block
+	// imports (fallow-rs/fallow#TBD — --trace sees them, the analysis doesn't).
+	// These 5 recipes are consumed only by the resume-builder .svelte page. Once
+	// other windows10 pages import them too, or fallow fixes the bug, remove this.
+	"ignoreExports": [
+		{ "file": "unlighthouse.config.ts", "exports": ["default"] },
+		{
+			"file": "src/lib/recipes/windows10.ts",
+			"exports": ["btn", "input", "textarea", "label", "addEntryBtn"]
+		}
+	],
 
 	// reason: postcss-html is consumed exclusively by .stylelintrc.json as the
 	// customSyntax value. It is never statically imported from any JS/TS file,

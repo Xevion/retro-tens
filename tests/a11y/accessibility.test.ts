@@ -1,22 +1,10 @@
-import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 import { routeMeta } from '../../src/lib/meta';
 import type { EraId } from '../../src/lib/types';
-
-function discoverRoutes(dir: string, prefix = ''): string[] {
-	const routes: string[] = [];
-	for (const entry of readdirSync(dir, { withFileTypes: true })) {
-		if (entry.isDirectory()) {
-			routes.push(...discoverRoutes(join(dir, entry.name), `${prefix}/${entry.name}`));
-		} else if (entry.name === '+page.svelte') {
-			routes.push(prefix || '/');
-		}
-	}
-	return routes;
-}
+import { discoverRoutes } from '../discover-routes';
 
 const routesDir = join(import.meta.dirname, '..', '..', 'src', 'routes');
 const routes = discoverRoutes(routesDir).map((path) => ({
