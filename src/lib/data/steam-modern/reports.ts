@@ -1,5 +1,6 @@
 // Seed: 2015 — Steam Modern reports/analytics data
 import { faker } from '@faker-js/faker';
+import type { DeltaDirection } from './types';
 
 faker.seed(2015);
 
@@ -21,7 +22,7 @@ interface MetricCard {
 	label: string;
 	value: string;
 	delta: string;
-	up: boolean;
+	direction: DeltaDirection;
 }
 
 export const metrics: MetricCard[] = [
@@ -29,31 +30,31 @@ export const metrics: MetricCard[] = [
 		label: 'Peak CCU This Week',
 		value: `${faker.number.float({ min: 8, max: 12, fractionDigits: 1 })}M`,
 		delta: `▲ +${faker.number.float({ min: 3, max: 12, fractionDigits: 1 })}%`,
-		up: true
+		direction: 'up'
 	},
 	{
 		label: 'Weekly Revenue',
 		value: `$${faker.number.float({ min: 15, max: 25, fractionDigits: 1 })}M`,
 		delta: `▲ +${faker.number.float({ min: 5, max: 18, fractionDigits: 1 })}%`,
-		up: true
+		direction: 'up'
 	},
 	{
 		label: 'New Accounts',
 		value: faker.number.int({ min: 70000, max: 100000 }).toLocaleString(),
 		delta: `▲ +${faker.number.float({ min: 1, max: 6, fractionDigits: 1 })}%`,
-		up: true
+		direction: 'up'
 	},
 	{
 		label: 'VAC Bans Issued',
 		value: faker.number.int({ min: 900, max: 1500 }).toLocaleString(),
 		delta: `▲ +${faker.number.float({ min: 8, max: 20, fractionDigits: 1 })}%`,
-		up: false
+		direction: 'down'
 	},
 	{
 		label: 'Store Transactions',
 		value: `${faker.number.float({ min: 2, max: 4, fractionDigits: 1 })}M`,
 		delta: `▲ +${faker.number.float({ min: 5, max: 15, fractionDigits: 1 })}%`,
-		up: true
+		direction: 'up'
 	}
 ];
 
@@ -61,7 +62,7 @@ interface TopGame {
 	name: string;
 	players: string;
 	change: string;
-	trending: 'up' | 'down';
+	direction: DeltaDirection;
 }
 
 interface TopGameTemplate {
@@ -85,7 +86,7 @@ export const topGames: TopGame[] = topGameTemplates.map((t) => {
 		name: t.name,
 		players: `${faker.number.int({ min: t.minPlayers, max: t.maxPlayers })}K`,
 		change: `${changeVal >= 0 ? '+' : ''}${changeVal}%`,
-		trending: changeVal >= 0 ? 'up' : 'down'
+		direction: changeVal >= 0 ? 'up' : 'down'
 	};
 });
 

@@ -1,9 +1,8 @@
 // Seed: 2014 — Steam Modern user management data
 import { faker } from '@faker-js/faker';
+import type { UserStatus } from './types';
 
 faker.seed(2014);
-
-type UserStatus = 'online' | 'offline' | 'away' | 'banned';
 
 interface User {
 	id: string;

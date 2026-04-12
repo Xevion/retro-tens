@@ -2,13 +2,16 @@
 import { CalendarDays, Download } from 'lucide-svelte';
 import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
 import { css, cx } from 'styled-system/css';
-import { grid } from 'styled-system/patterns';
 import {
 	btn,
 	badge,
 	panel,
 	progressBar as progressBarSva,
-	twoCol
+	twoCol,
+	delta as deltaCva,
+	metricCard,
+	metricsGrid,
+	dataRow
 } from '$lib/recipes/steam-modern';
 import { weeklyData, metrics, topGames, vacStats } from '$lib/data/steam-modern/reports';
 
@@ -17,35 +20,8 @@ const maxRevenue = Math.max(...weeklyData.map((d) => d.revenue));
 
 const pnl = panel();
 const pb = progressBarSva({ color: 'red' });
-
-const metricsStrip = grid({
-	columns: 5,
-	gap: '1px',
-	background: 'divider',
-	borderBottom: '1px solid token(colors.divider)'
-});
-
-const metricCard = css({ background: 'surface.panel', padding: '14px 16px' });
-
-const metricLabel = css({
-	fontSize: '10px',
-	textTransform: 'uppercase',
-	letterSpacing: '0.1em',
-	color: 'text.muted',
-	fontWeight: '700',
-	marginBottom: '6px'
-});
-
-const metricValue = css({
-	fontSize: '22px',
-	fontWeight: '300',
-	color: 'text.bright',
-	lineHeight: '1'
-});
-
-const metricDelta = css({ marginTop: '4px', fontSize: '11px' });
-const metricDeltaUp = css({ color: 'accent.green' });
-const metricDeltaDown = css({ color: 'accent.red' });
+const mc = metricCard();
+const metricsStrip = metricsGrid(5);
 
 const chartContainer = css({ padding: '14px' });
 
@@ -85,15 +61,6 @@ const barBlockGold = cx(
 
 const barLabel = css({ fontSize: '10px', color: 'text.muted', paddingTop: '4px' });
 
-const topGameRow = css({
-	display: 'flex',
-	alignItems: 'center',
-	gap: '10px',
-	padding: '7px 0',
-	borderBottom: '1px solid token(colors.divider)',
-	'&:last-child': { borderBottom: 'none' }
-});
-
 const rank = css({
 	width: '24px',
 	fontSize: '12px',
@@ -113,17 +80,6 @@ const playerCount = css({
 });
 
 const change = css({ fontSize: '11px', width: '40px', textAlign: 'right' });
-const changeUp = css({ color: 'accent.green' });
-const changeDown = css({ color: 'accent.red' });
-
-const vacRow = css({
-	display: 'flex',
-	alignItems: 'center',
-	gap: '10px',
-	padding: '7px 0',
-	borderBottom: '1px solid token(colors.divider)',
-	'&:last-child': { borderBottom: 'none' }
-});
 
 const vacRegion = css({ width: '110px', fontSize: '12px', color: 'text.secondary' });
 const vacBarWrap = css({ flex: '1' });
@@ -144,10 +100,10 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 
 <div class={metricsStrip}>
 	{#each metrics as m (m.label)}
-		<div class={metricCard}>
-			<div class={metricLabel}>{m.label}</div>
-			<div class={metricValue}>{m.value}</div>
-			<div class={cx(metricDelta, m.up ? metricDeltaUp : metricDeltaDown)}>{m.delta}</div>
+		<div class={mc.root}>
+			<div class={mc.label}>{m.label}</div>
+			<div class={mc.value}>{m.value}</div>
+			<div class={deltaCva({ direction: m.direction })}>{m.delta}</div>
 		</div>
 	{/each}
 </div>
@@ -192,11 +148,11 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 		<div class={pnl.header}>Top Games by Current Players</div>
 		<div class={pnl.body}>
 			{#each topGames as g, i (g.name)}
-				<div class={topGameRow}>
+				<div class={dataRow}>
 					<span class={rank}>#{i + 1}</span>
 					<span class={gameName}>{g.name}</span>
 					<span class={playerCount}>{g.players}</span>
-					<span class={cx(change, g.trending === 'up' ? changeUp : changeDown)}>{g.change}</span>
+					<span class={cx(change, deltaCva({ direction: g.direction }))}>{g.change}</span>
 				</div>
 			{/each}
 		</div>
@@ -207,7 +163,7 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 		<div class={pnl.header}>VAC Bans by Region <span class={badge({ color: 'red' })}>24h</span></div>
 		<div class={pnl.body}>
 			{#each vacStats as v (v.region)}
-				<div class={vacRow}>
+				<div class={dataRow}>
 					<span class={vacRegion}>{v.region}</span>
 					<div class={vacBarWrap}>
 						<div class={pb.track}>

@@ -3,6 +3,7 @@
  * Import these instead of duplicating css() calls across pages.
  */
 import { css, cva, sva } from 'styled-system/css';
+import { grid } from 'styled-system/patterns';
 
 export const btn = cva({
 	base: {
@@ -208,19 +209,34 @@ export const actionLink = cva({
 	}
 });
 
-export const userAvatar = css({
-	width: '24px',
-	height: '24px',
-	borderRadius: 'DEFAULT',
-	background: 'linear-gradient(135deg, #2a6591, #1b4a6b)',
-	display: 'inline-flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	fontSize: '9px',
-	fontWeight: '700',
-	color: '#fff',
-	verticalAlign: 'middle',
-	marginRight: '6px'
+export const userAvatar = cva({
+	base: {
+		width: '24px',
+		height: '24px',
+		borderRadius: 'DEFAULT',
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		fontSize: '9px',
+		fontWeight: '700',
+		color: '#fff',
+		verticalAlign: 'middle',
+		marginRight: '6px'
+	},
+	variants: {
+		visual: {
+			user: {
+				background: 'linear-gradient(135deg, #2a6591, #1b4a6b)'
+			},
+			app: {
+				background: 'linear-gradient(135deg, #2a475e, #1b2838)',
+				border: '1px solid token(colors.border)',
+				fontSize: '12px',
+				fontWeight: '400'
+			}
+		}
+	},
+	defaultVariants: { visual: 'user' }
 });
 
 export const filterSelect = css({
@@ -304,3 +320,83 @@ export const pageHeader = sva({
 		}
 	}
 });
+
+export const cellSecondary = css({ color: 'text.secondary' });
+export const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
+export const cellDisabled = css({ color: 'text.disabled', fontSize: '11px' });
+
+export const dataRow = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '10px',
+	padding: '7px 0',
+	borderBottom: '1px solid token(colors.divider)',
+	'&:last-child': { borderBottom: 'none' }
+});
+
+export const delta = cva({
+	base: {
+		marginTop: '4px',
+		fontSize: '11px'
+	},
+	variants: {
+		direction: {
+			up: { color: 'accent.green' },
+			down: { color: 'accent.red' }
+		}
+	}
+});
+
+export const metricCard = sva({
+	slots: ['root', 'label', 'value', 'delta'],
+	base: {
+		root: {
+			background: 'surface.panel'
+		},
+		label: {
+			fontSize: '10px',
+			textTransform: 'uppercase',
+			letterSpacing: '0.1em',
+			color: 'text.muted',
+			fontWeight: '700',
+			marginBottom: '6px'
+		},
+		value: {
+			fontWeight: '300',
+			color: 'text.bright',
+			lineHeight: '1'
+		},
+		delta: {
+			marginTop: '4px',
+			fontSize: '11px'
+		}
+	},
+	variants: {
+		size: {
+			sm: {
+				root: { padding: '14px 16px' },
+				value: { fontSize: '22px' }
+			},
+			lg: {
+				root: { padding: '16px 20px', position: 'relative' },
+				value: {
+					fontSize: '26px',
+					letterSpacing: '-0.02em',
+					'& span': { fontSize: '14px', fontWeight: '400', color: 'text.secondary' }
+				}
+			}
+		}
+	},
+	defaultVariants: { size: 'sm' }
+});
+
+export const entityName = css({ fontSize: '12.5px', fontWeight: '600' });
+export const entityId = css({ color: 'text.muted', fontSize: '10px', paddingLeft: '32px' });
+
+export const metricsGrid = (columns: number) =>
+	grid({
+		columns,
+		gap: '1px',
+		background: 'divider',
+		borderBottom: '1px solid token(colors.divider)'
+	});

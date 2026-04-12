@@ -14,16 +14,16 @@ import {
 	dataTable,
 	userAvatar,
 	actionLink,
-	twoCol
+	twoCol,
+	cellSecondary,
+	cellMuted,
+	delta as deltaCva,
+	metricCard,
+	entityName,
+	dataRow
 } from '$lib/recipes/steam-modern';
 import {
 	statsGrid,
-	statCard,
-	statLabel,
-	statValue,
-	statDelta,
-	statDeltaUp,
-	statDeltaDown,
 	statBar,
 	chartContainer,
 	revTooltipInner,
@@ -37,7 +37,6 @@ import {
 	activityTime,
 	activityDotStyles,
 	activityText,
-	healthRow,
 	healthName,
 	healthBarWrap,
 	healthVal
@@ -61,6 +60,7 @@ function fmtRevTooltipDate(d: Date) {
 
 const panelStyles = panel();
 const chartPanel = cx(panelStyles.root, css({ display: 'flex', flexDirection: 'column' }));
+const mc = metricCard({ size: 'lg' });
 
 const progressFills: Record<DashboardStat['fillColor'], string> = {
 	default: progressBarSva().fill as string,
@@ -73,11 +73,6 @@ const progressTrack = progressBarSva().track as string;
 function getProgressFillClass(color: DashboardStat['fillColor']): string {
 	return progressFills[color] ?? progressFills.default;
 }
-
-const userNameSmall = css({ fontSize: '12px' });
-const userIdInline = css({ color: 'text.muted', fontSize: '10px', marginLeft: '4px' });
-const cellSecondary = css({ color: 'text.secondary' });
-const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 </script>
 
 <PageHeader title="Administrator Dashboard" subtitle="Steam Platform Control · Last refreshed 2 minutes ago">
@@ -88,10 +83,10 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 <!-- Stats row -->
 <div class={statsGrid}>
 	{#each stats as stat (stat.label)}
-		<div class={statCard}>
-			<div class={statLabel}>{stat.label}</div>
-			<div class={statValue}>{stat.value}<span>{stat.unit}</span></div>
-			<div class={cx(statDelta, stat.up ? statDeltaUp : statDeltaDown)}>{stat.delta}</div>
+		<div class={mc.root}>
+			<div class={mc.label}>{stat.label}</div>
+			<div class={mc.value}>{stat.value}<span>{stat.unit}</span></div>
+			<div class={deltaCva({ direction: stat.direction })}>{stat.delta}</div>
 			<div class={statBar}>
 				<div class={getProgressFillClass(stat.fillColor)} style="width:{stat.fill}%"></div>
 			</div>
@@ -211,7 +206,7 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 		<div class={panelStyles.header}>Server Health</div>
 		<div class={panelStyles.body}>
 			{#each serverHealth as srv (srv.name)}
-				<div class={healthRow}>
+				<div class={dataRow}>
 					<span class={healthName}>{srv.name}</span>
 					<div class={healthBarWrap}>
 						<div class={progressTrack}>
@@ -242,9 +237,9 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 				{#each recentUsers as u (u.id)}
 					<tr>
 						<td>
-							<div class={userAvatar}>{u.name.slice(0, 2).toUpperCase()}</div>
-							<span class={userNameSmall}>{u.name}</span>
-							<span class={userIdInline}>{u.id}</span>
+							<div class={userAvatar()}>{u.name.slice(0, 2).toUpperCase()}</div>
+							<span class={entityName}>{u.name}</span>
+							<span class={cellMuted} style="margin-left:4px">{u.id}</span>
 						</td>
 						<td><StatusBadge status={u.status} /></td>
 						<td class={cellSecondary}>{u.games}</td>

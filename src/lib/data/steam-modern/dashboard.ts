@@ -1,16 +1,13 @@
 // Seed: 2012 — Steam Modern dashboard data
 import { faker } from '@faker-js/faker';
+import type { UserStatus, ProgressColor, MetricData } from './types';
 
 faker.seed(2012);
 
-export interface DashboardStat {
-	label: string;
-	value: string;
+export interface DashboardStat extends MetricData {
 	unit: string;
-	delta: string;
-	up: boolean;
 	fill: number;
-	fillColor: 'default' | 'gold' | 'green' | 'red';
+	fillColor: ProgressColor;
 }
 
 export const stats: DashboardStat[] = [
@@ -19,7 +16,7 @@ export const stats: DashboardStat[] = [
 		value: faker.number.float({ min: 6, max: 10, fractionDigits: 1 }).toString(),
 		unit: 'M',
 		delta: `▲ +${faker.number.float({ min: 1, max: 6, fractionDigits: 1 })}% from yesterday`,
-		up: true,
+		direction: 'up',
 		fill: faker.number.int({ min: 60, max: 80 }),
 		fillColor: 'default'
 	},
@@ -28,7 +25,7 @@ export const stats: DashboardStat[] = [
 		value: `$${faker.number.float({ min: 1.5, max: 3.5, fractionDigits: 1 })}`,
 		unit: 'M',
 		delta: `▲ +${faker.number.float({ min: 5, max: 15, fractionDigits: 1 })}% vs. last week`,
-		up: true,
+		direction: 'up',
 		fill: faker.number.int({ min: 75, max: 95 }),
 		fillColor: 'gold'
 	},
@@ -37,7 +34,7 @@ export const stats: DashboardStat[] = [
 		value: faker.number.int({ min: 130, max: 160 }).toString(),
 		unit: 'M',
 		delta: `▲ +${faker.number.int({ min: 8000, max: 15000 }).toLocaleString()} today`,
-		up: true,
+		direction: 'up',
 		fill: faker.number.int({ min: 50, max: 70 }),
 		fillColor: 'green'
 	},
@@ -46,7 +43,7 @@ export const stats: DashboardStat[] = [
 		value: faker.number.int({ min: 800, max: 1500 }).toLocaleString(),
 		unit: '',
 		delta: `▲ +${faker.number.float({ min: 8, max: 20, fractionDigits: 1 })}% VAC activity`,
-		up: false,
+		direction: 'down',
 		fill: faker.number.int({ min: 20, max: 35 }),
 		fillColor: 'red'
 	}
@@ -115,7 +112,7 @@ export const activityFeed: ActivityItem[] = [
 interface ServerHealthEntry {
 	name: string;
 	val: number;
-	color: 'green' | 'red' | 'gold' | 'default';
+	color: ProgressColor;
 }
 
 function healthColor(val: number): ServerHealthEntry['color'] {
@@ -142,7 +139,7 @@ export const serverHealth: ServerHealthEntry[] = regions.map((name) => {
 interface RecentUser {
 	id: string;
 	name: string;
-	status: 'online' | 'offline' | 'away' | 'banned';
+	status: UserStatus;
 	country: string;
 	games: number;
 	joined: string;

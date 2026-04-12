@@ -11,7 +11,11 @@ import {
 	filterLabel,
 	dataTable,
 	userAvatar,
-	actionLink
+	actionLink,
+	cellSecondary,
+	cellMuted,
+	entityName,
+	entityId
 } from '$lib/recipes/steam-modern';
 
 import { users } from '$lib/data/steam-modern/users';
@@ -30,11 +34,6 @@ const filtered = $derived(
 
 const panelStyles = panel();
 const sb = searchBarSva();
-
-const userName = css({ fontSize: '12.5px', fontWeight: '600' });
-const userId = css({ color: 'text.muted', fontSize: '10px', paddingLeft: '32px' });
-const cellSecondary = css({ color: 'text.secondary' });
-const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 </script>
 
 <PageHeader title="User Management" subtitle="147,382,019 total accounts · 8.4M concurrent">
@@ -76,9 +75,9 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 			{#each filtered as u (u.id)}
 				<tr>
 					<td>
-						<div class={userAvatar}>{u.name.slice(0, 2).toUpperCase()}</div>
-						<span class={userName}>{u.name}</span>
-						<br /><span class={userId}>{u.id}</span>
+						<div class={userAvatar()}>{u.name.slice(0, 2).toUpperCase()}</div>
+						<span class={entityName}>{u.name}</span>
+						<br /><span class={entityId}>{u.id}</span>
 					</td>
 					<td><StatusBadge status={u.status} /></td>
 					<td class={cellSecondary}>{u.country}</td>

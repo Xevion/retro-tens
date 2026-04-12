@@ -115,13 +115,15 @@ export const games: Game[] = templates.map((t) => ({
 	released: t.released
 }));
 
-export const categories = [
-	'All',
-	'RPG',
-	'Shooter',
-	'Strategy',
-	'MOBA',
-	'Indie',
-	'Survival',
-	'Action'
+export const filterCategories = [
+	{ value: 'all', label: 'All' },
+	{ value: 'RPG', label: 'RPG' },
+	{ value: 'Shooter', label: 'Shooter' },
+	{ value: 'Strategy', label: 'Strategy' },
+	{ value: 'MOBA', label: 'MOBA' },
+	{ value: 'Indie', label: 'Indie' },
+	{ value: 'Survival', label: 'Survival' },
+	{ value: 'Action', label: 'Action' }
 ] as const;
+
+export type CategoryFilter = (typeof filterCategories)[number]['value'];

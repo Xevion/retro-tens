@@ -2,42 +2,9 @@
  * Dashboard-specific PandaCSS styles. Shared/reusable styles live in $lib/recipes/steam-modern.
  */
 import { css, cx } from 'styled-system/css';
-import { grid } from 'styled-system/patterns';
+import { metricsGrid } from '$lib/recipes/steam-modern';
 
-export const statsGrid = grid({
-	columns: 4,
-	gap: '1px',
-	background: 'divider',
-	borderBottom: '1px solid token(colors.divider)'
-});
-
-export const statCard = css({
-	background: 'surface.panel',
-	padding: '16px 20px',
-	position: 'relative'
-});
-
-export const statLabel = css({
-	fontSize: '10px',
-	textTransform: 'uppercase',
-	letterSpacing: '0.1em',
-	color: 'text.muted',
-	fontWeight: '700',
-	marginBottom: '6px'
-});
-
-export const statValue = css({
-	fontSize: '26px',
-	fontWeight: '300',
-	color: 'text.bright',
-	lineHeight: '1',
-	letterSpacing: '-0.02em',
-	'& span': { fontSize: '14px', fontWeight: '400', color: 'text.secondary' }
-});
-
-export const statDelta = css({ marginTop: '4px', fontSize: '11px' });
-export const statDeltaUp = css({ color: 'accent.green' });
-export const statDeltaDown = css({ color: 'accent.red' });
+export const statsGrid = metricsGrid(4);
 
 export const statBar = css({
 	position: 'absolute',
@@ -142,15 +109,6 @@ export const activityText = css({
 	color: 'text.secondary',
 	lineHeight: '1.4',
 	flex: '1'
-});
-
-export const healthRow = css({
-	display: 'flex',
-	alignItems: 'center',
-	gap: '10px',
-	padding: '7px 0',
-	borderBottom: '1px solid token(colors.divider)',
-	'&:last-child': { borderBottom: 'none' }
 });
 
 export const healthName = css({ width: '110px', color: 'text.secondary', fontSize: 'sm' });

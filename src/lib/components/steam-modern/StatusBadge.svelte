@@ -1,19 +1,18 @@
 <script lang="ts">
 import { css, cx } from 'styled-system/css';
 import { badge } from '$lib/recipes/steam-modern';
+import type { UserStatus } from '$lib/data/steam-modern/types';
 
-type Status = 'online' | 'offline' | 'away' | 'banned';
+let { status }: { status: UserStatus } = $props();
 
-let { status }: { status: Status } = $props();
-
-const labels: Record<Status, string> = {
+const labels: Record<UserStatus, string> = {
 	online: 'Online',
 	offline: 'Offline',
 	away: 'Away',
 	banned: 'Banned'
 };
 
-const statusBadgeColor: Record<Status, 'green' | 'red' | 'yellow' | 'gray'> = {
+const statusBadgeColor: Record<UserStatus, 'green' | 'red' | 'yellow' | 'gray'> = {
 	online: 'green',
 	banned: 'red',
 	away: 'yellow',
@@ -28,7 +27,7 @@ const dot = css({
 	marginRight: '5px'
 });
 
-const dotStyles: Record<Status, string> = {
+const dotStyles: Record<UserStatus, string> = {
 	online: css({ background: 'accent.green', boxShadow: '0 0 4px token(colors.accent.green)' }),
 	offline: css({ background: 'text.disabled' }),
 	banned: css({ background: 'accent.red' }),

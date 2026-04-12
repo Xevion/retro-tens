@@ -10,14 +10,21 @@ import {
 	filterSelect,
 	filterLabel,
 	dataTable,
-	actionLink
+	actionLink,
+	userAvatar,
+	cellSecondary,
+	cellMuted,
+	cellDisabled,
+	entityName,
+	entityId
 } from '$lib/recipes/steam-modern';
 
-import { games, categories } from '$lib/data/steam-modern/games';
+import { games, filterCategories, type CategoryFilter } from '$lib/data/steam-modern/games';
 import type { GameStatus } from '$lib/data/steam-modern/games';
+import { token } from 'styled-system/tokens';
 
 let search = $state('');
-let categoryFilter = $state('all');
+let categoryFilter: CategoryFilter = $state('all');
 
 const filtered = $derived(
 	games.filter((g) => {
@@ -35,27 +42,14 @@ const statusBadgeColor: Record<GameStatus, 'green' | 'yellow' | 'gray'> = {
 };
 
 function scoreColor(reviews: number): string {
-	if (reviews > 85) return 'var(--colors-accent-green)';
-	if (reviews > 70) return 'var(--colors-accent-gold)';
-	return 'var(--colors-accent-red)';
+	if (reviews > 85) return token('colors.accent.green');
+	if (reviews > 70) return token('colors.accent.gold');
+	return token('colors.accent.red');
 }
 
 const pnl = panel();
 const sb = searchBarSva();
-
-const appIcon = css({
-	width: '24px',
-	height: '24px',
-	background: 'linear-gradient(135deg, #2a475e, #1b2838)',
-	border: '1px solid token(colors.border)',
-	display: 'inline-flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	fontSize: '12px',
-	borderRadius: 'DEFAULT',
-	verticalAlign: 'middle',
-	marginRight: '6px'
-});
+const appIconClass = userAvatar({ visual: 'app' });
 
 const scoreBar = css({
 	display: 'inline-block',
@@ -69,12 +63,6 @@ const scoreBar = css({
 });
 
 const scoreFill = css({ height: '100%', borderRadius: '1px' });
-
-const appName = css({ fontSize: '12.5px', fontWeight: '600' });
-const appId = css({ color: 'text.muted', fontSize: '10px', paddingLeft: '32px' });
-const cellSecondary = css({ color: 'text.secondary', fontSize: '12px' });
-const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
-const cellDisabled = css({ color: 'text.disabled', fontSize: '11px' });
 </script>
 
 <PageHeader title="Applications &amp; Games" subtitle="68,412 total apps · 34 awaiting review">
@@ -89,8 +77,8 @@ const cellDisabled = css({ color: 'text.disabled', fontSize: '11px' });
 	</div>
 	<span class={filterLabel}>Category:</span>
 	<select class={filterSelect} bind:value={categoryFilter}>
-		{#each categories as cat (cat)}
-			<option value={cat === 'All' ? 'all' : cat}>{cat}</option>
+		{#each filterCategories as cat (cat.value)}
+			<option value={cat.value}>{cat.label}</option>
 		{/each}
 	</select>
 	<span class={filterLabel}>Showing {filtered.length} results</span>
@@ -115,9 +103,9 @@ const cellDisabled = css({ color: 'text.disabled', fontSize: '11px' });
 			{#each filtered as g (g.id)}
 				<tr>
 					<td>
-						<div class={appIcon}>{g.name.slice(0, 1)}</div>
-						<span class={appName}>{g.name}</span>
-						<br /><span class={appId}>{g.id}</span>
+						<div class={appIconClass}>{g.name.slice(0, 1)}</div>
+						<span class={entityName}>{g.name}</span>
+						<br /><span class={entityId}>{g.id}</span>
 					</td>
 					<td class={cellSecondary}>{g.developer}</td>
 					<td><span class={badge({ color: 'blue' })}>{g.category}</span></td>
