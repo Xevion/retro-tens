@@ -51,13 +51,13 @@
 			<span class="title-text">Resume Builder — Microsoft Office Style</span>
 		</div>
 		<div class="title-controls">
-			<button class="tb-btn">
+			<button class="tb-btn" aria-label="Minimize">
 				<svg width="10" height="1" viewBox="0 0 10 1"><line x1="0" y1="0.5" x2="10" y2="0.5" stroke="#fff" stroke-width="1.2" /></svg>
 			</button>
-			<button class="tb-btn">
+			<button class="tb-btn" aria-label="Maximize">
 				<svg width="10" height="10" viewBox="0 0 10 10"><rect x="0.6" y="0.6" width="8.8" height="8.8" stroke="#fff" stroke-width="1.1" fill="none" /></svg>
 			</button>
-			<button class="tb-btn close-btn">
+			<button class="tb-btn close-btn" aria-label="Close">
 				<svg width="10" height="10" viewBox="0 0 10 10"><line x1="0" y1="0" x2="10" y2="10" stroke="#fff" stroke-width="1.3" /><line x1="10" y1="0" x2="0" y2="10" stroke="#fff" stroke-width="1.3" /></svg>
 			</button>
 		</div>
@@ -117,20 +117,20 @@
 				</div>
 				<div class="form-area">
 					<div class="field-row cols2">
-						<div><label>First Name <span class="req">*</span></label><input type="text" placeholder="e.g. Alex" bind:value={fname} /></div>
-						<div><label>Last Name <span class="req">*</span></label><input type="text" placeholder="e.g. Rivera" bind:value={lname} /></div>
+						<div><label for="fname">First Name <span class="req">*</span></label><input id="fname" type="text" placeholder="e.g. Alex" bind:value={fname} /></div>
+						<div><label for="lname">Last Name <span class="req">*</span></label><input id="lname" type="text" placeholder="e.g. Rivera" bind:value={lname} /></div>
 					</div>
 					<div class="field-row cols2">
-						<div><label>Professional Title <span class="req">*</span></label><input type="text" placeholder="e.g. Senior Software Engineer" bind:value={jobTitle} /></div>
-						<div><label>Location</label><input type="text" placeholder="e.g. San Antonio, TX" bind:value={location} /></div>
+						<div><label for="job-title">Professional Title <span class="req">*</span></label><input id="job-title" type="text" placeholder="e.g. Senior Software Engineer" bind:value={jobTitle} /></div>
+						<div><label for="location">Location</label><input id="location" type="text" placeholder="e.g. San Antonio, TX" bind:value={location} /></div>
 					</div>
 					<div class="field-row cols2">
-						<div><label>Email Address <span class="req">*</span></label><input type="email" placeholder="alex@example.com" bind:value={email} /></div>
-						<div><label>Phone Number</label><input type="tel" placeholder="(555) 000-0000" bind:value={phone} /></div>
+						<div><label for="email">Email Address <span class="req">*</span></label><input id="email" type="email" placeholder="alex@example.com" bind:value={email} /></div>
+						<div><label for="phone">Phone Number</label><input id="phone" type="tel" placeholder="(555) 000-0000" bind:value={phone} /></div>
 					</div>
 					<div class="field-group">
-						<label>Professional Summary</label>
-						<textarea placeholder="Write 2-3 sentences describing your experience, expertise, and career goals..." bind:value={summary}></textarea>
+						<label for="summary">Professional Summary</label>
+						<textarea id="summary" placeholder="Write 2-3 sentences describing your experience, expertise, and career goals..." bind:value={summary}></textarea>
 					</div>
 				</div>
 			{/if}
@@ -148,16 +148,16 @@
 							<button class="btn-remove">Remove</button>
 						</div>
 						<div class="field-row cols2">
-							<div><label>Job Title <span class="req">*</span></label><input type="text" placeholder="e.g. Software Engineer" /></div>
-							<div><label>Company <span class="req">*</span></label><input type="text" placeholder="e.g. USAA" /></div>
+							<div><label for="exp-jobtitle">Job Title <span class="req">*</span></label><input id="exp-jobtitle" type="text" placeholder="e.g. Software Engineer" /></div>
+							<div><label for="exp-company">Company <span class="req">*</span></label><input id="exp-company" type="text" placeholder="e.g. USAA" /></div>
 						</div>
 						<div class="field-row cols3">
-							<div><label>Start Date</label><input type="text" placeholder="Jan 2022" /></div>
-							<div><label>End Date</label><input type="text" placeholder="Present" /></div>
-							<div><label>Location</label><input type="text" placeholder="San Antonio, TX" /></div>
+							<div><label for="exp-start">Start Date</label><input id="exp-start" type="text" placeholder="Jan 2022" /></div>
+							<div><label for="exp-end">End Date</label><input id="exp-end" type="text" placeholder="Present" /></div>
+							<div><label for="exp-location">Location</label><input id="exp-location" type="text" placeholder="San Antonio, TX" /></div>
 						</div>
-						<div><label>Key Responsibilities &amp; Achievements</label>
-						<textarea placeholder="• Describe your impact with measurable outcomes&#10;• Technologies used and problems solved"></textarea></div>
+						<div><label for="exp-desc">Key Responsibilities &amp; Achievements</label>
+						<textarea id="exp-desc" placeholder="• Describe your impact with measurable outcomes&#10;• Technologies used and problems solved"></textarea></div>
 					</div>
 					<button class="add-entry-btn">
 						<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><line x1="6.5" y1="0" x2="6.5" y2="13" stroke="#555" stroke-width="1.4"/><line x1="0" y1="6.5" x2="13" y2="6.5" stroke="#555" stroke-width="1.4"/></svg>
@@ -179,13 +179,13 @@
 							<button class="btn-remove">Remove</button>
 						</div>
 						<div class="field-row cols2">
-							<div><label>Degree / Certificate <span class="req">*</span></label><input type="text" placeholder="B.S. Computer Science" /></div>
-							<div><label>Institution <span class="req">*</span></label><input type="text" placeholder="University of Texas at San Antonio" /></div>
+							<div><label for="edu-degree">Degree / Certificate <span class="req">*</span></label><input id="edu-degree" type="text" placeholder="B.S. Computer Science" /></div>
+							<div><label for="edu-institution">Institution <span class="req">*</span></label><input id="edu-institution" type="text" placeholder="University of Texas at San Antonio" /></div>
 						</div>
 						<div class="field-row cols3">
-							<div><label>Graduation Year</label><input type="text" placeholder="2026" /></div>
-							<div><label>GPA</label><input type="text" placeholder="3.8 / 4.0" /></div>
-							<div><label>Field of Study</label><input type="text" placeholder="Computer Science" /></div>
+							<div><label for="edu-year">Graduation Year</label><input id="edu-year" type="text" placeholder="2026" /></div>
+							<div><label for="edu-gpa">GPA</label><input id="edu-gpa" type="text" placeholder="3.8 / 4.0" /></div>
+							<div><label for="edu-field">Field of Study</label><input id="edu-field" type="text" placeholder="Computer Science" /></div>
 						</div>
 					</div>
 					<button class="add-entry-btn">
@@ -203,22 +203,22 @@
 				</div>
 				<div class="form-area">
 					<div class="field-group">
-						<label>Technical Skills <span style="font-weight:400;color:#888">(type and press Enter)</span></label>
+						<label for="chip-input">Technical Skills <span style="font-weight:400;color:#888">(type and press Enter)</span></label>
 						<div class="chip-container">
 							{#each ['Rust', 'TypeScript', 'Python'] as chip}
-								<div class="chip">{chip} <button class="chip-x">×</button></div>
+								<div class="chip">{chip} <button class="chip-x" aria-label="Remove {chip}">×</button></div>
 							{/each}
-							<input class="chip-input" placeholder="e.g. React, Go…" />
+							<input id="chip-input" class="chip-input" placeholder="e.g. React, Go…" />
 						</div>
 					</div>
 					<hr class="section-divider" />
-					<label style="margin-bottom:10px;display:block">Proficiency Levels</label>
+					<p class="proficiency-heading">Proficiency Levels</p>
 					{#each skills as skill, si}
 						<div class="rating-row">
 							<span class="rating-label">{skill.name}</span>
 							<div class="rating-dots">
 								{#each [1,2,3,4,5] as n}
-									<button class="rating-dot" class:filled={n <= skill.val} onclick={() => setRating(si, n)}></button>
+									<button class="rating-dot" class:filled={n <= skill.val} onclick={() => setRating(si, n)} aria-label="{skill.name}, {n} of 5"></button>
 								{/each}
 							</div>
 						</div>
@@ -239,14 +239,14 @@
 							<button class="btn-remove">Remove</button>
 						</div>
 						<div class="field-row cols2">
-							<div><label>Project Name <span class="req">*</span></label><input type="text" placeholder="e.g. Maestro" /></div>
-							<div><label>Tech Stack</label><input type="text" placeholder="e.g. Rust, Kotlin, WebSocket" /></div>
+							<div><label for="proj-name">Project Name <span class="req">*</span></label><input id="proj-name" type="text" placeholder="e.g. Maestro" /></div>
+							<div><label for="proj-stack">Tech Stack</label><input id="proj-stack" type="text" placeholder="e.g. Rust, Kotlin, WebSocket" /></div>
 						</div>
 						<div class="field-row cols2">
-							<div><label>Repository / Link</label><input type="url" placeholder="github.com/…" /></div>
-							<div><label>Live Demo</label><input type="url" placeholder="https://…" /></div>
+							<div><label for="proj-repo">Repository / Link</label><input id="proj-repo" type="url" placeholder="github.com/…" /></div>
+							<div><label for="proj-demo">Live Demo</label><input id="proj-demo" type="url" placeholder="https://…" /></div>
 						</div>
-						<div><label>Description &amp; Impact</label><textarea placeholder="What does the project do? What was technically challenging?"></textarea></div>
+						<div><label for="proj-desc">Description &amp; Impact</label><textarea id="proj-desc" placeholder="What does the project do? What was technically challenging?"></textarea></div>
 					</div>
 					<button class="add-entry-btn">
 						<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><line x1="6.5" y1="0" x2="6.5" y2="13" stroke="#555" stroke-width="1.4"/><line x1="0" y1="6.5" x2="13" y2="6.5" stroke="#555" stroke-width="1.4"/></svg>
@@ -421,7 +421,7 @@
 	label { display: block; font-size: 11.5px; color: #555; font-weight: 600; margin-bottom: 4px; }
 	.req { color: var(--accent-red); margin-left: 2px; }
 
-	input[type='text'], input[type='email'], input[type='tel'], input[type='url'], textarea, select {
+	input[type='text'], input[type='email'], input[type='tel'], input[type='url'], textarea {
 		width: 100%;
 		height: 30px;
 		padding: 0 8px;
@@ -436,7 +436,7 @@
 		appearance: none;
 	}
 	textarea { height: 72px; resize: vertical; padding: 6px 8px; line-height: 1.5; }
-	input:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+	input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 	input:hover:not(:focus), textarea:hover:not(:focus) { border-color: var(--border-input-hover); }
 
 	.experience-card { border: 1px solid #e0e0e0; background: #fafafa; padding: 12px 14px; margin-bottom: 10px; }
@@ -470,6 +470,7 @@
 	.chip-input { border: none; outline: none; font-family: var(--font-ui); font-size: var(--font-size-sm); min-width: 80px; flex: 1; padding: 1px 2px; }
 
 	.section-divider { border: none; border-top: 1px solid #eaeaea; margin: 12px 0; }
+	.proficiency-heading { margin-bottom: 10px; font-size: 11.5px; color: #555; font-weight: 600; }
 	.rating-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 	.rating-label { font-size: var(--font-size-sm); color: #333; min-width: 110px; }
 	.rating-dots { display: flex; gap: 3px; }
