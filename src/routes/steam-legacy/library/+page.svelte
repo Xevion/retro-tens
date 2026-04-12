@@ -11,16 +11,16 @@ import {
 	playBtn,
 	emptyState
 } from '$lib/recipes/steam-legacy';
-import { games, subTabs } from '$lib/data/steam-legacy/library';
+const { data } = $props();
 
 let activeSubTab = $state('Games');
 let searchVal = $state('');
 
-const recentGames = games.filter((g) => g.recent);
-const allGames = games.filter((g) => !g.recent);
+const recentGames = $derived(data.games.filter((g) => g.recent));
+const allGames = $derived(data.games.filter((g) => !g.recent));
 
 const filtered = $derived(
-	games.filter((g) => g.name.toLowerCase().includes(searchVal.toLowerCase()))
+	data.games.filter((g) => g.name.toLowerCase().includes(searchVal.toLowerCase()))
 );
 
 const sn = subNav();
@@ -34,7 +34,7 @@ const gameLast = css({ fontSize: 'xs', color: 'text.dim' });
 
 <!-- Sub-nav -->
 <div class={sn.root}>
-	{#each subTabs as tab, i (tab)}
+	{#each data.subTabs as tab, i (tab)}
 		{#if i > 0}<span class={sn.sep}>|</span>{/if}
 		<button
 			type="button"
@@ -56,7 +56,7 @@ const gameLast = css({ fontSize: 'xs', color: 'text.dim' });
 	<div class={bb.tab} data-selected>All Games</div>
 	<div class={bb.tab}>Recently Played</div>
 	<div class={bb.tab}>Favorites</div>
-	<div class={bb.count}>{games.length} games in library</div>
+	<div class={bb.count}>{data.games.length} games in library</div>
 </div>
 
 <!-- Recently Played section -->

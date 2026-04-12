@@ -17,13 +17,13 @@ import {
 	entityId
 } from '$lib/recipes/steam-modern';
 
-import { users } from '$lib/data/steam-modern/users';
+const { data } = $props();
 
 let search = $state('');
 let statusFilter = $state('all');
 
 const filtered = $derived(
-	users.filter((u) => {
+	data.users.filter((u) => {
 		const matchSearch =
 			!search || u.name.toLowerCase().includes(search.toLowerCase()) || u.id.includes(search);
 		const matchStatus = statusFilter === 'all' || u.status === statusFilter;
@@ -53,7 +53,7 @@ const sb = searchBarSva();
 		<option value="offline">Offline</option>
 		<option value="banned">Banned</option>
 	</select>
-	<span class={filterLabel}>Showing {filtered.length} of {users.length}</span>
+	<span class={filterLabel}>Showing {filtered.length} of {data.users.length}</span>
 </div>
 
 <div class={cx(panelStyles.root, css({ margin: '16px 20px' }))}>

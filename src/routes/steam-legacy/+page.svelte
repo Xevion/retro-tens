@@ -11,7 +11,7 @@ import {
 	featuredBanner,
 	dotActive
 } from '$lib/recipes/steam-legacy';
-import { games, topSellers, featured, subTabs } from '$lib/data/steam-legacy/store';
+const { data } = $props();
 
 let activeSubTab = $state('Featured');
 
@@ -31,7 +31,7 @@ const sellersGrid = css({
 
 <!-- Sub-nav -->
 <div class={sn.root}>
-	{#each subTabs as tab, i (tab)}
+	{#each data.subTabs as tab, i (tab)}
 		{#if i > 0}<span class={sn.sep}>|</span>{/if}
 		<button
 			type="button"
@@ -51,19 +51,19 @@ const sellersGrid = css({
 <!-- Featured banner -->
 <div class={fb.root}>
 	<div class={fb.artGrid}>
-		{#each featured.artCells as bg (bg)}
+		{#each data.featured.artCells as bg (bg)}
 			<div class={fb.artCell} style="background:{bg}"></div>
 		{/each}
 	</div>
 	<div class={fb.overlay}></div>
 	<div class={fb.info}>
-		<div class={fb.tag}>{featured.tag}</div>
-		<div class={fb.title}>{featured.name}</div>
-		<div class={fb.desc}>{featured.description}</div>
+		<div class={fb.tag}>{data.featured.tag}</div>
+		<div class={fb.title}>{data.featured.name}</div>
+		<div class={fb.desc}>{data.featured.description}</div>
 		<div class={fb.priceRow}>
-			<div class={fb.discount}>{featured.discount}</div>
-			<div class={fb.origPrice}>{featured.originalPrice}</div>
-			<div class={fb.price}>{featured.price}</div>
+			<div class={fb.discount}>{data.featured.discount}</div>
+			<div class={fb.origPrice}>{data.featured.originalPrice}</div>
+			<div class={fb.price}>{data.featured.price}</div>
 		</div>
 	</div>
 	<div class={fb.dots}>
@@ -79,7 +79,7 @@ const sellersGrid = css({
 	<span class={sh.title}>▶ Recommended For You</span>
 </div>
 <div class={gamesGrid}>
-	{#each games as game (game.name)}
+	{#each data.games as game (game.name)}
 		<div class={gc.root}>
 			<div class={gc.img} style="background: {game.color}">
 				<div class={gc.overlay}></div>
@@ -106,7 +106,7 @@ const sellersGrid = css({
 	<span class={sh.title}>▶ Top Sellers This Week</span>
 </div>
 <div class={sellersGrid}>
-	{#each topSellers as item (item.rank)}
+	{#each data.topSellers as item (item.rank)}
 		<div class={li.root}>
 			<span class={li.rank}>#{item.rank}</span>
 			<div class={li.img} style="background: {item.color}">{item.icon}</div>

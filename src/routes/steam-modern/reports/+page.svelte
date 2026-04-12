@@ -13,10 +13,10 @@ import {
 	metricsGrid,
 	dataRow
 } from '$lib/recipes/steam-modern';
-import { weeklyData, metrics, topGames, vacStats } from '$lib/data/steam-modern/reports';
+const { data } = $props();
 
-const maxUsers = Math.max(...weeklyData.map((d) => d.users));
-const maxRevenue = Math.max(...weeklyData.map((d) => d.revenue));
+const maxUsers = $derived(Math.max(...data.weeklyData.map((d) => d.users)));
+const maxRevenue = $derived(Math.max(...data.weeklyData.map((d) => d.revenue)));
 
 const pnl = panel();
 const pb = progressBarSva({ color: 'red' });
@@ -99,7 +99,7 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 </PageHeader>
 
 <div class={metricsStrip}>
-	{#each metrics as m (m.label)}
+	{#each data.metrics as m (m.label)}
 		<div class={mc.root}>
 			<div class={mc.label}>{m.label}</div>
 			<div class={mc.value}>{m.value}</div>
@@ -114,7 +114,7 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 		<div class={pnl.header}>Concurrent Users — This Week</div>
 		<div class={chartContainer}>
 			<div class={barChart}>
-				{#each weeklyData as day (day.label)}
+				{#each data.weeklyData as day (day.label)}
 					<div class={barCol}>
 						<div class={barLabelVal}>{day.users}M</div>
 						<div class={barBlock} style="height:{(day.users / maxUsers) * 100}%"></div>
@@ -130,7 +130,7 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 		<div class={pnl.header}>Daily Revenue — This Week <span class={badge({ color: 'yellow' })}>$M</span></div>
 		<div class={chartContainer}>
 			<div class={barChart}>
-				{#each weeklyData as day (day.label)}
+				{#each data.weeklyData as day (day.label)}
 					<div class={barCol}>
 						<div class={barLabelVal}>${day.revenue}M</div>
 						<div class={barBlockGold} style="height:{(day.revenue / maxRevenue) * 100}%"></div>
@@ -147,7 +147,7 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 	<div class={pnl.root}>
 		<div class={pnl.header}>Top Games by Current Players</div>
 		<div class={pnl.body}>
-			{#each topGames as g, i (g.name)}
+			{#each data.topGames as g, i (g.name)}
 				<div class={dataRow}>
 					<span class={rank}>#{i + 1}</span>
 					<span class={gameName}>{g.name}</span>
@@ -162,7 +162,7 @@ const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color
 	<div class={pnl.root}>
 		<div class={pnl.header}>VAC Bans by Region <span class={badge({ color: 'red' })}>24h</span></div>
 		<div class={pnl.body}>
-			{#each vacStats as v (v.region)}
+			{#each data.vacStats as v (v.region)}
 				<div class={dataRow}>
 					<span class={vacRegion}>{v.region}</span>
 					<div class={vacBarWrap}>

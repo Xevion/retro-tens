@@ -19,8 +19,9 @@ import {
 	entityName,
 	dataRow
 } from '$lib/recipes/steam-modern';
-import { stats, activityFeed, serverHealth, recentUsers } from '$lib/data/steam-modern/dashboard';
 import type { DashboardStat } from '$lib/data/steam-modern/dashboard';
+
+const { data } = $props();
 
 const RevenueChartModule = import('$lib/components/steam-modern/RevenueChart.svelte');
 
@@ -108,7 +109,7 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 
 <!-- Stats row -->
 <div class={statsGrid}>
-	{#each stats as stat (stat.label)}
+	{#each data.stats as stat (stat.label)}
 		<div class={mc.root}>
 			<div class={mc.label}>{stat.label}</div>
 			<div class={mc.value}>{stat.value}<span>{stat.unit}</span></div>
@@ -124,14 +125,14 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 <div class={twoCol}>
 	<!-- Revenue chart (lazy-loaded to keep d3/LayerChart off the critical path) -->
 	{#await RevenueChartModule then { default: RevenueChart }}
-		<RevenueChart />
+		<RevenueChart revenueData={data.revenueData} />
 	{/await}
 
 	<!-- Activity feed -->
 	<div class={panelStyles.root}>
 		<div class={panelStyles.header}>Activity Log <span class={badge({ color: 'blue' })}>Live</span></div>
 		<div class={panelStyles.body}>
-			{#each activityFeed as item, i (i)}
+			{#each data.activityFeed as item, i (i)}
 				<div class={activityItem}>
 					<span class={activityTime}>{item.time}</span>
 					<div class={activityDotStyles[item.dot]}></div>
@@ -148,7 +149,7 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 	<div class={panelStyles.root}>
 		<div class={panelStyles.header}>Server Health</div>
 		<div class={panelStyles.body}>
-			{#each serverHealth as srv (srv.name)}
+			{#each data.serverHealth as srv (srv.name)}
 				<div class={dataRow}>
 					<span class={healthName}>{srv.name}</span>
 					<div class={healthBarWrap}>
@@ -177,7 +178,7 @@ function getProgressFillClass(color: DashboardStat['fillColor']): string {
 				</tr>
 			</thead>
 			<tbody>
-				{#each recentUsers as u (u.id)}
+				{#each data.recentUsers as u (u.id)}
 					<tr>
 						<td>
 							<div class={userAvatar()}>{u.name.slice(0, 2).toUpperCase()}</div>

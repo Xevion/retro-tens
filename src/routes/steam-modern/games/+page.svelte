@@ -17,15 +17,16 @@ import {
 	entityId
 } from '$lib/recipes/steam-modern';
 
-import { games, filterCategories, type CategoryFilter } from '$lib/data/steam-modern/games';
-import type { GameStatus } from '$lib/data/steam-modern/games';
+import type { CategoryFilter, GameStatus } from '$lib/data/steam-modern/games';
+
+const { data } = $props();
 import { token } from 'styled-system/tokens';
 
 let search = $state('');
 let categoryFilter: CategoryFilter = $state('all');
 
 const filtered = $derived(
-	games.filter((g) => {
+	data.games.filter((g) => {
 		const matchSearch =
 			!search || g.name.toLowerCase().includes(search.toLowerCase()) || g.id.includes(search);
 		const matchCat = categoryFilter === 'all' || g.category === categoryFilter;
@@ -75,7 +76,7 @@ const scoreFill = css({ height: '100%', borderRadius: '1px' });
 	</div>
 	<label for="category-filter" class={filterLabel}>Category:</label>
 	<select id="category-filter" class={filterSelect} bind:value={categoryFilter}>
-		{#each filterCategories as cat (cat.value)}
+		{#each data.filterCategories as cat (cat.value)}
 			<option value={cat.value}>{cat.label}</option>
 		{/each}
 	</select>

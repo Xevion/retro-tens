@@ -7,7 +7,7 @@ import {
 	communityHeader as communityHeaderSva,
 	discussionItem as discussionItemSva
 } from '$lib/recipes/steam-legacy';
-import { activity, discussions, subTabs } from '$lib/data/steam-legacy/community';
+const { data } = $props();
 
 let activeSubTab = $state('Home');
 
@@ -23,7 +23,7 @@ const discussionsList = css({ background: 'surface.base' });
 
 <!-- Sub-nav -->
 <div class={sn.root}>
-	{#each subTabs as tab, i (tab)}
+	{#each data.subTabs as tab, i (tab)}
 		{#if i > 0}<span class={sn.sep}>|</span>{/if}
 		<button
 			type="button"
@@ -44,7 +44,7 @@ const discussionsList = css({ background: 'surface.base' });
 
 <!-- Activity feed -->
 <div class={activityFeed}>
-	{#each activity as item, i (i)}
+	{#each data.activity as item, i (i)}
 		<div class={ai.root}>
 			<div class={ai.iconCol}>
 				<div class={ai.typeIcon}>{item.icon}</div>
@@ -70,7 +70,7 @@ const discussionsList = css({ background: 'surface.base' });
 	<span class={sh.title}>▶ Trending Discussions</span>
 </div>
 <div class={discussionsList}>
-	{#each discussions as disc (disc.title)}
+	{#each data.discussions as disc (disc.title)}
 		<div class={di.root}>
 			<span class={di.game}>{disc.game}</span>
 			<span class={di.title}>{disc.title}</span>

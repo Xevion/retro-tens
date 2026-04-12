@@ -24,7 +24,8 @@ A SvelteKit retro UI playground. Three historically faithful software eras, each
 - **Perf/a11y crawler:** `unlighthouse` (`unlighthouse.config.ts` — targets `http://localhost:4173`)
 - **Dependency updates:** Renovate (`renovate.json`) — config:recommended with groupings
 - **Icons:** lucide-svelte
-- **Charts:** LayerChart (requires Tailwind shim in `app.css` — do not remove)
+- **Charts:** Raw d3-shape/d3-scale/d3-array + SVG (no charting library)
+- **Adapter:** `@sveltejs/adapter-static` — all pages prerendered at build time
 - **Primitives:** Ark UI (`@ark-ui/svelte`) — bits-ui removed
 
 ---
@@ -94,7 +95,7 @@ src/
     recipes/                  # shared PandaCSS recipes (cva/sva) per era
     components/               # Svelte components, colocated by era
     data/                     # Seeded fake data modules (create as needed)
-  app.css                     # @layer directive + LayerChart Tailwind shim
+  app.css                     # @layer directive
 tests/
   meta.test.ts                # vitest: route metadata coverage
   a11y/
@@ -113,13 +114,13 @@ docs/
 
 Each era is a PandaCSS theme defined in `panda.config.ts` → `themes`. Layouts apply `data-panda-theme="{eraName}"` on the root wrapper. All era-specific values live as Panda tokens — no hand-written CSS custom properties.
 
-**Styling convention:** No `<style>` blocks. All styles through `css()`, `cva()`, `sva()` from `styled-system/css` and patterns from `styled-system/patterns`. Exception: `:global()` selectors for third-party component internals (LayerChart) may use a minimal `<style>` block.
+**Styling convention:** No `<style>` blocks. All styles through `css()`, `cva()`, `sva()` from `styled-system/css` and patterns from `styled-system/patterns`.
 
 **Shared recipes:** Reusable component styles (buttons, badges, panels, tables) live in `src/lib/recipes/{era}.ts` as `cva`/`sva` exports.
 
 **Token references in `css()`:** `color: 'text.muted'`, `background: 'surface.panel'`, `fontFamily: 'ui'`, `fontSize: 'sm'`, `borderRadius: 'DEFAULT'`.
 
-**No alias bridge needed** — all eras are fully migrated to `css()`/`cva()`/`sva()`. The `globalCss` in `panda.config.ts` only contains the LayerChart `:root` surface tokens.
+**No alias bridge needed** — all eras are fully migrated to `css()`/`cva()`/`sva()`.
 
 **Rule:** Never hardcode era-specific values in components. Always use Panda token references. If a token doesn't exist, add it to the era's theme in `panda.config.ts`.
 
@@ -156,6 +157,19 @@ See [docs/DESIGN.md#eras](docs/DESIGN.md#eras) for full sourcing instructions.
 - Every page needs at least one stateful interaction (expand/collapse, selection, toggle)
 
 ---
+
+## Data Flow
+
+All pages are statically prerendered. The root `+layout.server.ts` sets `export const prerender = true`.
+
+**Convention:** Page data flows through `+page.server.ts` load functions, never imported directly in `+page.svelte`.
+
+- Data modules live in `src/lib/data/{era}/{page}.ts` — these are **server-only** (imported only by `+page.server.ts`)
+- Each page that consumes data has a `+page.server.ts` that imports from `$lib/data/` and returns data via `load()`
+- Pages receive data via `const { data } = $props()` and reference properties as `data.x`
+- **Type exports** from data modules can be imported client-side (type-only imports are erased at build time)
+- Components receive data as **props** — never import from `$lib/data/` directly
+- `@faker-js/faker` is used with fixed numeric seeds for deterministic generation. It runs at build time only and never ships to the client bundle.
 
 ## Fake Data
 
