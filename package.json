@@ -8,6 +8,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest run",
+		"test:a11y": "playwright test",
 		"prepare": "panda codegen && (svelte-kit sync || echo '')",
 		"typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"lint:js": "eslint .",

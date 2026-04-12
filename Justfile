@@ -29,6 +29,10 @@ dev:
 preview:
     bun run build && bun run preview
 
+# Run axe-core accessibility audits against a preview build.
+a11y:
+    bun run test:a11y
+
 # Crawl the preview build with Lighthouse. Start `just preview` (port 4173) first.
 lighthouse:
     bunx unlighthouse-ci

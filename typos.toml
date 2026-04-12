@@ -1,2 +1,5 @@
+[files]
+extend-exclude = ["test-results/"]
+
 [default.extend-words]
 Dota = "Dota"

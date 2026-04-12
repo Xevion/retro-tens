@@ -98,6 +98,16 @@ jobs:
           args: --no-progress --verbose docs README.md
           fail: true
 
+  a11y:
+    name: a11y
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install chromium --with-deps
+      - run: bun run test:a11y
+
   audit:
     name: audit
     runs-on: ubuntu-latest
