@@ -1,69 +1,168 @@
 <script lang="ts">
 import { CalendarDays, Download } from 'lucide-svelte';
 import PageHeader from '$lib/components/steam-modern/PageHeader.svelte';
+import { css, cx } from 'styled-system/css';
+import { grid } from 'styled-system/patterns';
+import {
+	btn,
+	badge,
+	panel,
+	progressBar as progressBarSva,
+	twoCol
+} from '$lib/recipes/steam-modern';
+import { weeklyData, metrics, topGames, vacStats } from '$lib/data/steam-modern/reports';
 
-const weeklyData = [
-	{ label: 'Mon', users: 7.2, revenue: 1.8 },
-	{ label: 'Tue', users: 7.8, revenue: 2.1 },
-	{ label: 'Wed', users: 8.1, revenue: 2.4 },
-	{ label: 'Thu', users: 7.6, revenue: 1.9 },
-	{ label: 'Fri', users: 8.9, revenue: 3.2 },
-	{ label: 'Sat', users: 10.2, revenue: 4.1 },
-	{ label: 'Sun', users: 9.4, revenue: 3.7 }
-];
 const maxUsers = Math.max(...weeklyData.map((d) => d.users));
 const maxRevenue = Math.max(...weeklyData.map((d) => d.revenue));
 
-const topGames = [
-	{ name: 'Dota 2', players: '412K', change: '+18%', color: 'green' },
-	{ name: 'Team Fortress 2', players: '84K', change: '+4%', color: 'green' },
-	{ name: 'Skyrim', players: '62K', change: '-2%', color: 'red' },
-	{ name: 'Borderlands 2', players: '51K', change: '+31%', color: 'green' },
-	{ name: 'Counter-Strike: Source', players: '48K', change: '-6%', color: 'red' },
-	{ name: 'XCOM: Enemy Unknown', players: '43K', change: '+12%', color: 'green' }
-];
+const pnl = panel();
+const pb = progressBarSva({ color: 'red' });
 
-const vacStats = [
-	{ region: 'US East', bans: 284, rate: 0.012 },
-	{ region: 'US West', bans: 198, rate: 0.009 },
-	{ region: 'EU West', bans: 412, rate: 0.018 },
-	{ region: 'Asia Pacific', bans: 188, rate: 0.022 },
-	{ region: 'South America', bans: 94, rate: 0.031 }
-];
+const metricsStrip = grid({
+	columns: 5,
+	gap: '1px',
+	background: 'divider',
+	borderBottom: '1px solid token(colors.divider)'
+});
+
+const metricCard = css({ background: 'surface.panel', padding: '14px 16px' });
+
+const metricLabel = css({
+	fontSize: '10px',
+	textTransform: 'uppercase',
+	letterSpacing: '0.1em',
+	color: 'text.muted',
+	fontWeight: '700',
+	marginBottom: '6px'
+});
+
+const metricValue = css({
+	fontSize: '22px',
+	fontWeight: '300',
+	color: 'text.bright',
+	lineHeight: '1'
+});
+
+const metricDelta = css({ marginTop: '4px', fontSize: '11px' });
+const metricDeltaUp = css({ color: 'accent.green' });
+const metricDeltaDown = css({ color: 'accent.red' });
+
+const chartContainer = css({ padding: '14px' });
+
+const barChart = css({
+	display: 'flex',
+	alignItems: 'flex-end',
+	gap: '8px',
+	height: '130px',
+	borderBottom: '1px solid token(colors.border)'
+});
+
+const barCol = css({
+	flex: '1',
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	gap: '4px'
+});
+
+const barLabelVal = css({ fontSize: '9px', color: 'text.muted', whiteSpace: 'nowrap' });
+
+const barBlock = css({
+	width: '100%',
+	background: 'linear-gradient(180deg, token(colors.accent.bright), token(colors.accent.dim))',
+	borderRadius: '1px 1px 0 0',
+	minHeight: '2px',
+	transition: 'opacity 0.15s',
+	_hover: { opacity: '0.8' }
+});
+
+const barBlockGold = cx(
+	barBlock,
+	css({
+		background: 'linear-gradient(180deg, token(colors.accent.goldText), token(colors.accent.gold))'
+	})
+);
+
+const barLabel = css({ fontSize: '10px', color: 'text.muted', paddingTop: '4px' });
+
+const topGameRow = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '10px',
+	padding: '7px 0',
+	borderBottom: '1px solid token(colors.divider)',
+	'&:last-child': { borderBottom: 'none' }
+});
+
+const rank = css({
+	width: '24px',
+	fontSize: '12px',
+	fontWeight: '700',
+	color: 'text.disabled',
+	textAlign: 'center'
+});
+
+const gameName = css({ flex: '1', fontSize: '12.5px', color: 'text.primary', fontWeight: '600' });
+
+const playerCount = css({
+	fontSize: '12px',
+	color: 'accent',
+	fontWeight: '600',
+	width: '50px',
+	textAlign: 'right'
+});
+
+const change = css({ fontSize: '11px', width: '40px', textAlign: 'right' });
+const changeUp = css({ color: 'accent.green' });
+const changeDown = css({ color: 'accent.red' });
+
+const vacRow = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '10px',
+	padding: '7px 0',
+	borderBottom: '1px solid token(colors.divider)',
+	'&:last-child': { borderBottom: 'none' }
+});
+
+const vacRegion = css({ width: '110px', fontSize: '12px', color: 'text.secondary' });
+const vacBarWrap = css({ flex: '1' });
+const vacCount = css({
+	width: '36px',
+	textAlign: 'right',
+	fontSize: '12px',
+	color: 'text.primary',
+	fontWeight: '600'
+});
+const vacRate = css({ width: '36px', textAlign: 'right', fontSize: '11px', color: 'text.muted' });
 </script>
 
 <PageHeader title="Analytics &amp; Reports" subtitle="Platform metrics · Week of Nov 5–11, 2012">
-	<button type="button" class="btn btn-secondary"><CalendarDays size={13} /> Date Range</button>
-	<button type="button" class="btn btn-primary"><Download size={13} /> Export PDF</button>
+	<button type="button" class={btn({ visual: 'secondary' })}><CalendarDays size={13} /> Date Range</button>
+	<button type="button" class={btn({ visual: 'primary' })}><Download size={13} /> Export PDF</button>
 </PageHeader>
 
-<div class="metrics-strip">
-	{#each [
-		{label:'Peak CCU This Week',value:'10.2M',delta:'▲ +8.4%',up:true},
-		{label:'Weekly Revenue',value:'$19.2M',delta:'▲ +12.1%',up:true},
-		{label:'New Accounts',value:'87,440',delta:'▲ +3.2%',up:true},
-		{label:'VAC Bans Issued',value:'1,176',delta:'▲ +14.2%',up:false},
-		{label:'Store Transactions',value:'2.8M',delta:'▲ +9.7%',up:true},
-	] as m (m.label)}
-		<div class="metric-card">
-			<div class="metric-label">{m.label}</div>
-			<div class="metric-value">{m.value}</div>
-			<div class="metric-delta" class:up={m.up} class:down={!m.up}>{m.delta}</div>
+<div class={metricsStrip}>
+	{#each metrics as m (m.label)}
+		<div class={metricCard}>
+			<div class={metricLabel}>{m.label}</div>
+			<div class={metricValue}>{m.value}</div>
+			<div class={cx(metricDelta, m.up ? metricDeltaUp : metricDeltaDown)}>{m.delta}</div>
 		</div>
 	{/each}
 </div>
 
-<div class="two-col">
+<div class={twoCol}>
 	<!-- CCU Chart -->
-	<div class="panel">
-		<div class="panel-header">Concurrent Users — This Week</div>
-		<div class="chart-container">
-			<div class="bar-chart">
+	<div class={pnl.root}>
+		<div class={pnl.header}>Concurrent Users — This Week</div>
+		<div class={chartContainer}>
+			<div class={barChart}>
 				{#each weeklyData as day (day.label)}
-					<div class="bar-col">
-						<div class="bar-label-val">{day.users}M</div>
-						<div class="bar-block" style="height:{(day.users/maxUsers*100)}%"></div>
-						<div class="bar-label">{day.label}</div>
+					<div class={barCol}>
+						<div class={barLabelVal}>{day.users}M</div>
+						<div class={barBlock} style="height:{(day.users / maxUsers) * 100}%"></div>
+						<div class={barLabel}>{day.label}</div>
 					</div>
 				{/each}
 			</div>
@@ -71,15 +170,15 @@ const vacStats = [
 	</div>
 
 	<!-- Revenue Chart -->
-	<div class="panel">
-		<div class="panel-header">Daily Revenue — This Week <span class="badge badge-yellow">$M</span></div>
-		<div class="chart-container">
-			<div class="bar-chart">
+	<div class={pnl.root}>
+		<div class={pnl.header}>Daily Revenue — This Week <span class={badge({ color: 'yellow' })}>$M</span></div>
+		<div class={chartContainer}>
+			<div class={barChart}>
 				{#each weeklyData as day (day.label)}
-					<div class="bar-col">
-						<div class="bar-label-val">${day.revenue}M</div>
-						<div class="bar-block gold" style="height:{(day.revenue/maxRevenue*100)}%"></div>
-						<div class="bar-label">{day.label}</div>
+					<div class={barCol}>
+						<div class={barLabelVal}>${day.revenue}M</div>
+						<div class={barBlockGold} style="height:{(day.revenue / maxRevenue) * 100}%"></div>
+						<div class={barLabel}>{day.label}</div>
 					</div>
 				{/each}
 			</div>
@@ -87,73 +186,38 @@ const vacStats = [
 	</div>
 </div>
 
-<div class="two-col">
+<div class={twoCol}>
 	<!-- Top Games -->
-	<div class="panel">
-		<div class="panel-header">Top Games by Current Players</div>
-		<div class="panel-body">
+	<div class={pnl.root}>
+		<div class={pnl.header}>Top Games by Current Players</div>
+		<div class={pnl.body}>
 			{#each topGames as g, i (g.name)}
-				<div class="top-game-row">
-					<span class="rank">#{i+1}</span>
-					<span class="game-name">{g.name}</span>
-					<span class="player-count">{g.players}</span>
-					<span class="change" class:up={g.color==='green'} class:down={g.color==='red'}>{g.change}</span>
+				<div class={topGameRow}>
+					<span class={rank}>#{i + 1}</span>
+					<span class={gameName}>{g.name}</span>
+					<span class={playerCount}>{g.players}</span>
+					<span class={cx(change, g.trending === 'up' ? changeUp : changeDown)}>{g.change}</span>
 				</div>
 			{/each}
 		</div>
 	</div>
 
 	<!-- VAC Stats -->
-	<div class="panel">
-		<div class="panel-header">VAC Bans by Region <span class="badge badge-red">24h</span></div>
-		<div class="panel-body">
+	<div class={pnl.root}>
+		<div class={pnl.header}>VAC Bans by Region <span class={badge({ color: 'red' })}>24h</span></div>
+		<div class={pnl.body}>
 			{#each vacStats as v (v.region)}
-				<div class="vac-row">
-					<span class="vac-region">{v.region}</span>
-					<div class="vac-bar-wrap">
-						<div class="progress-bar">
-							<div class="progress-fill red" style="width:{(v.bans/500)*100}%"></div>
+				<div class={vacRow}>
+					<span class={vacRegion}>{v.region}</span>
+					<div class={vacBarWrap}>
+						<div class={pb.track}>
+							<div class={pb.fill} style="width:{(v.bans / 500) * 100}%"></div>
 						</div>
 					</div>
-					<span class="vac-count">{v.bans}</span>
-					<span class="vac-rate">{(v.rate*100).toFixed(1)}%</span>
+					<span class={vacCount}>{v.bans}</span>
+					<span class={vacRate}>{(v.rate * 100).toFixed(1)}%</span>
 				</div>
 			{/each}
 		</div>
 	</div>
 </div>
-
-<style>
-	.metrics-strip { display: grid; grid-template-columns: repeat(5,1fr); gap: 1px; background: var(--divider); border-bottom: 1px solid var(--divider); }
-	.metric-card { background: var(--surface-panel); padding: 14px 16px; }
-	.metric-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 6px; }
-	.metric-value { font-size: 22px; font-weight: 300; color: var(--text-bright); line-height: 1; }
-	.metric-delta { margin-top: 4px; font-size: 11px; }
-	.metric-delta.up { color: var(--accent-green); }
-	.metric-delta.down { color: var(--accent-red); }
-
-	.chart-container { padding: 14px; }
-	.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; border-bottom: 1px solid var(--border); }
-	.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-	.bar-label-val { font-size: 9px; color: var(--text-muted); white-space: nowrap; }
-	.bar-block { width: 100%; background: linear-gradient(180deg, var(--accent-bright), var(--accent-dim)); border-radius: 1px 1px 0 0; min-height: 2px; transition: opacity 0.15s; }
-	.bar-block:hover { opacity: 0.8; }
-	.bar-block.gold { background: linear-gradient(180deg, #e8c44e, var(--accent-gold)); }
-	.bar-label { font-size: 10px; color: var(--text-muted); padding-top: 4px; }
-
-	.top-game-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--divider); }
-	.top-game-row:last-child { border-bottom: none; }
-	.rank { width: 24px; font-size: 12px; font-weight: 700; color: var(--text-disabled); text-align: center; }
-	.game-name { flex: 1; font-size: 12.5px; color: var(--text-primary); font-weight: 600; }
-	.player-count { font-size: 12px; color: var(--accent); font-weight: 600; width: 50px; text-align: right; }
-	.change { font-size: 11px; width: 40px; text-align: right; }
-	.change.up { color: var(--accent-green); }
-	.change.down { color: var(--accent-red); }
-
-	.vac-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--divider); }
-	.vac-row:last-child { border-bottom: none; }
-	.vac-region { width: 110px; font-size: 12px; color: var(--text-secondary); }
-	.vac-bar-wrap { flex: 1; }
-	.vac-count { width: 36px; text-align: right; font-size: 12px; color: var(--text-primary); font-weight: 600; }
-	.vac-rate { width: 36px; text-align: right; font-size: 11px; color: var(--text-muted); }
-</style>

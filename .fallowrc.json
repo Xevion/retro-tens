@@ -3,7 +3,7 @@
 
 	// Treat unlighthouse.config.ts as an explicit entry point. Required because
 	// fallow has no built-in unlighthouse plugin and cannot otherwise discover it.
-	"entry": ["unlighthouse.config.ts"],
+	"entry": ["unlighthouse.config.ts", "panda.config.ts"],
 
 	// reason: unlighthouse loads its config via file convention (default export),
 	// not via a JS import, so fallow's reachability graph cannot see the default

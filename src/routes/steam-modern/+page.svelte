@@ -25,7 +25,6 @@ import {
 	statDeltaUp,
 	statDeltaDown,
 	statBar,
-	statBarFill,
 	chartContainer,
 	revTooltipInner,
 	revTooltipDate,
@@ -43,62 +42,14 @@ import {
 	healthBarWrap,
 	healthVal
 } from './page.styles';
-
-const stats = [
-	{
-		label: 'Concurrent Users',
-		value: '8.4',
-		unit: 'M',
-		delta: '▲ +3.2% from yesterday',
-		up: true,
-		fill: 72,
-		fillStyle: ''
-	},
-	{
-		label: 'Daily Revenue',
-		value: '$2.1',
-		unit: 'M',
-		delta: '▲ +8.7% vs. last week',
-		up: true,
-		fill: 85,
-		fillStyle: 'background:linear-gradient(90deg,#8a6810,#d5a51b)'
-	},
-	{
-		label: 'Total Accounts',
-		value: '147',
-		unit: 'M',
-		delta: '▲ +12,488 today',
-		up: true,
-		fill: 60,
-		fillStyle: 'background:linear-gradient(90deg,#3c7022,#4fa832)'
-	},
-	{
-		label: 'Active Bans (24h)',
-		value: '1,204',
-		unit: '',
-		delta: '▲ +14.2% VAC activity',
-		up: false,
-		fill: 28,
-		fillStyle: 'background:linear-gradient(90deg,#843030,#c94040)'
-	}
-];
-
-const revenueData = [
-	{ date: new Date('2012-07-24'), store: 920, market: 310, dlc: 180 },
-	{ date: new Date('2012-07-25'), store: 1140, market: 380, dlc: 210 },
-	{ date: new Date('2012-07-26'), store: 790, market: 260, dlc: 155 },
-	{ date: new Date('2012-07-27'), store: 1340, market: 450, dlc: 240 },
-	{ date: new Date('2012-07-28'), store: 1030, market: 340, dlc: 195 },
-	{ date: new Date('2012-07-29'), store: 1470, market: 490, dlc: 280 },
-	{ date: new Date('2012-07-30'), store: 1280, market: 420, dlc: 255 },
-	{ date: new Date('2012-07-31'), store: 1060, market: 355, dlc: 200 },
-	{ date: new Date('2012-08-01'), store: 1160, market: 385, dlc: 215 },
-	{ date: new Date('2012-08-02'), store: 900, market: 295, dlc: 170 },
-	{ date: new Date('2012-08-03'), store: 1440, market: 475, dlc: 270 },
-	{ date: new Date('2012-08-04'), store: 1505, market: 495, dlc: 285 },
-	{ date: new Date('2012-08-05'), store: 1245, market: 410, dlc: 240 },
-	{ date: new Date('2012-08-06'), store: 1635, market: 540, dlc: 310 }
-];
+import {
+	stats,
+	revenueData,
+	activityFeed,
+	serverHealth,
+	recentUsers
+} from '$lib/data/steam-modern/dashboard';
+import type { RevenueDataPoint, DashboardStat } from '$lib/data/steam-modern/dashboard';
 
 function fmtRevDate(d: Date) {
 	return `${d.getMonth() + 1}/${d.getDate()}`;
@@ -108,101 +59,19 @@ function fmtRevTooltipDate(d: Date) {
 	return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-const activityFeed = [
-	{
-		dot: 'danger' as const,
-		time: '14:32',
-		text: '<strong>VAC System</strong> issued 48 bans across 3 games'
-	},
-	{
-		dot: 'info' as const,
-		time: '14:28',
-		text: '<strong>Steamworks</strong> build #4892 deployed to CDN'
-	},
-	{
-		dot: 'warn' as const,
-		time: '14:15',
-		text: 'Store traffic spike detected — <strong>+340%</strong> on flash sale page'
-	},
-	{
-		dot: 'success' as const,
-		time: '13:55',
-		text: '<strong>Greenlight</strong> approved 6 new titles'
-	},
-	{
-		dot: 'danger' as const,
-		time: '13:40',
-		text: 'Admin <strong>ValveAdmin_03</strong> suspended user #44821930'
-	},
-	{
-		dot: 'info' as const,
-		time: '13:22',
-		text: 'Scheduled maintenance complete — all nodes healthy'
-	},
-	{
-		dot: 'warn' as const,
-		time: '13:10',
-		text: 'Report queue threshold reached — <strong>9 pending</strong>'
-	}
-];
-
-const serverHealth = [
-	{ name: 'US East', val: 94, color: 'green' as const },
-	{ name: 'US West', val: 88, color: '' as const },
-	{ name: 'EU Frankfurt', val: 97, color: 'green' as const },
-	{ name: 'EU Stockholm', val: 91, color: '' as const },
-	{ name: 'Asia Pacific', val: 79, color: 'gold' as const },
-	{ name: 'South America', val: 62, color: 'red' as const }
-];
-
-const recentUsers = [
-	{
-		id: '#44821930',
-		name: 'darkw4ve_99',
-		status: 'banned',
-		country: 'RU',
-		games: 0,
-		joined: 'Nov 12, 2012'
-	},
-	{
-		id: '#44820481',
-		name: 'steamfan2012',
-		status: 'online',
-		country: 'US',
-		games: 47,
-		joined: 'Nov 12, 2012'
-	},
-	{
-		id: '#44819004',
-		name: 'gamerbro_x',
-		status: 'away',
-		country: 'DE',
-		games: 12,
-		joined: 'Nov 11, 2012'
-	},
-	{
-		id: '#44817223',
-		name: 'pixelwitch',
-		status: 'offline',
-		country: 'GB',
-		games: 103,
-		joined: 'Nov 11, 2012'
-	}
-];
-
 const panelStyles = panel();
 const chartPanel = cx(panelStyles.root, css({ display: 'flex', flexDirection: 'column' }));
 
-const progressFills: Record<string, string> = {
-	'': progressBarSva().fill as string,
+const progressFills: Record<DashboardStat['fillColor'], string> = {
+	default: progressBarSva().fill as string,
 	green: progressBarSva({ color: 'green' }).fill as string,
 	red: progressBarSva({ color: 'red' }).fill as string,
 	gold: progressBarSva({ color: 'gold' }).fill as string
 };
 const progressTrack = progressBarSva().track as string;
 
-function getProgressFillClass(color: string): string {
-	return progressFills[color] ?? progressFills[''];
+function getProgressFillClass(color: DashboardStat['fillColor']): string {
+	return progressFills[color] ?? progressFills.default;
 }
 
 const userNameSmall = css({ fontSize: '12px' });
@@ -224,7 +93,7 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 			<div class={statValue}>{stat.value}<span>{stat.unit}</span></div>
 			<div class={cx(statDelta, stat.up ? statDeltaUp : statDeltaDown)}>{stat.delta}</div>
 			<div class={statBar}>
-				<div class={statBarFill} style="width:{stat.fill}%;{stat.fillStyle}"></div>
+				<div class={getProgressFillClass(stat.fillColor)} style="width:{stat.fill}%"></div>
 			</div>
 		</div>
 	{/each}
@@ -247,7 +116,7 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 				data={revenueData}
 				x="date"
 				xScale={scaleTime()}
-				y={(d: (typeof revenueData)[number]) => d.store + d.market + d.dlc}
+				y={(d: RevenueDataPoint) => d.store + d.market + d.dlc}
 				yScale={scaleLinear()}
 				yNice
 				yDomain={[0, null]}
@@ -295,7 +164,7 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 					<Highlight lines={{ stroke: 'rgba(102,192,244,0.4)', strokeWidth: 1 }} />
 				</Svg>
 				<Tooltip.Root let:data classes={{ root: 'rev-tooltip' }} variant="none">
-					{@const d = data as (typeof revenueData)[number]}
+					{@const d = data as RevenueDataPoint}
 					<div class={revTooltipInner}>
 						<p class={revTooltipDate}>{fmtRevTooltipDate(d.date)}</p>
 						<div class={revTooltipRow}>
@@ -377,7 +246,7 @@ const cellMuted = css({ color: 'text.muted', fontSize: '11px' });
 							<span class={userNameSmall}>{u.name}</span>
 							<span class={userIdInline}>{u.id}</span>
 						</td>
-						<td><StatusBadge status={u.status as 'online' | 'offline' | 'away' | 'banned'} /></td>
+						<td><StatusBadge status={u.status} /></td>
 						<td class={cellSecondary}>{u.games}</td>
 						<td class={cellMuted}>{u.joined}</td>
 					</tr>

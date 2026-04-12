@@ -23,21 +23,25 @@ export const btn = cva({
 	variants: {
 		visual: {
 			primary: {
-				background: 'linear-gradient(180deg, #76b4d6 0%, #4a88aa 50%, #3c7493 100%)',
+				background:
+					'linear-gradient(180deg, token(colors.surface.btnPrimary) 0%, token(colors.surface.btnPrimaryMid) 50%, token(colors.surface.btnPrimaryEnd) 100%)',
 				color: '#fff',
-				border: '1px solid #2a5f7e',
+				border: '1px solid token(colors.border.btnPrimary)',
 				textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)',
 				_hover: {
-					background: 'linear-gradient(180deg, #8ac4e4 0%, #5a98ba 50%, #4c84a3 100%)'
+					background:
+						'linear-gradient(180deg, token(colors.surface.btnPrimaryHover) 0%, token(colors.surface.btnPrimaryHoverMid) 50%, token(colors.surface.btnPrimaryHoverEnd) 100%)'
 				}
 			},
 			secondary: {
-				background: 'linear-gradient(180deg, #5c7a8e 0%, #3d5a6e 100%)',
+				background:
+					'linear-gradient(180deg, token(colors.surface.btnSecondary) 0%, token(colors.surface.btnSecondaryEnd) 100%)',
 				color: 'text.primary',
 				border: '1px solid token(colors.border)',
 				textShadow: '0 1px 1px rgba(0, 0, 0, 0.3)',
 				_hover: {
-					background: 'linear-gradient(180deg, #6c8a9e 0%, #4d6a7e 100%)'
+					background:
+						'linear-gradient(180deg, token(colors.surface.btnSecondaryHover) 0%, token(colors.surface.btnSecondaryHoverEnd) 100%)'
 				}
 			}
 		}

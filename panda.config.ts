@@ -94,6 +94,16 @@ export default defineConfig({
 						rowAlt: { value: '#1e2d3f' },
 						rowHover: { value: '#24405a' },
 						input: { value: '#101922' },
+						btnPrimary: { value: '#76b4d6' },
+						btnPrimaryMid: { value: '#4a88aa' },
+						btnPrimaryEnd: { value: '#3c7493' },
+						btnPrimaryHover: { value: '#8ac4e4' },
+						btnPrimaryHoverMid: { value: '#5a98ba' },
+						btnPrimaryHoverEnd: { value: '#4c84a3' },
+						btnSecondary: { value: '#5c7a8e' },
+						btnSecondaryEnd: { value: '#3d5a6e' },
+						btnSecondaryHover: { value: '#6c8a9e' },
+						btnSecondaryHoverEnd: { value: '#4d6a7e' },
 						header: { value: '#1b2838' },
 						sidebar: { value: '#15202e' },
 						tooltip: { value: '#c2c2c2' },
@@ -122,7 +132,8 @@ export default defineConfig({
 					},
 					border: {
 						DEFAULT: { value: '#2a475e' },
-						light: { value: '#3c6080' }
+						light: { value: '#3c6080' },
+						btnPrimary: { value: '#2a5f7e' }
 					},
 					divider: { value: '#1a2d40' }
 				},

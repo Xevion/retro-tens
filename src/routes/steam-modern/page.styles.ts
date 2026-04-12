@@ -48,12 +48,6 @@ export const statBar = css({
 	background: 'divider'
 });
 
-export const statBarFill = css({
-	height: '100%',
-	background: 'linear-gradient(90deg, token(colors.accent.dim), token(colors.accent))',
-	transition: 'width 1s ease'
-});
-
 export const chartContainer = css({
 	padding: '8px 14px 14px',
 	flex: '1',
