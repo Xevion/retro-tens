@@ -2,7 +2,7 @@
 import { resolve } from '$app/paths';
 import { page } from '$app/state';
 import type { Pathname } from '$app/types';
-import type { ComponentType } from 'svelte';
+import type { IconComponent } from '$lib/icons/types';
 import { css, cx } from 'styled-system/css';
 import { flex } from 'styled-system/patterns';
 import {
@@ -26,7 +26,7 @@ import {
 let { children } = $props();
 
 type SidebarLink = {
-	icon: ComponentType;
+	icon: IconComponent;
 	label: string;
 	href?: Pathname;
 	count?: string;

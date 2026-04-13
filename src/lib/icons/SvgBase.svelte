@@ -2,7 +2,7 @@
 type Props = {
 	path: string;
 	viewBox?: string;
-	size?: number;
+	size?: number | string;
 	color?: string;
 	class?: string;
 	label?: string;

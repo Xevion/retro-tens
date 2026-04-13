@@ -1,7 +1,7 @@
 <script lang="ts">
 type Props = {
 	src: string;
-	size?: number;
+	size?: number | string;
 	color?: string;
 	class?: string;
 	label?: string;
