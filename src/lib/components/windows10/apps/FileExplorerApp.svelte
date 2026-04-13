@@ -3,6 +3,8 @@ import { SvelteSet } from 'svelte/reactivity';
 import { css, cx } from 'styled-system/css';
 import { folderTree, filesByPath, type FileEntry } from '$lib/data/windows10/file-explorer';
 import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
+import folderIcon from '$lib/assets/windows10/folder.png';
+import documentIcon from '$lib/assets/windows10/document.png';
 
 let currentPath = $state('C:\\Users\\User\\Documents');
 let pathHistory = $state<string[]>(['C:\\Users\\User\\Documents']);
@@ -357,7 +359,7 @@ function fileTypeLabel(entry: FileEntry): string {
 						{:else}
 							<span style="width: 16px"></span>
 						{/if}
-						<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(node.path)}><Mdl2Icon name="folder" size={14} color="#FFB900" /> {node.name}</button>
+						<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(node.path)}><img src={folderIcon} alt="" width="14" height="14" aria-hidden="true" /> {node.name}</button>
 					</div>
 					{#if node.children && expandedNodes.has(node.path)}
 						<div class={treeChildren}>
@@ -373,7 +375,7 @@ function fileTypeLabel(entry: FileEntry): string {
 										{:else}
 											<span style="width: 16px"></span>
 										{/if}
-										<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(child.path)}><Mdl2Icon name="folder" size={14} color="#FFB900" /> {child.name}</button>
+										<button type="button" class={treeExpandBtn} style="width: auto; flex: 1; justify-content: flex-start; gap: 4px" onclick={() => navigateTo(child.path)}><img src={folderIcon} alt="" width="14" height="14" aria-hidden="true" /> {child.name}</button>
 									</div>
 									{#if child.children && expandedNodes.has(child.path)}
 										<div class={treeChildren}>
@@ -384,7 +386,7 @@ function fileTypeLabel(entry: FileEntry): string {
 													onclick={() => navigateTo(grandchild.path)}
 												>
 													<span style="width: 16px"></span>
-													<Mdl2Icon name="folder" size={14} color="#FFB900" /> {grandchild.name}
+													<img src={folderIcon} alt="" width="14" height="14" aria-hidden="true" /> {grandchild.name}
 												</button>
 											{/each}
 										</div>
@@ -418,7 +420,7 @@ function fileTypeLabel(entry: FileEntry): string {
 					>
 						<div class={fileName}>
 							<span class={fileIcon}>
-								{#if entry.type === 'folder'}<Mdl2Icon name="folder" size={16} color="#FFB900" />{:else if entry.icon === 'image'}<Mdl2Icon name="photo" size={16} color="#666" />{:else}<Mdl2Icon name="page" size={16} color="#666" />{/if}
+								{#if entry.type === 'folder'}<img src={folderIcon} alt="" width="16" height="16" aria-hidden="true" />{:else}<img src={documentIcon} alt="" width="16" height="16" aria-hidden="true" />{/if}
 							</span>
 							{entry.name}
 						</div>
@@ -438,7 +440,7 @@ function fileTypeLabel(entry: FileEntry): string {
 							onkeydown={(e) => { if (e.key === 'Enter' && entry.type === 'folder') navigateTo(currentPath + '\\' + entry.name); }}
 						>
 							<span>
-								{#if entry.type === 'folder'}<Mdl2Icon name="folder" size={32} color="#FFB900" />{:else if entry.icon === 'image'}<Mdl2Icon name="photo" size={32} color="#666" />{:else}<Mdl2Icon name="page" size={32} color="#666" />{/if}
+								{#if entry.type === 'folder'}<img src={folderIcon} alt="" width="32" height="32" aria-hidden="true" />{:else}<img src={documentIcon} alt="" width="32" height="32" aria-hidden="true" />{/if}
 							</span>
 							<span class={gridItemLabel}>{entry.name}</span>
 						</div>

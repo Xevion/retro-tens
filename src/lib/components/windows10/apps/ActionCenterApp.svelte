@@ -237,10 +237,10 @@ const qaGrid = grid({
 const qaTileBase = css({
 	display: 'flex',
 	flexDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'center',
-	gap: '5px',
-	padding: '10px 4px 8px',
+	alignItems: 'flex-start',
+	justifyContent: 'flex-start',
+	gap: '0',
+	padding: '10px 8px 8px',
 	background: 'surface.qa',
 	border: 'none',
 	cursor: 'pointer',
@@ -259,8 +259,8 @@ const qaIcon = css({
 	width: '20px',
 	height: '20px',
 	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
+	alignItems: 'flex-start',
+	justifyContent: 'flex-start',
 	color: 'text.muted'
 });
 
@@ -269,14 +269,17 @@ const qaIconActive = css({ color: 'accent' });
 const qaLabel = css({
 	fontSize: 'xs',
 	color: 'text.primary',
-	textAlign: 'center',
-	lineHeight: '1.2'
+	textAlign: 'left',
+	lineHeight: '1.2',
+	marginTop: 'auto'
 });
 
 const qaLabelActive = css({
 	color: 'accent',
 	fontWeight: '600'
 });
+
+const qaIconFlipX = css({ transform: 'scaleX(-1)' });
 </script>
 
 <div class={panelHeader}>
@@ -321,7 +324,7 @@ const qaLabelActive = css({
 				value={tile.label}
 				class={cx(qaTileBase, active ? qaTileActive : '')}
 			>
-				<div class={cx(qaIcon, active ? qaIconActive : '')}>
+				<div class={cx(qaIcon, active ? qaIconActive : '', tile.icon === 'quietHours' ? qaIconFlipX : '')}>
 					<Mdl2Icon name={tile.icon} size={20} />
 				</div>
 				<span class={cx(qaLabel, active ? qaLabelActive : '')}>{tile.label}</span>

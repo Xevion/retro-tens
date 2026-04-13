@@ -3,6 +3,9 @@ import Mdl2Icon from './Mdl2Icon.svelte';
 import { cx } from 'styled-system/css';
 import { hstack } from 'styled-system/patterns';
 import { taskbarStyles as tb } from '$lib/recipes/windows10';
+import folderIcon from '$lib/assets/windows10/folder.png';
+import documentIcon from '$lib/assets/windows10/document.png';
+import settingsGearIcon from '$lib/assets/windows10/settings-gear-light.png';
 
 type AppId = 'resume-builder' | 'file-explorer' | 'settings';
 
@@ -36,6 +39,12 @@ $effect(() => {
 
 const trayIcons = hstack({ gap: '6px' });
 
+const appIcons: Record<AppId, string> = {
+	'file-explorer': folderIcon,
+	'resume-builder': documentIcon,
+	settings: settingsGearIcon
+};
+
 const pinnedApps: { id: AppId; label: string }[] = [
 	{ id: 'file-explorer', label: 'File Explorer' },
 	{ id: 'resume-builder', label: 'Resume Builder' },
@@ -66,13 +75,7 @@ const pinnedApps: { id: AppId; label: string }[] = [
 				title={app.label}
 				onclick={() => onOpenApp(app.id)}
 			>
-				{#if app.id === 'file-explorer'}
-					<Mdl2Icon name="fileExplorer" size={18} />
-				{:else if app.id === 'resume-builder'}
-					<Mdl2Icon name="page" size={18} />
-				{:else if app.id === 'settings'}
-					<Mdl2Icon name="settings" size={18} />
-				{/if}
+				<img src={appIcons[app.id]} alt="" width="18" height="18" aria-hidden="true" />
 			</button>
 		{/each}
 	</div>

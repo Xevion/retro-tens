@@ -4,11 +4,15 @@ import { vstack } from 'styled-system/patterns';
 import DesktopWindow from '$lib/components/windows10/DesktopWindow.svelte';
 import Taskbar from '$lib/components/windows10/Taskbar.svelte';
 import ActionCenterDrawer from '$lib/components/windows10/ActionCenterDrawer.svelte';
-import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
 import ResumeBuilderApp from '$lib/components/windows10/apps/ResumeBuilderApp.svelte';
 import FileExplorerApp from '$lib/components/windows10/apps/FileExplorerApp.svelte';
 import SettingsApp from '$lib/components/windows10/apps/SettingsApp.svelte';
-import type { Mdl2IconName } from '$lib/data/windows10/mdl2-icons';
+import thisPcIcon from '$lib/assets/windows10/this-pc.png';
+import folderIcon from '$lib/assets/windows10/folder.png';
+import recycleBinIcon from '$lib/assets/windows10/recycle-bin.png';
+import documentIcon from '$lib/assets/windows10/document.png';
+// Win10 selects icon variant by surface luminance: -light (white) for dark, -dark (gray) for light
+import settingsGearIcon from '$lib/assets/windows10/settings-gear-light.png';
 
 type AppId = 'resume-builder' | 'file-explorer' | 'settings';
 
@@ -86,16 +90,22 @@ const focusedApp = $derived<AppId | null>(
 
 type DesktopIcon = {
 	label: string;
-	icon: Mdl2IconName;
+	icon: string;
 	action?: AppId;
 };
 
+const titleBarIcons: Record<AppId, string> = {
+	'file-explorer': folderIcon,
+	'resume-builder': documentIcon,
+	settings: settingsGearIcon
+};
+
 const desktopIcons: DesktopIcon[] = [
-	{ label: 'This PC', icon: 'devicePC' },
-	{ label: 'File Explorer', icon: 'fileExplorer', action: 'file-explorer' },
-	{ label: 'Resume Builder', icon: 'page', action: 'resume-builder' },
-	{ label: 'Settings', icon: 'settings', action: 'settings' },
-	{ label: 'Recycle Bin', icon: 'recycleBin' }
+	{ label: 'This PC', icon: thisPcIcon },
+	{ label: 'File Explorer', icon: folderIcon, action: 'file-explorer' },
+	{ label: 'Resume Builder', icon: documentIcon, action: 'resume-builder' },
+	{ label: 'Settings', icon: settingsGearIcon, action: 'settings' },
+	{ label: 'Recycle Bin', icon: recycleBinIcon }
 ];
 
 const desktopShell = vstack({
@@ -164,12 +174,12 @@ const desktopIconLabel = css({
 				{#if icon.action}
 					{@const action = icon.action}
 					<button type="button" class={desktopIcon} ondblclick={() => openApp(action)}>
-						<Mdl2Icon name={icon.icon} size={40} color="#fff" />
+						<img src={icon.icon} alt="" width="40" height="40" aria-hidden="true" />
 						<span class={desktopIconLabel}>{icon.label}</span>
 					</button>
 				{:else}
 					<div class={desktopIcon}>
-						<Mdl2Icon name={icon.icon} size={40} color="#fff" />
+						<img src={icon.icon} alt="" width="40" height="40" aria-hidden="true" />
 						<span class={desktopIconLabel}>{icon.label}</span>
 					</div>
 				{/if}
@@ -190,13 +200,7 @@ const desktopIconLabel = css({
 				onclose={() => closeApp(def.id)}
 			>
 				{#snippet icon()}
-					{#if def.id === 'resume-builder'}
-						<Mdl2Icon name="page" size={16} />
-					{:else if def.id === 'file-explorer'}
-						<Mdl2Icon name="fileExplorer" size={16} />
-					{:else if def.id === 'settings'}
-						<Mdl2Icon name="settings" size={16} />
-					{/if}
+					<img src={titleBarIcons[def.id]} alt="" width="16" height="16" aria-hidden="true" />
 				{/snippet}
 
 				{#if def.id === 'resume-builder'}
