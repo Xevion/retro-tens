@@ -2,82 +2,9 @@
 import { ToggleGroup } from '@ark-ui/svelte/toggle-group';
 import { css, cx } from 'styled-system/css';
 import { grid } from 'styled-system/patterns';
-import type { IconComponent } from '$lib/icons/types';
-import {
-	Airplane,
-	BatterySaver,
-	Bluetooth,
-	Calendar,
-	CheckMark,
-	Mail,
-	MapPin,
-	QuietHours,
-	Settings,
-	TabletMode,
-	Wifi
-} from '$lib/icons/windows10';
+import { initialNotifications, qaTiles, type Notif } from '$lib/data/windows10/action-center';
 
-type Notif = {
-	id: string;
-	group: string;
-	groupColor: string;
-	groupIcon: IconComponent;
-	title: string;
-	body: string;
-	time: string;
-};
-
-let notifications = $state<Notif[]>([
-	{
-		id: 'n1',
-		group: 'Mail',
-		groupColor: '#0078D7',
-		groupIcon: Mail,
-		title: 'Alex Turner',
-		body: 'Re: Q3 Design Review — Updated slides are attached, let me know what you think.',
-		time: '3:42 PM'
-	},
-	{
-		id: 'n2',
-		group: 'Mail',
-		groupColor: '#0078D7',
-		groupIcon: Mail,
-		title: 'Microsoft Outlook',
-		body: 'You have a meeting in 15 minutes: Weekly Sync with Design Team',
-		time: '1:15 PM'
-	},
-	{
-		id: 'n3',
-		group: 'Calendar',
-		groupColor: '#E74856',
-		groupIcon: Calendar,
-		title: 'Reminder',
-		body: 'Project deadline: UI Handoff — Today at 5:00 PM',
-		time: '12:00 PM'
-	},
-	{
-		id: 'n4',
-		group: 'Windows Update',
-		groupColor: '#107C10',
-		groupIcon: CheckMark,
-		title: 'Updates available',
-		body: 'Cumulative Update for Windows 10 Version 1607 is ready to install.',
-		time: '9:00 AM'
-	}
-]);
-
-type QaTile = { label: string; icon: IconComponent };
-
-const qaTiles: QaTile[] = [
-	{ label: 'Wi-Fi', icon: Wifi },
-	{ label: 'Bluetooth', icon: Bluetooth },
-	{ label: 'Airplane mode', icon: Airplane },
-	{ label: 'Quiet hours', icon: QuietHours },
-	{ label: 'Location', icon: MapPin },
-	{ label: 'Battery saver', icon: BatterySaver },
-	{ label: 'Tablet mode', icon: TabletMode },
-	{ label: 'All settings', icon: Settings }
-];
+let notifications = $state<Notif[]>([...initialNotifications]);
 
 let activeQaTiles = $state<string[]>(['Wi-Fi', 'Location']);
 
@@ -164,7 +91,6 @@ const notifCard = css({
 	margin: '2px 10px',
 	padding: '10px 12px',
 	position: 'relative',
-	cursor: 'pointer',
 	transition: 'background token(durations.fast) ease',
 	_hover: {
 		background: 'surface.elevated',
@@ -299,7 +225,7 @@ const qaIconFlipX = css({ transform: 'scaleX(-1)' });
 	<button type="button" class={clearAllBtn} onclick={clearAll}>Clear all</button>
 </div>
 
-<div class={notificationsArea}>
+<div class={notificationsArea} aria-live="polite">
 	{#if notifications.length === 0}
 		<div class={emptyState}>No new notifications</div>
 	{:else}
@@ -338,7 +264,7 @@ const qaIconFlipX = css({ transform: 'scaleX(-1)' });
 				value={tile.label}
 				class={cx(qaTileBase, active && qaTileActive)}
 			>
-				<div class={cx(qaIcon, active && qaIconActive, tile.icon === QuietHours && qaIconFlipX)}>
+				<div class={cx(qaIcon, active && qaIconActive, tile.flipX && qaIconFlipX)}>
 					<TileIcon size={20} />
 				</div>
 				<span class={cx(qaLabel, active && qaLabelActive)}>{tile.label}</span>

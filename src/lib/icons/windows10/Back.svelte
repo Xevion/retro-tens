@@ -3,7 +3,7 @@
 import type { IconProps } from '../types';
 import SvgBase from '../SvgBase.svelte';
 
-let { size, color, class: className }: IconProps = $props();
+let { size, color, class: className, label }: IconProps = $props();
 </script>
 
-<SvgBase path="M2048 1088H250l787 787-90 90L6 1024 947 83l90 90-787 787h1798v128z" {size} {color} class={className} />
+<SvgBase path="M2048 1088H250l787 787-90 90L6 1024 947 83l90 90-787 787h1798v128z" {size} {color} {label} class={className} />

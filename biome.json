@@ -13,7 +13,8 @@
 			"!**/build",
 			"!**/node_modules",
 			"!docs",
-			"!styled-system"
+			"!styled-system",
+			"!src/lib/icons/windows10"
 		]
 	},
 	"formatter": {

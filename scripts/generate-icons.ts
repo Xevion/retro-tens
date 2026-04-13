@@ -58,10 +58,10 @@ ${GENERATED_HEADER}
 import type { IconProps } from '../types';
 import SvgBase from '../SvgBase.svelte';
 
-let { size, color, class: className }: IconProps = $props();
+let { size, color, class: className, label }: IconProps = $props();
 </script>
 
-<SvgBase path="${pathData}" {size} {color} class={className} />
+<SvgBase path="${pathData}" {size} {color} {label} class={className} />
 `;
 		if (writeIfChanged(join(outDir, fileName), svelteContent)) {
 			written++;

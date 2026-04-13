@@ -5,6 +5,7 @@ type Props = {
 	size?: number;
 	color?: string;
 	class?: string;
+	label?: string;
 };
 
 let {
@@ -12,7 +13,8 @@ let {
 	viewBox = '0 0 2048 2048',
 	size = 16,
 	color = 'currentColor',
-	class: className = ''
+	class: className = '',
+	label
 }: Props = $props();
 </script>
 
@@ -22,7 +24,9 @@ let {
 	{viewBox}
 	fill={color}
 	class={className}
-	aria-hidden="true"
+	aria-hidden={!label}
+	role={label ? 'img' : undefined}
+	aria-label={label}
 >
 	<path d={path} />
 </svg>
