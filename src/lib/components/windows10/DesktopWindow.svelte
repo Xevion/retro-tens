@@ -1,6 +1,6 @@
 <script lang="ts">
 import { FloatingPanel } from '@ark-ui/svelte/floating-panel';
-import Mdl2Icon from './Mdl2Icon.svelte';
+import { ChromeClose, ChromeMaximize, ChromeMinimize } from '$lib/icons/windows10';
 import { desktopWindow } from '$lib/recipes/windows10';
 import type { Snippet } from 'svelte';
 
@@ -62,13 +62,13 @@ function handleOpenChange(details: { open: boolean }) {
 					</FloatingPanel.Title>
 					<FloatingPanel.Control class={dw.control}>
 						<FloatingPanel.StageTrigger stage="minimized" class={dw.controlBtn} aria-label="Minimize">
-							<Mdl2Icon name="chromeMinimize" size={10} />
+							<ChromeMinimize size={10} />
 						</FloatingPanel.StageTrigger>
 						<FloatingPanel.StageTrigger stage="maximized" class={dw.controlBtn} aria-label="Maximize">
-							<Mdl2Icon name="chromeMaximize" size={10} />
+							<ChromeMaximize size={10} />
 						</FloatingPanel.StageTrigger>
 						<FloatingPanel.CloseTrigger class={dw.closeBtn} aria-label="Close">
-							<Mdl2Icon name="chromeClose" size={10} />
+							<ChromeClose size={10} />
 						</FloatingPanel.CloseTrigger>
 					</FloatingPanel.Control>
 				</FloatingPanel.Header>

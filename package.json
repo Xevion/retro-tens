@@ -26,7 +26,8 @@
 		"just:check": "just --fmt --check --unstable",
 		"lighthouse": "unlighthouse",
 		"check": "bun run typecheck && bun run lint:js && bun run lint:biome && bun run lint:actions && bun run format && bun run spell && bun run analyze && bun run analyze:production && bun run links && bun run audit && bun run just:check",
-		"fix": "biome format --write . && eslint . --fix"
+		"fix": "biome format --write . && eslint . --fix",
+		"icons:generate": "bun scripts/generate-icons.ts"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.11.1",

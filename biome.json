@@ -83,6 +83,16 @@
 			}
 		},
 		{
+			"includes": ["scripts/**"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		},
+		{
 			"includes": [".fallowrc.json"],
 			"json": {
 				"parser": {

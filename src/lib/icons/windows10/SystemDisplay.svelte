@@ -1,0 +1,9 @@
+<script lang="ts">
+// @generated — do not edit. Regenerate with `bun run icons:generate`
+import type { IconProps } from '../types';
+import SvgBase from '../SvgBase.svelte';
+
+let { size, color, class: className }: IconProps = $props();
+</script>
+
+<SvgBase path="M2000 523Q2012 511 2021.0 494.0Q2030 477 2036.0 458.0Q2042 439 2045.0 419.5Q2048 400 2048 384Q2048 357 2038.0 334.0Q2028 311 2010.5 293.5Q1993 276 1970.0 266.0Q1947 256 1920 256H128Q101 256 78.0 266.0Q55 276 37.5 293.5Q20 311 10.0 334.0Q0 357 0 384Q0 400 3.0 419.5Q6 439 12.0 458.0Q18 477 27.0 494.0Q36 511 48 523L256 731V1664H1792V731ZM384 768H1664V1536H384ZM1920 384Q1920 395 1916.0 412.5Q1912 430 1904 438L1701 640H347L144 438Q136 430 132.0 412.5Q128 395 128 384Z" {size} {color} class={className} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-import Mdl2Icon from './Mdl2Icon.svelte';
+import { BatterySaver, Search, Wifi } from '$lib/icons/windows10';
 import { cx } from 'styled-system/css';
 import { hstack } from 'styled-system/patterns';
 import { taskbarStyles as tb } from '$lib/recipes/windows10';
@@ -64,7 +64,7 @@ const pinnedApps: { id: AppId; label: string }[] = [
 		</button>
 
 		<div class={tb.searchBox} title="Search Windows">
-			<Mdl2Icon name="search" size={13} color="rgba(255,255,255,0.45)" />
+			<Search size={13} color="rgba(255,255,255,0.45)" />
 			<span>Search Windows</span>
 		</div>
 
@@ -83,8 +83,8 @@ const pinnedApps: { id: AppId; label: string }[] = [
 	<div class={tb.right}>
 		<div class={tb.sysTray}>
 			<div class={trayIcons}>
-				<Mdl2Icon name="wifi" size={14} color="rgba(255,255,255,0.7)" />
-				<Mdl2Icon name="batterySaver" size={14} color="rgba(255,255,255,0.7)" />
+				<Wifi size={14} color="rgba(255,255,255,0.7)" />
+				<BatterySaver size={14} color="rgba(255,255,255,0.7)" />
 			</div>
 			<div class={tb.clock}>
 				<div class={tb.clockTime}>{time}</div>

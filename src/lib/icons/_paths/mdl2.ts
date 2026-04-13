@@ -2,8 +2,10 @@
 // Sources:
 //   - @fluentui/react-icons-mdl2 (MIT, microsoft/fluentui) for chrome/nav/settings/folder
 //   - Direct extraction from SegMDL2.ttf via fonttools for all others
+//
+// This file is the codegen source of truth. Run `bun run icons:generate` after editing.
 
-export const mdl2 = {
+export const mdl2Paths = {
 	// Window chrome
 	chromeClose:
 		'M1169 1024l879 879-145 145-879-879-879 879L0 1903l879-879L0 145 145 0l879 879L1903 0l145 145-879 879z',
@@ -84,4 +86,4 @@ export const mdl2 = {
 	globalNav: 'M2048 640H0V512h2048v128zm0 1024H0v-128h2048v128zm0-513H0v-127h2048v127z'
 } as const;
 
-export type Mdl2IconName = keyof typeof mdl2;
+export type Mdl2IconName = keyof typeof mdl2Paths;

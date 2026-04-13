@@ -2,7 +2,15 @@
 import { SvelteSet } from 'svelte/reactivity';
 import { css, cx } from 'styled-system/css';
 import { folderTree, filesByPath, type FileEntry } from '$lib/data/windows10/file-explorer';
-import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
+import {
+	Back,
+	ChevronDown,
+	ChevronRight,
+	Forward,
+	GridView as GridViewIcon,
+	ListView as ListViewIcon,
+	Up
+} from '$lib/icons/windows10';
 import folderIcon from '$lib/assets/windows10/folder.png';
 import documentIcon from '$lib/assets/windows10/document.png';
 
@@ -315,19 +323,19 @@ function fileTypeLabel(entry: FileEntry): string {
 	<!-- Toolbar -->
 	<div class={toolbar}>
 		<button type="button" class={navBtn} onclick={goBack} disabled={historyIndex <= 0} aria-label="Back">
-			<Mdl2Icon name="back" size={16} />
+			<Back size={16} />
 		</button>
 		<button type="button" class={navBtn} onclick={goForward} disabled={historyIndex >= pathHistory.length - 1} aria-label="Forward">
-			<Mdl2Icon name="forward" size={16} />
+			<Forward size={16} />
 		</button>
 		<button type="button" class={navBtn} onclick={goUp} aria-label="Up">
-			<Mdl2Icon name="up" size={16} />
+			<Up size={16} />
 		</button>
 
 		<div class={addressBar}>
 			{#each pathSegments as seg, i (i)}
 				{#if i > 0}
-					<Mdl2Icon name="chevronRight" size={10} color="#999" />
+					<ChevronRight size={10} color="#999" />
 				{/if}
 				<span class={addressSegment}>{seg}</span>
 			{/each}
@@ -335,10 +343,10 @@ function fileTypeLabel(entry: FileEntry): string {
 
 		<div class={viewToggle}>
 			<button type="button" class={cx(viewBtn, viewMode === 'list' ? viewBtnActive : '')} onclick={() => (viewMode = 'list')} aria-label="List view">
-				<Mdl2Icon name="listView" size={14} />
+				<ListViewIcon size={14} />
 			</button>
 			<button type="button" class={cx(viewBtn, viewMode === 'grid' ? viewBtnActive : '')} onclick={() => (viewMode = 'grid')} aria-label="Grid view">
-				<Mdl2Icon name="gridView" size={14} />
+				<GridViewIcon size={14} />
 			</button>
 		</div>
 	</div>
@@ -354,7 +362,7 @@ function fileTypeLabel(entry: FileEntry): string {
 					>
 						{#if node.children}
 							<button type="button" class={treeExpandBtn} onclick={() => toggleNode(node.path)}>
-								<Mdl2Icon name="chevronDown" size={12} class={css({ transform: expandedNodes.has(node.path) ? 'rotate(0)' : 'rotate(-90deg)', transition: 'transform 0.1s' })} />
+								<ChevronDown size={12} class={css({ transform: expandedNodes.has(node.path) ? 'rotate(0)' : 'rotate(-90deg)', transition: 'transform 0.1s' })} />
 							</button>
 						{:else}
 							<span style="width: 16px"></span>
@@ -370,7 +378,7 @@ function fileTypeLabel(entry: FileEntry): string {
 									>
 										{#if child.children}
 											<button type="button" class={treeExpandBtn} onclick={() => toggleNode(child.path)}>
-												<Mdl2Icon name="chevronDown" size={12} class={css({ transform: expandedNodes.has(child.path) ? 'rotate(0)' : 'rotate(-90deg)', transition: 'transform 0.1s' })} />
+												<ChevronDown size={12} class={css({ transform: expandedNodes.has(child.path) ? 'rotate(0)' : 'rotate(-90deg)', transition: 'transform 0.1s' })} />
 											</button>
 										{:else}
 											<span style="width: 16px"></span>

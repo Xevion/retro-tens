@@ -2,7 +2,6 @@
 import { Switch } from '@ark-ui/svelte/switch';
 import { css, cx } from 'styled-system/css';
 import { categories } from '$lib/data/windows10/settings';
-import Mdl2Icon from '$lib/components/windows10/Mdl2Icon.svelte';
 
 let activeCategory = $state<string>('system');
 
@@ -215,7 +214,7 @@ const searchBar = css({
 				class={cx(sidebarItem, activeCategory === cat.id ? sidebarItemActive : '')}
 				onclick={() => (activeCategory = cat.id)}
 			>
-				<Mdl2Icon name={cat.icon} size={20} />
+				<cat.icon size={20} />
 				{cat.name}
 			</button>
 		{/each}
