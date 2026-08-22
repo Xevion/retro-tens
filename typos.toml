@@ -3,3 +3,6 @@ extend-exclude = ["test-results/"]
 
 [default.extend-words]
 Dota = "Dota"
+
+[default.extend-identifiers]
+PNGs = "PNGs"

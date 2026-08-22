@@ -1,4 +1,7 @@
 <script lang="ts">
+// fallow-ignore-file unused-file
+// reason: base component for the pending PNG-to-icon migration; unreferenced
+// until desktop shell icons switch from <img> to codegen components.
 type Props = {
 	src: string;
 	size?: number | string;

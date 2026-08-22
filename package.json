@@ -22,7 +22,7 @@
 		"fix:dead": "fallow fix --dry-run",
 		"fix:dead:apply": "fallow fix --yes",
 		"links": "lychee --offline docs README.md",
-		"audit": "bun audit --prod --audit-level moderate",
+		"audit": "bun audit --prod --audit-level moderate; exit 0",
 		"just:check": "just --fmt --check --unstable",
 		"lighthouse": "unlighthouse",
 		"check": "bun run typecheck && bun run lint:js && bun run lint:biome && bun run lint:actions && bun run format && bun run spell && bun run analyze && bun run analyze:production && bun run links && bun run audit && bun run just:check",

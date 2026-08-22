@@ -5,7 +5,7 @@ import { categories } from '$lib/data/windows10/settings';
 
 let activeCategory = $state<string>('system');
 
-const current = $derived(categories.find((c) => c.id === activeCategory)!);
+const current = $derived(categories.find((c) => c.id === activeCategory) ?? categories[0]);
 
 let settingValues = $state<Record<string, Record<string, boolean | string | number>>>(
 	Object.fromEntries(

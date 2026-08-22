@@ -46,6 +46,25 @@
 			"file": "src/lib/meta.ts",
 			"exports": ["routeMeta"]
 		},
+		// reason: @generated barrel re-exporting the full MDL2 icon set (the codegen
+		// source's complete glyph collection), not just the icons current pages
+		// consume. This is the intended public surface, not dead code.
+		{
+			"file": "src/lib/icons/windows10/index.ts",
+			"exports": [
+				"ChevronDown",
+				"ChromeRestore",
+				"DevicePC",
+				"FileExplorer",
+				"Folder",
+				"GlobalNav",
+				"GridView",
+				"ListView",
+				"Page",
+				"Photo",
+				"RecycleBin"
+			]
+		},
 		// reason: SvelteKit consumes `prerender` exports from +server.ts files at
 		// build time via its own module loader, not via static JS imports.
 		{

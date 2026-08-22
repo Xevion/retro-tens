@@ -2,7 +2,7 @@ import type { Component, ComponentType, SvelteComponent } from 'svelte';
 
 // Minimal props shared by all icon-like components (Lucide, custom SVG, raster).
 // IconComponent is based on this so Lucide icons are assignable to it.
-export type BaseIconProps = {
+type BaseIconProps = {
 	size?: number | string; // string accepted for Lucide compat (e.g. "24px")
 	color?: string;
 	class?: string;

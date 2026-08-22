@@ -64,7 +64,7 @@ export const initialNotifications: Notif[] = [
 	}
 ];
 
-export type QaTile = { label: string; icon: IconComponent; flipX?: boolean };
+type QaTile = { label: string; icon: IconComponent; flipX?: boolean };
 
 export const qaTiles: QaTile[] = [
 	{ label: 'Wi-Fi', icon: Wifi },

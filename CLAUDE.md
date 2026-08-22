@@ -32,18 +32,21 @@ A SvelteKit retro UI playground. Three historically faithful software eras, each
 
 ## Commands
 
-The Justfile has four recipes. All dispatch to `package.json` scripts, which are the source of truth.
+The Justfile dispatches to `package.json` scripts, which are the source of truth — `just check` is a thin wrapper around `bun run check`, nothing more.
 
 ```bash
 just            # alias for `just check`
-just check      # typecheck + all linters + analyzers + audit + formatter check
+just check      # bun run check — typecheck + all linters + analyzers + audit + formatter check
 just fix        # biome format --write + eslint --fix
 just dev        # vite dev
+just preview    # vite build + vite preview
 just a11y       # axe-core accessibility audits (builds + launches preview server automatically)
-just lighthouse # unlighthouse crawl — start `bun run preview` first (port 4173)
+just lighthouse # unlighthouse crawl — start `just preview` first (port 4173)
 ```
 
-`bun run check` runs, in order: `typecheck`, `lint:js`, `lint:biome`, `lint:actions`, `format`, `spell`, `analyze`, `links`, `audit`, `just:check`. Fails fast on first error.
+`bun run check` runs, in order: `typecheck`, `lint:js`, `lint:biome`, `lint:actions`, `format`, `spell`, `analyze`, `analyze:production`, `links`, `audit`, `just:check`. Fails fast on first error.
+
+`audit` (`bun audit --prod`) is report-only: it always prints findings but never fails the chain. This mirrors the CI `advisories` job's JS tier (see [CI](#ci) below) — JavaScript has no reachability scanner, so a raw dependency-tree CVE hit isn't reliable enough to block on locally either. If you need a hard local gate on it, run `bun audit --prod --audit-level moderate` directly.
 
 Granular scripts for debugging one tool at a time: `bun run typecheck`, `bun run lint:js`, `bun run lint:biome`, `bun run lint:actions`, `bun run format`, `bun run spell`, `bun run analyze`, `bun run links`, `bun run audit`, `bun run lighthouse`, `bun run test:a11y`.
 
@@ -245,7 +248,7 @@ Every `href` in the route arrays in `src/routes/+page.svelte` must have a `+page
 - **analyze** — installs fallow via `cargo install`, runs `fallow --group-by directory --score --sarif-file fallow.sarif`, then `analyze:production` for strict dep hygiene. On `master` pushes, saves a health snapshot to `.fallow/snapshots/`. SARIF is uploaded via `github/codeql-action/upload-sarif` with `if: always()` so PR annotations render even when fallow fails the job
 - **links** — `lycheeverse/lychee-action` without `--offline`, so external links are actually validated
 - **a11y** — builds the app, launches preview server, runs Playwright + axe-core against every route. Contrast rules are disabled for era pages (historical palette exemption)
-- **audit** — `bun audit` isolated so a new CVE doesn't block the rest of CI
+- **advisories** — `Xevion/advisory-action` reports dependency advisories against the merge base, so a change is judged on what it introduces rather than what the branch already carried. Each ecosystem has a trust tier deciding what can actually fail the job: Go is `blocking` (govulncheck proves reachability), Rust is `vulnerability-only`, and JS is `report-only` (no reachability scanner exists for JS, so it never blocks — pre-existing advisories only get a warning annotation). Local `bun run audit` mirrors this report-only behavior so it never disagrees with CI.
 
 The `check` and `analyze` jobs deliberately split each `bun run <script>` / `fallow` invocation into its own step so GitHub's job log shows which stage failed without having to grep a 10-command `&&` chain.
 

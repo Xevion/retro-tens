@@ -5,6 +5,10 @@
 //
 // This file is the codegen source of truth. Run `bun run icons:generate` after editing.
 
+// fallow-ignore-file unused-file
+// reason: consumed only via a dynamic `await import()` in scripts/generate-icons.ts,
+// which static reachability analysis cannot trace.
+
 export const mdl2Paths = {
 	// Window chrome
 	chromeClose:
