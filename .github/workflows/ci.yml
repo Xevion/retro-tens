@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   commits:
@@ -112,11 +112,15 @@ jobs:
       - run: bun run --bun playwright install chromium --with-deps
       - run: bun run test:a11y
 
-  audit:
-    name: audit
+  # Reports every advisory but only fails on what this change introduces, and
+  # only for ecosystems whose scanners prove reachability. JavaScript has no
+  # such scanner, so here it reports and never blocks.
+  advisories:
+    name: advisories
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
-      - run: bun run audit
+        with:
+          # The baseline is scanned from a worktree, so the history has to be real.
+          fetch-depth: 0
+      - uses: Xevion/advisory-action@master

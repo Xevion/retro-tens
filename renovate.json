@@ -10,6 +10,15 @@
 	],
 	"labels": ["dependencies"],
 	"rangeStrategy": "bump",
+	"description": [
+		"osvVulnerabilityAlerts is the only advisory source that covers this repo: Renovate's other path depends on GitHub Dependabot alerts, which never fire for bun.lock. It defaults to off.",
+		"The vulnerabilityAlerts defaults already ungroup security fixes and raise them immediately; the block below only adds a label so they stand out."
+	],
+	"osvVulnerabilityAlerts": true,
+	"vulnerabilityAlerts": {
+		"enabled": true,
+		"addLabels": ["security"]
+	},
 	"lockFileMaintenance": {
 		"enabled": true,
 		"schedule": ["before 6am on Monday"]
