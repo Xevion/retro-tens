@@ -123,4 +123,4 @@ jobs:
         with:
           # The baseline is scanned from a worktree, so the history has to be real.
           fetch-depth: 0
-      - uses: Xevion/advisory-action@master
+      - uses: Xevion/advisory-action@v1
