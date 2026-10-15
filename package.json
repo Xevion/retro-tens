@@ -39,7 +39,7 @@
 		"@pandacss/dev": "^1.9.1",
 		"@playwright/test": "^1.59.1",
 		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.57.0",
+		"@sveltejs/kit": "^2.70.3",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@types/d3-array": "^3.2.2",
 		"@types/d3-scale": "^4.0.9",
